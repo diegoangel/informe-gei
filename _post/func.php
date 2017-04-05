@@ -14,7 +14,7 @@ function returnSectorGas($arr,$sector,$gas)
 	{
 		if($val['sector'] == $sector && $val['gas'] == $gas)
 		{
-			return round($val['total']);
+			return $val['total'];
 		}
 	}
 
@@ -28,7 +28,7 @@ function returnSectorAno($arr,$sector,$ano)
 	{
 		if($val['sector'] == $sector && $val['ano'] == $ano)
 		{
-			return round($val['total']);
+			return $val['total'];
 		}
 	}
 
@@ -42,7 +42,7 @@ function returnSubactividadAno($arr,$subactividad,$ano)
 	{
 		if(trim($val['nombre']) == trim($subactividad) && $val['ano'] == $ano)
 		{
-			return round($val['valor'],2);
+			return $val['valor'];
 		}
 	}
 
@@ -56,7 +56,7 @@ function returnCategoriaAno($arr,$categoria,$ano)
 	{
 		if(trim($val['nombre']) == trim($categoria) && $val['ano'] == $ano)
 		{
-			return round($val['valor'],2);
+			return $val['valor'];
 		}
 	}
 

@@ -219,6 +219,8 @@ function get_chart_height()
 		$("#chart").css({ marginTop: (exceso/2)+'px' });
 	}
 
+	height = (height<400) ? 400 : height;
+
 	return(height);
 
 }
@@ -337,10 +339,8 @@ function graficar(data_url,data_type){
 
 		$.get("_post/ajax.php",params,function(data){
 
-
 			console.log(data);
 
-		
 			chart = c3.generate({
 
 				size: {
@@ -358,10 +358,20 @@ function graficar(data_url,data_type){
 
 			        type : 'pie',
 
+			        onmouseover: function (d) { 
+			        	html = "<strong style='color:"+data.colores[d.index]+"''>"+eval("data.sector_"+(d.index+1)+"[0]")+"</strong><br/>"+data.descripciones[d.index];
+			        	$("#chart_descripcion").show().html(html); 
+			        },
+
+			        onmouseleave: function (d) { $("#chart_descripcion").html('').hide(); },
+
 			    },
+
 			    color: {
 						pattern: data.colores,
 				},
+
+
 
 				tooltip: {
 
@@ -553,7 +563,7 @@ function graficar(data_url,data_type){
 
 			        ],
 			        groups: [
-			            ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía', 'Residuos','Procesos industriales y uso de productos']
+			            ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos', 'Residuos']
 			        ],
 			        type: 'bar',
 
@@ -568,7 +578,7 @@ function graficar(data_url,data_type){
 
 
 				color: {
-	     			pattern: ['#a5a5a5', '#579cd0', '#f17c40', '#ffbf3f' ]
+	     			pattern: ['#54bdb4', '#f44652', '#f87652', '#9189b8' ]
 	    		},
 
 	    		tooltip: {
@@ -774,6 +784,13 @@ function graficar(data_url,data_type){
 
 			    },
 
+			    axis: {
+			        x: {
+			            
+
+			        },
+			    },
+
 			    // point: {show: false},
 
 				color: {
@@ -864,7 +881,7 @@ function graficar(data_url,data_type){
 			    },
 
 				color: {
-	     			pattern: ['#a5a5a5', '#579cd0', '#f17c40', '#ffbf3f' ]
+	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#f04d41', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f88647', '#9da0a0', '#91709e', '#6d5575' ]
 	    		},
 
 	    		point: {
@@ -944,7 +961,7 @@ function graficar(data_url,data_type){
 
 
 				color: {
-	     			pattern: ['#a5a5a5', '#579cd0', '#f17c40', '#ffbf3f' ]
+	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#f04d41', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f88647', '#9da0a0', '#91709e', '#6d5575' ]
 	    		},
 
 	    		point: {

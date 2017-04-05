@@ -15,7 +15,7 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-sector' && !empty(
 
 	$arrReturn = array();
 
-	$sql = "SELECT SUM(e.valor) as total, e.sector_id, s.nombre, s.color
+	$sql = "SELECT SUM(e.valor) as total, e.sector_id, s.nombre, s.color, s.descripcion
 			FROM emision e 
 			INNER JOIN sector s ON e.sector_id = s.id
 			WHERE e.ano = $ano
@@ -27,9 +27,10 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-sector' && !empty(
 
 	foreach($arr as $a)
 	{
-		$arrReturn['sector_'.$i][] 	= utf8_encode($a['nombre']);
-		$arrReturn['sector_'.$i][] 	= utf8_encode($a['total']);
-		$arrReturn['colores'][] 	= utf8_encode($a['color']);
+		$arrReturn['sector_'.$i][] 		= $a['nombre'];
+		$arrReturn['sector_'.$i][] 		= $a['total'];
+		$arrReturn['colores'][] 		= $a['color'];
+		$arrReturn['descripciones'][] 	= $a['descripcion'];
 
 		$i++;
 	}
@@ -77,7 +78,7 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-gases' )
 	$sql = "SELECT e.gas_id, g.nombre, g.color, sum(e.valor) as total
 			FROM emision e
 			LEFT JOIN gas g ON (e.gas_id = g.id)
-			where e.ano = $ano GROUP BY e.gas_id ORDER BY g.nombre";
+			where e.ano = $ano GROUP BY e.gas_id ORDER BY total DESC";
 
 	$arr = $db->get_results($sql,ARRAY_A);
 
@@ -107,11 +108,12 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-gases-sector' )
 
 	// PRIMERA FILA LA DE LOS GASES
 
-	$sql = "SELECT g.nombre
-			FROM gas g 
-			ORDER BY g.nombre";
+	$sql = "SELECT g.nombre, sum(e.valor) as total
+			FROM emision e
+			LEFT JOIN gas g ON (e.gas_id = g.id)
+			where e.ano = $ano GROUP BY e.gas_id ORDER BY total DESC";
 
-	$arrGases = $db->get_col($sql);
+	$arrGases = $db->get_results($sql,ARRAY_A);
 	
 	
 	
@@ -131,11 +133,13 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-gases-sector' )
 			FROM emision e
 			LEFT JOIN gas g ON (e.gas_id = g.id)
 			LEFT JOIN sector s ON (e.sector_id = s.id)
-			where e.ano = $ano GROUP BY e.gas_id, e.sector_id";
+			where e.ano = $ano GROUP BY e.gas_id, e.sector_id ORDER BY total DESC";
 
 	$arr = $db->get_results($sql,ARRAY_A);
 
 	$column = 2;
+
+
 
 	foreach($arrSectores as $sector)
 	{
@@ -144,16 +148,23 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-gases-sector' )
 		foreach($arrGases as $gas)
 		{
 
-			$arrReturn['column_'.$column][] = returnSectorGas($arr,$sector,$gas);
+			$arrReturn['column_'.$column][] = returnSectorGas($arr,$sector,$gas['nombre']);
 			
 		}
 
 		$column++;
 	}
 
-	$arrGases = array_merge(array('x'), $arrGases);
+	$arrReturnGases = array('x');
+	
+	foreach($arrGases as $gas)
+	{
 
-	$arrReturn['column_1'] = $arrGases;
+		$arrReturnGases[] = $gas['nombre'];
+		
+	}
+
+	$arrReturn['column_1'] = $arrReturnGases;
 
 	echo json_encode($arrReturn);
 
