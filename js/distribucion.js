@@ -670,9 +670,9 @@ function graficar(data_url,data_type){
 			        //     'Residuos': 'line',
 			        // },
 
-			        groups: [
-			            ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos','Residuos']
-			        ],
+			        // groups: [
+			        //     ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos','Residuos']
+			        // ],
 
 
 			    },
@@ -863,9 +863,9 @@ function graficar(data_url,data_type){
 
 			        type:'line',
 
-			        groups: [
-			            data.groups
-			        ],
+			        // groups: [
+			        //     data.groups
+			        // ],
 
 			        onclick: function (d, element) { 
 
@@ -950,9 +950,9 @@ function graficar(data_url,data_type){
 
 			        type:'line',
 
-			        groups: [
-			            data.groups
-			        ],
+			        // groups: [
+			        //     data.groups
+			        // ],
 
 			        onclick: function (d, element) { console.log("onclick", d, element); },
 

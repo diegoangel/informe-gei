@@ -18,5 +18,14 @@
 	
 	}
 
+	if ($_SERVER['HTTP_HOST'] == 'vminventariogei-test.medioambiente.gov.ar') {
+		
+		define("DB_USER"		, "ibegtest");		// <-- mysql db user
+		define("DB_PASSWORD"	, "aTDjmJcDC4LFZK9R");	// <-- mysql db password
+		define("DB_NAME"		, "ibegtest");		// <-- mysql db pname
+		define("DB_HOST"		, "localhost");			// <-- mysql server host
+	
+	}
+
 
 
