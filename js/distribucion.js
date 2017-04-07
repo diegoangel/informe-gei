@@ -969,6 +969,10 @@ function graficar(){
 
 	if(f == "evolucion-sector-subactividad-categoria" && sector_nombre != 'all')
 	{
+		var format = '';
+
+		if(subactividad_nombre == 'Producción de cal') format = '.2f';
+
 		var params = {
 
 					f: f,
@@ -1023,6 +1027,15 @@ function graficar(){
 	    		point: {
 					
 					r: 3,
+				},
+
+				axis: {
+
+				    y: {
+				        tick: {
+				            format: d3.format(format)
+				        }
+				    },
 				},
 
 	    		tooltip: {
