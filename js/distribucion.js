@@ -37,8 +37,6 @@ $(document).ready(function(){
 	$("#nav .distribucion").on("click","h3.slider",function(){
 
 
-
-
 		if( !$(this).parent(".select").parent(".updownarrow").hasClass("anobox") )
 		{
 			$("#nav .select.ano select").val( '2014' );
@@ -50,7 +48,7 @@ $(document).ready(function(){
 			// CUANDO CLICKEA LOS SLIDERS QUE NO SON EL Año
 			f = $(this).attr('data-f');
 
-			if(f == 'distribucion-gases' || f == 'distribucion-gases-sector')
+			if(f == 'distribucion-gases' || f == 'distribucion-gases-sector' || f == 'distribucion-sankey')
 			{
 				$("#nav .select.ano select").val( '2014' );
 				$("#nav .select.ano select option").hide().filter("[value=2014]").show();
@@ -191,13 +189,7 @@ function ver_resultado()
 	evo_sector_id = $("input[type=radio][name=evo_sector_id]").filter(':checked').val();
 
 
-
-	//DATOS A ENVIAR
-	var data_url = '';
-	var data_type = '';
-
-
-	if(f == "distribucion-sector" || f == "distribucion-gases" || f == "distribucion-gases-sector")
+	if(f == "distribucion-sector" || f == "distribucion-gases" || f == "distribucion-gases-sector" || f == "distribucion-sankey")
 	{
 		// CAMBIO DATOS DUROS DE PANTALLA
 	    $("#chart_ano").html(ano);	
@@ -209,12 +201,32 @@ function ver_resultado()
 	if(f == "distribucion-sector" && dis_sector_id == 'all')
 	{	
 		$("#chart_title").html('Distribución de GEI');
-		
-		data_url = '_post/ajax.php?f='+f+'&ano='+ano+'&sector='+dis_sector_id;
-		data_type = 'pie';
 	}
 
-    graficar();
+    
+	// CUANDO MUESTRO EL SANKEY ESCONDO LOS GRAFICOS
+	if(f == "distribucion-sankey")
+	{
+		console.log('sankey');
+		$("#chart").hide();
+		$("#chart_sankey").show();
+		$("#chart_back").hide();
+
+		$("#box_chart_sector").show();
+
+		$("#chart_title").html('Distribución de GEI por uso final');
+		$("#chart_sector").html('Todos');
+
+	}
+	else
+	{
+		console.log('no sankey');
+		$("#chart").show();
+		$("#chart_sankey").hide();
+		graficar();
+	}
+
+    
 
 }
 
@@ -246,12 +258,6 @@ function get_chart_height()
 
 function graficar(){
 
-
-	console.log('f: '+f);
-	console.log('sector_nombre: '+sector_nombre);
-	console.log('subactividad_nombre: '+subactividad_nombre);
-	console.log('indicador_id: '+indicador_id);
-
 	$("#box_chart_subactividad").hide();
 	$("#box_chart_sector").hide();
 	$("#chart_unidad").html("MtCO₂eq");
@@ -275,7 +281,6 @@ function graficar(){
 	{
 		$("#box_chart_sector").show();
 		$("#chart_title").html('Distribución de GEI por tipo de gases');
-		$("#box_chart_sector").show();
 		$("#chart_sector").html('Todos');
 	}
 
@@ -284,7 +289,6 @@ function graficar(){
 	{
 		$("#box_chart_sector").show();
 		$("#chart_title").html('Distribución de GEI por tipo de gases por sector');
-		$("#box_chart_sector").show();
 		$("#chart_sector").html('Todos');
 	}
 

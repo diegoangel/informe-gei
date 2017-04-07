@@ -514,6 +514,12 @@ footer a
     top: 23px;
 }
 
+#chart_sankey
+{
+	width: 100%;
+	display: none;
+}
+
 
 
 /*  C3 */
