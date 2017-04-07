@@ -3,7 +3,7 @@
 	<meta charset="UTF-8">
 	<title>Inventario Nacional de Gases de Efecto Invernadero</title>
 	<meta name="description" content="El Inventario Nacional de Gases de Efecto Invernadero estima anualmente los gases emitidos y absorbidos de la atmósfera para el territorio argentino.">
-	<link href="css/styles.css" rel="stylesheet" type="text/css">
+	<link href="css/styles.css?ver=34" rel="stylesheet" type="text/css">
 
 	<!-- Load c3.css -->
 	<link href="bower_components/c3/c3.css" rel="stylesheet" type="text/css">
@@ -16,7 +16,7 @@
 	<!-- Load jquery.js -->
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
-	<script src="js/distribucion.js?ver=11"></script>
+	<script src="js/distribucion.js?ver=34"></script>
 
 	<script>
 
@@ -103,7 +103,7 @@
 							</div>
 
 							<div class="select">
-								<h3 class="slider" data-f="distribucion-sankey">Inventario 2014 Distribución por Uso final</h3>
+								<h3 class="slider" data-f="distribucion-sankey">POR USO FINAL</h3>
 							</div>
 
 							
@@ -112,16 +112,7 @@
 							
 								<div class="select ano nomargin activo">
 									<h3 class="slider ">
-										<select name="" id="select_ano" class="ano">
-											<?php
-											for($i=1990;$i<=2014;$i++)
-											{
-											?>
-											<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-											<?php
-											}
-											?>
-										</select>
+										<select name="" id="select_ano" class="ano"></select>
 										<span>1990</span>
 									</h3>
 								</div>
@@ -218,6 +209,8 @@
 
 				<div class="content">
 
+					<button id="chart_back" type="button" onclick="volver();" class="back">< volver</button>
+
 					<div class="info">
 						<h1 id="chart_title"></h1>
 						<div class="ley">
@@ -237,6 +230,8 @@
 					<!-- GRAFICO -->
 
 					<div id="chart"></div>
+
+					
 
 					<div id="chart_descripcion"></div>
 

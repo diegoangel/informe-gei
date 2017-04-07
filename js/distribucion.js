@@ -3,7 +3,7 @@ var sector_id = 'all';
 var sector_nombre = 'all';
 var subactividad_nombre = 'all';
 
-var chart,indicador_id,ano,dis_sector_id,evo_sector_id;
+var chart,indicador_id,ano,dis_sector_id,evo_sector_id,last_f,last_evo_sector_id;
 
 var arrSectores = {};
 arrSectores[1] = 'Agricultura, ganadería, silvicultura y otros usos de la tierra';
@@ -162,6 +162,24 @@ $(document).ready(function(){
 
 });
 
+function volver()
+{
+	// ME FIJO LOS VALORES DE F Y VOY AL ANTERIOR
+	
+	if(f=='evolucion-sector-subactividad')
+	{
+		f = 'evolucion-sector';
+	}
+
+	if(f=='evolucion-sector-subactividad-categoria')
+	{
+		f = 'evolucion-sector-subactividad';
+	}
+
+
+	graficar();
+}
+
 
 
 function ver_resultado()
@@ -196,7 +214,7 @@ function ver_resultado()
 		data_type = 'pie';
 	}
 
-    graficar(data_url,data_type);
+    graficar();
 
 }
 
@@ -226,13 +244,19 @@ function get_chart_height()
 }
 
 
-function graficar(data_url,data_type){
+function graficar(){
 
-	console.log('Intento graficar',f);
+
+	console.log('f: '+f);
+	console.log('sector_nombre: '+sector_nombre);
+	console.log('subactividad_nombre: '+subactividad_nombre);
+	console.log('indicador_id: '+indicador_id);
 
 	$("#box_chart_subactividad").hide();
 	$("#box_chart_sector").hide();
 	$("#chart_unidad").html("MtCO₂eq");
+
+	$("#chart_back").hide();
 
 	if(f != 'indicador')
 	$("#chart_descripcion").hide();
@@ -294,6 +318,8 @@ function graficar(data_url,data_type){
 
 		$("#box_chart_sector").show();
 		$("#chart_sector").html(arrSectores[sector_id]);
+
+		$("#chart_back").show();
 	}
 
 	if(f == "evolucion-sector-subactividad-categoria" && evo_sector_id != 'all')
@@ -307,6 +333,8 @@ function graficar(data_url,data_type){
 
 		$("#box_chart_subactividad").show();
 		// LA SUBACTIVIDAD ESTA ADENTRO DEL AJAX
+
+		$("#chart_back").show();
 	}
 
 	//////////////////////////////////////////
@@ -359,7 +387,9 @@ function graficar(data_url,data_type){
 			        type : 'pie',
 
 			        onmouseover: function (d) { 
-			        	html = "<strong style='color:"+data.colores[d.index]+"''>"+eval("data.sector_"+(d.index+1)+"[0]")+"</strong><br/>"+data.descripciones[d.index];
+
+			        	html = "<h2 style='color:"+data.colores[d.index]+"''>"+eval("data.sector_"+(d.index+1)+"[0]")+"</h2>"+data.descripciones[d.index];
+
 			        	$("#chart_descripcion").show().html(html); 
 			        },
 
@@ -370,6 +400,15 @@ function graficar(data_url,data_type){
 			    color: {
 						pattern: data.colores,
 				},
+
+				legend:
+				{
+					item:
+					{
+						onclick: function(){},
+					},
+				},
+
 
 
 
@@ -467,6 +506,10 @@ function graficar(data_url,data_type){
 
 			        },
 
+			    },
+
+			    legend: {
+			        show: false
 			    },
 
 			    bar: {
@@ -774,7 +817,9 @@ function graficar(data_url,data_type){
 			        
 			        onclick: function (d, element) { 
 
-			        	// CLICKEA EN UN SECTOR
+			        	$("#chart_back").show();
+						
+						// CLICKEA EN UN SECTOR
 			        	f = 'evolucion-sector-subactividad';
 			        	sector_nombre = d.id;
 
@@ -869,6 +914,7 @@ function graficar(data_url,data_type){
 
 			        onclick: function (d, element) { 
 
+
 			        	// CLICKEA EN UN SECTOR
 			        	f = 'evolucion-sector-subactividad-categoria';
 			        	subactividad_nombre = d.id;
@@ -880,8 +926,14 @@ function graficar(data_url,data_type){
 
 			    },
 
+			    grid: {
+			         y: {
+			            lines: [{ value: 0 }] // add the value you want
+			        }
+			    },
+
 				color: {
-	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#f04d41', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f88647', '#9da0a0', '#91709e', '#6d5575' ]
+	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333' ]
 	    		},
 
 	    		point: {
@@ -954,14 +1006,14 @@ function graficar(data_url,data_type){
 			        //     data.groups
 			        // ],
 
-			        onclick: function (d, element) { console.log("onclick", d, element); },
+			        //onclick: function (d, element) { console.log("onclick", d, element); },
 
 			    },
 
 
 
 				color: {
-	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#f04d41', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f88647', '#9da0a0', '#91709e', '#6d5575' ]
+	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333' ]
 	    		},
 
 	    		point: {
@@ -995,12 +1047,20 @@ function graficar(data_url,data_type){
 
 	if(f ==  "indicador")
 	{
+		//'.2f';
+
+		var format = '';
+
+		if(indicador_id == 3 || indicador_id == 4 || indicador_id == 6 || indicador_id == 8) format = '.2f';
+
 		var params = {
 
 					f: 		f,
 					indicador_id: indicador_id
 
 					}
+
+
 
 		$.getJSON("_post/ajax.php",params,function(data){
 
@@ -1044,7 +1104,7 @@ function graficar(data_url,data_type){
 
 				    y: {
 				        tick: {
-				            format: d3.format('.2f')
+				            format: d3.format(format)
 				        }
 				    },
 				},

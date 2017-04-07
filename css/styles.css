@@ -454,6 +454,7 @@ footer a
 	margin: 17px 0;
 	background-color: white;
 	padding: 0 17px 17px;
+	position: relative;
 }
 
 #body .info h1
@@ -492,6 +493,25 @@ footer a
 	width: 90%;
 	margin: 17px auto 0;
 	display: none;
+}
+
+#chart_descripcion h2
+{
+	font-family: 'GothamBold';
+	display: block;
+	padding-bottom: 7px;
+}
+
+#chart_back
+{
+	border: 0 none;
+    color: #0066ad;
+    background: transparent;
+    font-family: 'Gotham';
+    font-size: 12px;
+    position: absolute;
+    right: 17px;
+    top: 23px;
 }
 
 

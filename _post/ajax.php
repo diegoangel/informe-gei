@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: application/json');
+header('Content-type: application/json; charset=utf-8');
 
 include "init.php";
 
@@ -272,9 +272,11 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'evolucion-sector-subactividad')
 
 	$sql.= " ORDER BY sub.nombre ";
 
+	// echo $sql;
+
 	$arrSubactividades = $db->get_results($sql,ARRAY_A);
 
-	$sql = "SELECT sub.nombre, e.ano, e.valor
+	$sql = "SELECT sub.nombre, e.ano, SUM(e.valor) as valor
 			FROM emision e
 			INNER JOIN subactividad sub ON (e.subactividad_id = sub.id)
 			INNER JOIN sector s ON (e.sector_id = s.id)";
@@ -352,7 +354,7 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'evolucion-sector-subactividad-c
 
 	$sql.= "ORDER BY c.nombre";
 
-	$arrReturn['sql1'] = $sql;
+	// echo ($sql);
 
 	$arrCategorias = $db->get_results($sql,ARRAY_A);
 
@@ -368,10 +370,11 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'evolucion-sector-subactividad-c
 			WHERE 1 ";
 	$sql.= 	(!empty($_REQUEST['sector_nombre']) && $_REQUEST['sector_nombre'] != 'all') ? "AND s.nombre = '".$_REQUEST['sector_nombre']."' " : '';
 	$sql.= 	(!empty($_REQUEST['subactividad_nombre']) && $_REQUEST['subactividad_nombre'] != 'all') ? "AND sub.nombre = '".$_REQUEST['subactividad_nombre']."' " : '';
+
 	$sql.= 	" GROUP BY e.ano, c.nombre
 			ORDER BY sub.nombre, e.ano, c.nombre";
 
-	$arrReturn['sql2'] = $sql;
+	// echo ($sql);
 
 	$arr = $db->get_results($sql,ARRAY_A);
 
