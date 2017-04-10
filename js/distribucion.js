@@ -856,6 +856,8 @@ function graficar(){
 			        format: {
 			            // title: function (d) { return 'Data ' + d; },
 			            value: function (value, ratio, id) {
+
+			            	value = Math.round(value*100)/100;
 			            	
 			            	txt = value+' MtCO₂eq'
 
@@ -950,6 +952,8 @@ function graficar(){
 			        format: {
 			            // title: function (d) { return 'Data ' + d; },
 			            value: function (value, ratio, id) {
+
+			            	value = Math.round(value*100)/100;
 			            	
 			            	txt = value+' MtCO₂eq'
 
@@ -1018,6 +1022,12 @@ function graficar(){
 
 			    },
 
+			    grid: {
+			         y: {
+			            lines: [{ value: 0 }] // add the value you want
+			        }
+			    },
+
 
 
 				color: {
@@ -1043,8 +1053,10 @@ function graficar(){
 			        format: {
 			            // title: function (d) { return 'Data ' + d; },
 			            value: function (value, ratio, id) {
-			            	
-			            	txt = value+' MtCO₂eq'
+
+			            	value = Math.round(value*1000)/1000;
+							
+							txt = value+' MtCO₂eq'
 
 			            	return txt;
 
