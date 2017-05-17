@@ -39,31 +39,99 @@ if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-sector' && !empty(
 
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////				  PSD3					//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-sector' && !empty($_REQUEST['sector_id']) && $_REQUEST['sector_id'] != 'all')
 {
-	$ano = (int)$_REQUEST['ano'];
+	$ano 		= (int)$_REQUEST['ano'];
+	$sector_id 	= (int)$_REQUEST['sector_id'];
 
-	$sql = "SELECT SUM(e.valor) as total, e.sector_id, s.nombre
+	$sql = "SELECT SUM(e.valor) as total, a.id, a.nombre
 			FROM emision e 
 			INNER JOIN sector s ON e.sector_id = s.id
-			WHERE e.ano = $ano
-			GROUP BY e.sector_id";
+			INNER JOIN actividad a ON a.id = e.actividad_id
+			WHERE 1 
+			AND e.sector_id = $sector_id
+			AND e.ano = $ano
+			GROUP BY a.id
+			ORDER BY a.nombre";
 
 	$arr = $db->get_results($sql,ARRAY_A);
 
-	$arrNombres = array();
-	$arrValor = array();
-
 	foreach($arr as $a)
 	{
-		$arrReturn['sector_1'][] 	= $a['nombre'];
-		$arrReturn['sector_1'][] 	= $a['total'];
+		$arrActividades = array('label'=>$a['nombre'], 'value'=>round($a['total']));
+
+		// ACA EN CADA ACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA SUBACTIVIDAD
+		$sql = "SELECT SUM(e.valor) as total, a.id, a.nombre
+					FROM emision e 
+					INNER JOIN subactividad a ON a.id = e.subactividad_id
+					WHERE 1 
+					AND e.sector_id = $sector_id
+					AND e.actividad_id = ".$a['id']."
+					AND e.ano = $ano
+					GROUP BY a.id
+					ORDER BY a.nombre";
+
+		if($arr2 = $db->get_results($sql,ARRAY_A))
+		{
+			$arrSubactividades = array();
+
+			$i = 0;
+
+			foreach($arr2 as $a2)
+			{
+				$arrSubactividades[$i] = array('label'=>$a2['nombre'], 'value'=>round($a2['total']));
+
+				// ACA EN CADA SUBACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA CATEGORIA
+				$sql = "SELECT SUM(e.valor) as total, a.id, a.nombre
+					FROM emision e 
+					INNER JOIN categoria a ON a.id = e.categoria_id
+					WHERE 1 
+					AND e.sector_id = $sector_id
+					AND e.actividad_id = ".$a['id']."
+					AND e.subactividad_id = ".$a2['id']."
+					AND e.ano = $ano
+					GROUP BY a.id
+					ORDER BY a.nombre";
+
+					// echo $sql."<br/>";
+
+					if($arr3 = $db->get_results($sql,ARRAY_A))
+					{
+						$arrCategorias = array();
+
+						foreach($arr3 as $a3)
+						{
+							$arrCategorias[] = array('label'=>$a3['nombre'], 'value'=>round($a3['total']));
+						}
+
+						$arrSubactividades[$i]['inner'] = $arrCategorias;
+
+						
+					}
+
+				$i++;
+			}
+
+			$arrActividades['inner'] = $arrSubactividades;
+
+		}
+
+		$arrReturn[] = $arrActividades;
+				
 
 	}
 
 	echo json_encode($arrReturn);
 
 }
+
+
 
 
 if( !empty($_REQUEST['f']) && $_REQUEST['f'] == 'distribucion-gases' )

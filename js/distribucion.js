@@ -203,11 +203,10 @@ function ver_resultado()
 		$("#chart_title").html('Distribución de GEI');
 	}
 
-    
+	    
 	// CUANDO MUESTRO EL SANKEY ESCONDO LOS GRAFICOS
 	if(f == "distribucion-sankey")
 	{
-		console.log('sankey');
 		$("#chart").hide();
 		$("#chart_sankey").show();
 		$("#chart_back").hide();
@@ -220,13 +219,23 @@ function ver_resultado()
 	}
 	else
 	{
-		console.log('no sankey');
 		$("#chart").show();
 		$("#chart_sankey").hide();
 		graficar();
 	}
 
     
+
+}
+
+function get_chart_width()
+{
+	// ESTE ES EL ESPACIO QUE TENGO DISPONIBLE
+	var width = $("#body .content").width();
+
+	console.log(width);
+
+	return(width);
 
 }
 
@@ -258,6 +267,8 @@ function get_chart_height()
 
 function graficar(){
 
+	$("#chart_psd3").hide();
+
 	$("#box_chart_subactividad").hide();
 	$("#box_chart_sector").hide();
 	$("#chart_unidad").html("MtCO₂eq");
@@ -273,7 +284,7 @@ function graficar(){
 		// GRAFICO CORONA
 		$("#box_chart_sector").show();
 		$("#chart_title").html('Distribución de GEI por sector');
-
+		$("#chart_sector").html(arrSectores[dis_sector_id]);
 		
 	}
 
@@ -353,13 +364,11 @@ function graficar(){
 	}
 
 	var char_height = get_chart_height();
+	var char_width 	= get_chart_width();
 
-	
-
-	if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() == 'all')
+	// if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() == 'all')
+	if(f ==  "distribucion-sector" && dis_sector_id == 'all')
 	{
-
-
 
 		var params = {
 
@@ -461,10 +470,116 @@ function graficar(){
 
 	}
 
-	if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() != 'all')
+	// if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() != 'all')
+	if(f ==  "distribucion-sector" && dis_sector_id != 'all')
 	{
+		var graph_data;
 
-			alert('Proximamente');
+		var params = {
+
+					sector_id: 	dis_sector_id,
+					ano: 		$("#select_ano").val(),
+					f: 			f
+
+					}
+
+
+		char_height -= 40;
+		char_side = (char_height <= char_width) ? char_height : char_width;
+
+		
+		$("#chart").hide();
+		$("#chart_psd3").html('').show();
+
+
+		$.get("_post/ajax.php",params,function(resp){
+
+			graph_data = resp;
+
+			console.log(graph_data);
+
+		
+		
+		// Create config 
+	  	var config = {
+
+	  		containerId: "chart_psd3",
+	  		
+	  		width: char_side,
+
+	  		height: char_side,
+
+	  		data: graph_data,
+	  		
+	  		// data: [
+
+		  	// 	{
+		  	// 	    value: 20,
+		  	// 	    label: "Maharashtra",
+		  	// 	    inner: [
+
+		  	// 	    	{
+			  // 		        value: 10,
+			  // 		        label: "Pune",
+			  // 		        inner: [{
+				 //  		        value: 5,
+				 //  		        label: "Surat"
+				 //  		    }, {
+				 //  		        value: 5,
+				 //  		        label: "Rajkot"
+				 //  		    }]
+			  // 		    }, 
+			  // 		    {
+			  // 		        value: 10,
+			  // 		        label: "Mumbai",
+			  // 		        inner: [{
+				 //  		        value: 2,
+				 //  		        label: "Surat"
+				 //  		    }, {
+				 //  		        value: 8,
+				 //  		        label: "Rajkot"
+				 //  		    }]
+			  // 		    }
+		  	// 	    ]
+		  	// 	}, 
+		  	// 	{
+		  	// 	    value: 50,
+		  	// 	    label: "Gujarat",
+		  	// 	    inner: [{
+		  	// 	        value: 20,
+		  	// 	        label: "Surat"
+		  	// 	    }, {
+		  	// 	        value: 30,
+		  	// 	        label: "Rajkot"
+		  	// 	    }]
+		  	// 	}
+
+	  		// ],
+
+
+	  		label: function(d) {
+			    return d.data.label + ":" + d.data.value;
+			},
+
+			tooltip: function(d) {
+			    return "<p>There are " + d.value + " medical colleges in " + d.label + ".</p>";
+			},
+
+			donutRadius: 50,
+
+			transition: "linear",
+	
+			transitionDuration: 500,
+
+			labelColor: "white"
+
+	  	};
+	  
+		// Draw chart
+		var samplePie = new psd3.Pie(config);
+
+		});
+
 
 	}
 

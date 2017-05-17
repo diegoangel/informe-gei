@@ -7,11 +7,14 @@
 
 	<!-- Load c3.css -->
 	<link href="bower_components/c3/c3.css" rel="stylesheet" type="text/css">
+	<link href="css/psd3.css" rel="stylesheet" type="text/css">
 
 	<!-- Load d3.js and c3.js -->
 	<script>var chart = '';</script>
 	<script src="bower_components/d3/d3.min.js" charset="utf-8"></script>
 	<script src="bower_components/c3/c3.min.js"></script>
+
+	<script type="text/javascript" src="js/psd3.min.js"></script>
 	
 	<!-- Load jquery.js -->
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -70,7 +73,7 @@
 										Todos
 									</label>
 
-									<!-- <label class="sec" for="dis_sec_1">
+									<label class="sec" for="dis_sec_1">
 										<input type="radio" id="dis_sec_1" name="dis_sector_id" value="1" />
 										Agricultura, ganadería, silvicultura y otros usos de la tierra
 									</label>
@@ -88,7 +91,7 @@
 									<label class="sec" for="dis_sec_4">
 										<input type="radio" id="dis_sec_4" name="dis_sector_id" value="4" />
 										Residuos
-									</label> -->
+									</label>
 
 								</div>
 
@@ -230,6 +233,7 @@
 					<!-- GRAFICO -->
 
 					<div id="chart"></div>
+					<div id="chart_psd3"></div>
 
 					<img src="grafica/sankey.png" alt="" id="chart_sankey" />
 
