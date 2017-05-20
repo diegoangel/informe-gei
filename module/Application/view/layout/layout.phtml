@@ -1,0 +1,48 @@
+<?= $this->doctype() ?>
+
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('Inventario Nacional de Gases de Efecto Invernadero')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+            ->appendName('description', 'El Inventario Nacional de Gases de Efecto Invernadero estima anualmente los gases emitidos y absorbidos de la atmósfera para el territorio argentino.')
+        ?>
+
+        <!-- Le styles -->
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+            ->prependStylesheet($this->basePath('css/styles.css'))
+        ?>
+
+    </head>
+    <body class="home">
+        <header>
+            <img src="<?= $this->basePath('img/logo-ministerio.png') ?>" alt="" class="logo" />
+
+            <div class="inventario">Inventario Nacional de Gases<br/>de Efecto Invernadero</div>
+            
+            <div class="redes">
+                <a href="https://www.facebook.com/AmbienteNacion" target="_blank" class="facebook"></a>
+                <a href="https://twitter.com/minisambiente" target="_blank" class="twitter"></a>
+                <a href="https://www.youtube.com/channel/UC_Swjr_SoDptDSv6TYsWAvw" target="_blank" class="youtube"></a>
+                <a href="https://www.instagram.com/minisambiente/" target="_blank" class="instagram"></a>
+            </div>
+        </header>
+
+        <div id="home-content-wrapper">
+            <?= $this->content ?> 
+        </div>
+
+        <div class="clear"></div>
+
+        <footer>
+            Dirección Nacional de Cambio Climático<br/>
+            San Martín 451 &bull; C1004AAI C.A.B.A. &bull; Argentina<br/>
+            Tel (54) (11) 4348-8200<br/>
+            <a href="mailto:cambioclimatico@ambiente.gob.ar">cambioclimatico@ambiente.gob.ar</a>
+        </footer>
+        <?= $this->inlineScript() ?>
+    </body>
+</html>

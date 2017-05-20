@@ -1,0 +1,626 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+div.clear{ height:1px; line-height:1px; font-size:1px; clear:both; float:none; }
+
+@font-face {
+	font-family: 'GothamMedium';
+	src: url('../fonts/GothamMedium.otf');
+	src: local('GothamMedium'), url('../fonts/GothamMedium.otf') format('otf'),
+             url('../fonts/GothamMedium.otf') format('truetype');
+          
+}
+@font-face {
+	font-family: 'GothamBold';
+	src: url('../fonts/GothamBold.eot');
+	src: local('GothamBold'), url('../fonts/GothamBold.woff') 
+            format('woff'), url('../fonts/GothamBold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'GothamBook';
+	src: url('../fonts/GothamBook.eot');
+	src: local('GothamBook'), url('../fonts/GothamBook.woff') 
+			format('woff'), url('../fonts/GothamBook.ttf') format('truetype');
+}
+
+button
+{
+	cursor: pointer;
+	transition: .1s ease-in-out;
+	font-family: 'GothamBold';
+	outline: 0 none;
+}
+
+sub { 
+    vertical-align: sub;
+    font-size: smaller;
+}
+
+strong
+{
+	font-family: 'GothamBold';
+}
+
+button:hover
+{
+	/* opacity: .9; */
+	transform: scale(1.03);
+}
+
+body
+{
+	font-family: 'GothamMedium',Arial;
+	font-size: 14px;
+	background-color:#f0f0f0;
+}
+
+header
+{
+	height: 117px;
+	background: #0066ad;
+	padding: 17px;
+	box-sizing: border-box;
+}
+
+header img.logo
+{
+	
+	float: left;
+}
+
+header .inventario
+{
+	color: #fff;
+    /* font-family: 'GothamBold'; */
+    padding: 17px;
+    border-left: solid 1px #fff;
+    float: left;
+    font-size: 16px;
+    line-height: 20px;
+    margin-left: 17px;
+}
+
+header .redes
+{
+	margin: 10px ;
+	float: right;
+}
+
+header .redes a
+{
+	display: inline-block;
+	width: 34px;
+	height: 34px;
+	background: transparent center center no-repeat;
+	transition: .1s ease-in-out;
+}
+
+header .redes a:hover
+{
+	opacity: .7;
+}
+
+header .redes a.facebook
+{
+	background-image: url('../img/ico-facebook.png');
+}
+
+header .redes a.twitter
+{
+	background-image: url('../img/ico-twitter.png');
+}
+
+header .redes a.youtube
+{
+	background-image: url('../img/ico-youtube.png');
+}
+
+header .redes a.instagram
+{
+	background-image: url('../img/ico-instagram.png');
+}
+
+
+footer
+{
+	width: 100%;
+	height: 117px;
+	background: #0066ad;
+	color: #eff3f8;
+	padding: 24px;
+	font-size: 12px;
+	line-height: 18px;
+	box-sizing: border-box;
+	font-family: 'GothamBook';
+	
+}
+
+footer a
+{
+	color: #b7ddf2;
+}
+
+#content-wrapper
+{
+	min-height: calc(100% - 117px - 117px - 2px);
+	height: auto;
+	background-color:#f0f0f0;
+}
+
+#content-wrapper>div{
+  float: left;
+}
+
+#nav{
+	width:318px;
+	background:#f0f0f0;
+	box-sizing: border-box;
+	min-height: calc(100% - 117px - 117px - 2px);
+}
+
+#nav .botones_top
+{
+	text-align: center;
+	padding:  17px 0;
+}
+
+#nav .botones
+{
+	text-align: center;
+	padding:  17px 0 0;
+}
+
+#nav button
+{
+	height: 32px;
+	padding: 0 20px;
+	color: #fff;
+	border:  0 none;
+	border-radius: 16px;
+	background: #dadada;
+	font-size: 12px;
+	line-height: 34px;
+}
+
+#nav button.emisiones.activo
+{
+	background: #4f81bd;
+
+}
+
+#nav button.indicadores.activo
+{
+	background: #8064a2;
+
+}
+
+#nav .botones button.inactivo
+{
+
+}
+
+#nav .nav_indicadores
+{
+	display: none;
+}
+
+
+
+#nav .main
+{
+	background-color: #dfdfdf;
+	padding:  17px;
+	margin-bottom: 17px;
+}
+
+#nav .main h2
+{
+	font-size: 15px;
+	line-height: 22px;
+	text-transform: uppercase;
+	color: #4f81bd;
+}
+
+#nav .main .updownarrowmain
+{
+	float: right;
+	height: 22px;
+	width: 22px;
+	border-radius: 11px;
+	background:  #ffffff url('../img/slide-down.png') center top 7px no-repeat;
+	cursor: pointer;
+}
+
+#nav .main .updownarrowmain.activo
+{
+	background-image: url('../img/slide-up.png');
+}
+
+#nav .main .content_distribucion_evolucion
+{
+	padding-top: 12px;
+}
+
+#nav .main .content_evolucion
+{
+	display: none;
+}
+
+#nav .main .select h3
+{
+	font-size: 12px;
+
+	padding:  0 0;
+	color: #888888;
+	cursor: pointer;
+}
+
+#nav .main .select.activo h3{
+	color:#3f616e;
+}
+
+#nav .main .updownarrow h3
+{
+	background: transparent url('../img/slide-down.png') right top 2px no-repeat;
+}
+
+#nav .main .updownarrow.activo h3
+{
+	background-image: url('../img/slide-up.png');
+}
+
+#nav .main .select
+{
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 13px 13px 10px;
+	margin-bottom: 7px;
+	
+}
+
+#nav .main .select.activo
+{
+
+	background-color: #fff;
+}
+
+
+#nav .main .anobox label
+{
+	display: block;
+	line-height: 38px;
+	font-size: 13px;
+    color: #003d4f;
+}
+
+
+#nav .main .anobox .select.ano
+{
+	float: right;
+
+}
+
+#nav .main .anobox .select.ano h3
+{
+	position: relative;
+}
+
+#nav .main .anobox .select.ano h3.activo
+{
+	background-image: url('../img/slide-down.png');
+}
+
+#nav .main .anobox .select.ano
+{
+	background-color: white;
+}
+
+#nav .main .anobox .select.ano .slider span
+{
+	padding-right: 20px;
+	color: #3f616e;
+	/* position: absolute; */
+
+}
+
+#nav .main .anobox .select.ano .slider select
+{
+	position: absolute;
+	opacity: 0;
+}
+
+#nav .main .select.nomargin
+{
+	margin-bottom: 0;
+}
+
+#nav .main .select.activo .labels
+{
+	/* display: block; */
+}
+
+#nav .main .select .labels
+{
+	padding-top: 13px;
+	
+}
+
+#nav .main.distribucion .select .labels
+{
+	display: none;
+}
+
+#nav .main .select .labels label
+{
+	display: block;
+	padding: 7px 13px 7px 22px;
+	font-size: 13px;
+	cursor: pointer;
+	background: transparent left top 5px no-repeat;
+	background-image: url('../img/radio-off.png');
+	color: #003d4f;
+}
+
+#nav .main .select .labels label.activo
+{
+	background-image: url('../img/radio-on.png');
+}
+
+#nav .main .select .labels label input
+{
+	float: right;
+	opacity: 0;
+	/* opacity: 1; */
+}
+
+#nav .main .select
+{
+
+}
+
+#nav .main button.ver
+{
+	background-color: #f87652;
+}
+
+#nav .main button.ver:disabled
+{
+	color: #eee;
+}
+
+#body
+{
+	padding: 0 17px;
+	box-sizing: border-box;
+	width: calc(100% - 318px);
+	background-color:#f0f0f0;
+	min-height: calc(100% - 117px - 117px - 2px);
+}
+
+#body .info
+{
+	text-align: center;
+}
+
+#body .content
+{
+	margin: 17px 0;
+	background-color: white;
+	padding: 0 17px 17px;
+	position: relative;
+}
+
+#body .info h1
+{
+	font-size: 24px;
+	color: #4f81bd;
+	line-height: 30px;
+	text-transform: uppercase;
+	font-family: 'GothamBold';
+	padding-top: 17px;
+}
+
+#body .info h1.indicadores
+{
+	color: #8064a2;
+}
+
+#body .info h1.emisiones
+{
+	color: #4f81bd;
+}
+
+#body .info .ley
+{
+	font-family: 'GothamBook';
+	line-height: 18px;
+}
+
+#chart_descripcion
+{
+	background-color: #f0f0f0;
+	padding: 17px;
+	font-size: 12px;
+	font-family: 'GothamBook';
+	line-height: 18px;
+	width: 90%;
+	margin: 17px auto 0;
+	display: none;
+}
+
+#chart_descripcion h2
+{
+	font-family: 'GothamBold';
+	display: block;
+	padding-bottom: 7px;
+    font-size: 14px;
+}
+
+#chart_back
+{
+	border: 0 none;
+    color: #0066ad;
+    background: transparent;
+    font-family: 'Gotham';
+    font-size: 12px;
+    position: absolute;
+    right: 17px;
+    top: 23px;
+}
+
+#chart_sankey
+{
+	width: 100%;
+	display: none;
+}
+
+#chart_psd3
+{
+	text-align: center;
+	padding: 20px;
+}
+
+
+
+/*  C3 */
+
+.c3-area {
+  /* opacity: .5 !important; */
+  /* cursor: pointer; */
+}
+
+.c3-line {
+    stroke-width: 3px !important;
+}
+
+
+body.home
+{
+	background-color: #fff;
+}
+
+body.home #home-content-wrapper
+{
+	text-align: center;
+	background-color: #fff;
+
+}
+
+body.home #home-content-wrapper .content
+{
+	margin:  17px 0;
+	background-color: #f6f6f7;
+	float: none;
+	display: block;
+	text-align: center;
+	min-height: calc(100% - 117px - 117px - 17px - 17px - 1px);
+}
+
+body.home #home-content-wrapper .content .content50
+{
+	width: 680px;
+	margin: 0 auto;
+}
+
+body.home #home-content-wrapper .logo
+{
+	padding-top: 17px;
+}
+
+body.home #home-content-wrapper .guion
+{
+	padding: 17px;
+}
+
+body.home h1
+{
+	color:#33c9f4;
+	font-size: 34px;
+	line-height: 34px;
+	font-family: "GothamBold";
+}
+
+body.home h2
+{
+	color:#fa8a64;
+	font-size: 16px;
+	line-height: 20px;
+	font-family: "GothamBold";
+}
+
+
+body.home p
+{
+	font-size: 16px;
+	line-height: 20px;
+	font-family: "GothamBook";
+	color: #234f5e;
+}
+
+body.home .buttons button
+{
+	height: 44px;
+	padding: 0 20px;
+	color: #fff;
+	border:  0 none;
+	border-radius: 22px;
+	background: #54bdb4;
+	font-size: 12px;
+	line-height: 46px;
+	margin: 15px 20px 17px;
+}
+
+body.home #home-content-wrapper div.logo
+{
+	
+}
+
+
+

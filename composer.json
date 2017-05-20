@@ -1,0 +1,57 @@
+{
+    "name": "thet/informe-gei",
+    "description": "Inventario Nacional de Gases de Efecto Invernadero (GEI)",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "ministerio-ambiente",
+        "presidencia",
+        "efecto",
+        "invernadero",
+        "gases",
+        "emisiones"
+    ],
+    "homepage": "http://framework.zend.com/",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
+        "zendframework/zend-mvc": "^3.0.1",
+        "zfcampus/zf-development-mode": "^3.0",
+        "zendframework/zend-log": "^2.9",
+        "zendframework/zend-db": "^2.8",
+        "zendframework/zend-hydrator": "^2.2",
+        "zendframework/zend-serializer": "^2.8",
+        "zendframework/zend-filter": "^2.7"      
+    },
+    "autoload": {
+        "psr-4": {
+            "Application\\": "module/Application/src/",
+            "Api\\": "module/Api/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ApplicationTest\\": "module/Application/test/",
+            "ApiTest\\": "module/Api/test/"            
+        }
+    },
+    "extra": [],
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "development-disable": "zf-development-mode disable",
+        "development-enable": "zf-development-mode enable",
+        "development-status": "zf-development-mode status",
+        "post-create-project-cmd": [
+            "@development-enable"
+        ],
+        "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "zendframework/zend-debug": "^2.5",
+        "phpunit/phpunit": "^6.1"
+    }    
+}

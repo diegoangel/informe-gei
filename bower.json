@@ -1,0 +1,30 @@
+{
+  "name": "informe-gei",
+  "authors": [
+    "Thet"
+  ],
+  "description": "Inventario Nacional de Gases de Efecto Invernadero (GEI)",
+  "main": "public/index.php",
+  "keywords": [
+    "gases",
+    "emisiones",
+    "invernadero",
+    "gei",
+    "informe"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public/bower_components/"
+  ],
+  "dependencies": {
+    "c3": "^0.4.11",
+    "jquery": "^3.2.1"
+  }
+}
