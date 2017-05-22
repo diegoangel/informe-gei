@@ -12,8 +12,16 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    /**
+     * @return mixed
+     */
     public function indexAction()
     {
+        $this->layout()->setVariables([
+            'bodyCssClass' => 'home',
+            'contentWrapperClass' => 'home-content-wrapper'
+        ]);
+
         return new ViewModel();
     }
 }

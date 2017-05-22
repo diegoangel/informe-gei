@@ -378,7 +378,7 @@ function graficar(){
 
 					}
 
-		$.get("_post/ajax.php",params,function(data){
+		$.get("/informe",params,function(data){
 
 			console.log(data);
 

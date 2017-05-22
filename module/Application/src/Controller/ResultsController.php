@@ -14,6 +14,10 @@ class ResultsController extends AbstractActionController
 {
     public function indexAction()
     {
+        $this->layout()->setVariables([
+            'contentWrapperClass' => 'content-wrapper'
+        ]);
+
         return new ViewModel();
     }
 }

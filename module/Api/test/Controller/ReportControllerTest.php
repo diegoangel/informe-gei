@@ -5,13 +5,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Api\Controller;
+namespace ApiTest\Controller;
 
-use Api\Controller\IndexController;
+use Api\Controller\ReportController;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
-class IndexControllerTest extends AbstractHttpControllerTestCase
+class ReportControllerTest extends AbstractHttpControllerTestCase
 {
     public function setUp()
     {
@@ -34,15 +34,15 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
         $this->dispatch('/', 'GET');
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('api');
-        $this->assertControllerName(IndexController::class); // as specified in router's controller name alias
-        $this->assertControllerClass('IndexController');
-        $this->assertMatchedRouteName('home');
+        $this->assertControllerName(ReportController::class); // as specified in router's controller name alias
+        $this->assertControllerClass('ReportController');
+        $this->assertMatchedRouteName('informe');
     }
 
     public function testIndexActionViewModelTemplateRenderedWithinLayout()
     {
         $this->dispatch('/', 'GET');
-        $this->assertQuery('.container .jumbotron');
+        $this->assertQuery('#content-wrapper');
     }
 
     public function testInvalidRouteDoesNotCrash()

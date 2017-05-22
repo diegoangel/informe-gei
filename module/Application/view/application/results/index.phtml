@@ -1,0 +1,197 @@
+    <div id="nav">
+
+        <div class="botones_top">
+            <button class="emisionesindicadores emisiones activo">EMISIONES GEI</button>
+            <button class="emisionesindicadores indicadores">INDICADORES</button>
+        </div>
+
+        <div class="nav_emisiones">
+
+            <div class="main distribucion">
+                <div class="updownarrowmain activo"></div>
+                <h2>Distribución de GEI</h2>
+
+                <div class="content_distribucion_evolucion content_distribucion">
+
+                    <div class="select updownarrow porsectores">
+
+                        <h3 class="slider" data-f="distribucion-sector">POR SECTORES</h3>
+
+                        <div class="labels">
+
+                            <label class="sec activo" for="dis_sec_all">
+                                <input type="radio" id="dis_sec_all" name="dis_sector_id" value="all" checked="checked" />
+                                Todos
+                            </label>
+
+                            <label class="sec" for="dis_sec_1">
+                                <input type="radio" id="dis_sec_1" name="dis_sector_id" value="1" />
+                                Agricultura, ganadería, silvicultura y otros usos de la tierra
+                            </label>
+
+                            <label class="sec" for="dis_sec_2">
+                                <input type="radio" id="dis_sec_2" name="dis_sector_id" value="2" />
+                                Energía
+                            </label>
+
+                            <label class="sec" for="dis_sec_3">
+                                <input type="radio" id="dis_sec_3" name="dis_sector_id" value="3" />
+                                Procesos industriales y uso de productos
+                            </label>
+
+                            <label class="sec" for="dis_sec_4">
+                                <input type="radio" id="dis_sec_4" name="dis_sector_id" value="4" />
+                                Residuos
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="select">
+                        <h3 class="slider" data-f="distribucion-gases">POR TIPO DE GASES</h3>
+                    </div>
+
+                    <div class="select">
+                        <h3 class="slider" data-f="distribucion-gases-sector">POR TIPO DE GASES POR SECTOR</h3>
+                    </div>
+
+                    <div class="select">
+                        <h3 class="slider" data-f="distribucion-sankey">POR USO FINAL</h3>
+                    </div>
+
+
+
+                    <div class="anobox updownarrow">
+
+                        <div class="select ano nomargin activo">
+                            <h3 class="slider ">
+                                <select name="" id="select_ano" class="ano"></select>
+                                <span>1990</span>
+                            </h3>
+                        </div>
+
+                        <label for="">AÑO</label>
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div class="botones">
+                        <button id="btn-ver_resultado" class="ver" type="button">VER RESULTADO</button>
+                    </div>
+
+                </div><!-- FIN DIV CONTENT_DISTRIBUCION -->
+
+
+            </div>
+
+
+            <div class="main evolucion">
+
+                <div class="updownarrowmain"></div>
+                <h2>Evolución de GEI</h2>
+
+                <div class="content_distribucion_evolucion content_evolucion">
+
+                    <div class="select porsectores">
+
+                        <h3 class="slider" data-f="evolucion-sector">POR SECTORES</h3>
+
+                        <div class="labels">
+
+                            <label class="sec activo" for="evo_sec_all">
+                                <input type="radio" id="evo_sec_all" name="evo_sector_id" value="all" checked="checked" />
+                                Todos
+                            </label>
+
+                            <label class="sec" for="evo_sec_1">
+                                <input type="radio" id="evo_sec_1" name="evo_sector_id" value="1" />
+                                Agricultura, ganadería, silvicultura y otros usos de la tierra
+                            </label>
+
+                            <label class="sec" for="evo_sec_2">
+                                <input type="radio" id="evo_sec_2" name="evo_sector_id" value="2" />
+                                Energía
+                            </label>
+
+                            <label class="sec" for="evo_sec_3">
+                                <input type="radio" id="evo_sec_3" name="evo_sector_id" value="3" />
+                                Procesos industriales y uso de productos
+                            </label>
+
+                            <label class="sec" for="evo_sec_4">
+                                <input type="radio" id="evo_sec_4" name="evo_sector_id" value="4" />
+                                Residuos
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div class="botones">
+                        <button id="btn-ver_resultado" class="ver" type="button">VER RESULTADO</button>
+                    </div>
+
+                </div><!-- FIN DIV CONTENT_DISTRIBUCION -->
+
+            </div>
+
+        </div>
+
+        <div class="nav_indicadores">
+
+            <div class="main indicadores">
+
+                <div class="select"><h3 class="slider" data-indicador="1">Emisiones por habitante</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="2">Emisiones por Producto Interno Bruto</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="3">Emisiones por unidad de energía</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="4">Emisiones por unidad de energía eléctica</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="5">Emisiones industria por Valor Bruto de la Produccion</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="6">Emisiones por cabeza de ganado bovino</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="7">Emisiones producción de granos</h3></div>
+                <div class="select"><h3 class="slider" data-indicador="8">Emisiones RSU por Habitante</h3></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id="body">
+
+        <div class="content">
+
+            <button id="chart_back" type="button" onclick="volver();" class="back">< volver</button>
+
+            <div class="info">
+                <h1 id="chart_title"></h1>
+                <div class="ley">
+
+                    <span id="box_chart_sector">Sector: <strong><span id="chart_sector">Todos</span></strong>  •  </span>
+
+                    Año: <strong><span id="chart_ano"></span></strong>  •
+
+                    Unidad de medida: <strong><span id="chart_unidad">MtCO₂eq</span></strong>
+
+                    <div id="box_chart_subactividad">Subactividad: <strong><span id="chart_subactividad"></span></strong></div>
+
+                </div>
+            </div>
+
+
+            <!-- GRAFICO -->
+
+            <div id="chart"></div>
+            <div id="chart_psd3"></div>
+
+            <img src="<?= $this->basePath('img/sankey.png') ?>" alt="" id="chart_sankey" />
+
+            <div id="chart_descripcion"></div>
+
+        </div>
+
+    </div>
+
+    <div class="clear"></div>

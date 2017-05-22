@@ -19,7 +19,7 @@ return [
                 'options' => [
                     'route'    => '/informe',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\ReportController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -29,7 +29,7 @@ return [
                 'options' => [
                     'route'    => '/informe/distribucion-por-sector[/:action]',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\ReportController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -38,7 +38,8 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            Controller\ReportController::class => InvokableFactory::class,
+            Controller\ReportController::class => Factory\ReportControllerFactory::class,
         ],
     ],
     'view_manager' => [
