@@ -27,7 +27,7 @@ return [
             'informe-por-sector' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe/distribucion-por-sector[/:action]',
+                    'route'    => '/informe/distribucion-sector[/:ano[/:sector_id]]',
                     'defaults' => [
                         'controller' => Controller\ReportController::class,
                         'action'     => 'index',

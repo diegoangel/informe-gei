@@ -14,168 +14,168 @@ arrSectores[4] = 'Residuos';
 
 $(document).ready(function(){
 
-	
-	for (i = 1990; i <= 2014; i++) 
-	{ 
-    	$("#select_ano").append("<option value='"+i+"'>"+i+"</option>");
-	}
+    
+    for (i = 1990; i <= 2014; i++) 
+    { 
+        $("#select_ano").append("<option value='"+i+"'>"+i+"</option>");
+    }
 
-	$("#nav .select.ano select").val( '2014' );
-	$("#nav .select.ano span").html( '2014' );
-	$("#nav .select.ano select option").show();
+    $("#nav .select.ano select").val( '2014' );
+    $("#nav .select.ano span").html( '2014' );
+    $("#nav .select.ano select option").show();
 
-	
-	$("#nav").on("click",".updownarrowmain",function(){
+    
+    $("#nav").on("click",".updownarrowmain",function(){
 
-		$(this).toggleClass('activo').siblings(".content_distribucion_evolucion").slideToggle();
-		// $(this).addClass('activo').siblings(".content_distribucion_evolucion").show();
-
-
-	});
-
-	// SLIDES DE CATEGORIAS
-	$("#nav .distribucion").on("click","h3.slider",function(){
+        $(this).toggleClass('activo').siblings(".content_distribucion_evolucion").slideToggle();
+        // $(this).addClass('activo').siblings(".content_distribucion_evolucion").show();
 
 
-		if( !$(this).parent(".select").parent(".updownarrow").hasClass("anobox") )
-		{
-			$("#nav .select.ano select").val( '2014' );
-			$("#nav .select.ano span").html( '2014' );
-			$("#nav .select.ano select option").show();
+    });
 
-			$(".distribucion .select").removeClass("activo").children(".labels:visible").slideUp();
-
-			// CUANDO CLICKEA LOS SLIDERS QUE NO SON EL Año
-			f = $(this).attr('data-f');
-
-			if(f == 'distribucion-gases' || f == 'distribucion-gases-sector' || f == 'distribucion-sankey')
-			{
-				$("#nav .select.ano select").val( '2014' );
-				$("#nav .select.ano select option").hide().filter("[value=2014]").show();
-				$("#nav .select.ano span").html( '2014' );
-			}
-		
-		}
-
-		$(this).parent(".select").toggleClass("activo").children(".labels").slideToggle();
+    // SLIDES DE CATEGORIAS
+    $("#nav .distribucion").on("click","h3.slider",function(){
 
 
-	});
+        if( !$(this).parent(".select").parent(".updownarrow").hasClass("anobox") )
+        {
+            $("#nav .select.ano select").val( '2014' );
+            $("#nav .select.ano span").html( '2014' );
+            $("#nav .select.ano select option").show();
 
-	$("#nav .evolucion").on("click","h3.slider",function(){
-		f = $(this).attr('data-f');
-	});
+            $(".distribucion .select").removeClass("activo").children(".labels:visible").slideUp();
 
-	// RADIO BUTTONS
-	$("#nav").on("click","label.sec",function(){
+            // CUANDO CLICKEA LOS SLIDERS QUE NO SON EL Año
+            f = $(this).attr('data-f');
 
-		$("#nav label.sec").removeClass("activo");	
-		$(this).addClass("activo");
+            if(f == 'distribucion-gases' || f == 'distribucion-gases-sector' || f == 'distribucion-sankey')
+            {
+                $("#nav .select.ano select").val( '2014' );
+                $("#nav .select.ano select option").hide().filter("[value=2014]").show();
+                $("#nav .select.ano span").html( '2014' );
+            }
+        
+        }
 
-	});
-
-
-	// RADIO BUTTONS DE DISTRIBUCION
-	$("#nav .nav_emisiones").on("click","label.sec",function(){
-
-		f = 'distribucion-sector';
-
-	});
-
-
+        $(this).parent(".select").toggleClass("activo").children(".labels").slideToggle();
 
 
-	// SELECTOR DE AÑO
-	$("#nav").on("change","select.ano",function(){
+    });
 
-		$("#nav .select.ano span").html( $(this).val() );
+    $("#nav .evolucion").on("click","h3.slider",function(){
+        f = $(this).attr('data-f');
+    });
 
-	});
+    // RADIO BUTTONS
+    $("#nav").on("click","label.sec",function(){
+
+        $("#nav label.sec").removeClass("activo");  
+        $(this).addClass("activo");
+
+    });
 
 
-	$("#nav .main.distribucion").on("click","#btn-ver_resultado",ver_resultado);
+    // RADIO BUTTONS DE DISTRIBUCION
+    $("#nav .nav_emisiones").on("click","label.sec",function(){
 
-	$("#nav .main.evolucion").on("click","#btn-ver_resultado",function(){ f = 'evolucion-sector'; ver_resultado(); });
+        f = 'distribucion-sector';
 
-	// $(".select.porsectores").addClass('activo').children(".labels").slideToggle();;
-
-	$("#nav .main.evolucion").on("change","input[name=evo_sector_id]",function(){
-		f = 'evolucion-sector';
-	});
+    });
 
 
 
-	////////////////////////////////////
-	// BOTONES DE ARRIBA DE LA SELECCION LATERAL
-	////////////////////////////////////
 
-	$("#nav").on("click",".emisionesindicadores",function(){
-		
-		// COLORES BOTONES
-		$(".emisionesindicadores").removeClass("activo");
-		$(this).addClass("activo");
+    // SELECTOR DE AÑO
+    $("#nav").on("change","select.ano",function(){
+
+        $("#nav .select.ano span").html( $(this).val() );
+
+    });
 
 
+    $("#nav .main.distribucion").on("click","#btn-ver_resultado",ver_resultado);
 
-		if( $(this).hasClass("indicadores") )
-		{
+    $("#nav .main.evolucion").on("click","#btn-ver_resultado",function(){ f = 'evolucion-sector'; ver_resultado(); });
 
-			$("#nav .nav_emisiones").hide();
-			$("#nav .nav_indicadores").show();
+    // $(".select.porsectores").addClass('activo').children(".labels").slideToggle();;
 
-			// COLOR TITULO PRINCIPAL DEL GRAFICO
-			$("#body .info h1").addClass("indicadores");
-			$("#body .info h1").removeClass("emisiones");
-		}
-		else
-		{
-			$("#nav .nav_emisiones").show();
-			$("#nav .nav_indicadores").hide();
-
-			// COLOR TITULO PRINCIPAL DEL GRAFICO
-			$("#body .info h1").addClass("emisiones");
-			$("#body .info h1").removeClass("indicadores");
-		}
-
-	});
-
-	$("#nav .nav_indicadores").on("click","h3.slider",function(){
-
-		$("#nav .nav_indicadores .select").removeClass("activo");
-		$(this).parent(".select").addClass("activo");
-		
-		// f = $(this).attr('data-f');
-		f = 'indicador';
-		indicador_id = $(this).attr('data-indicador');
-
-		ver_resultado();
-
-	});
+    $("#nav .main.evolucion").on("change","input[name=evo_sector_id]",function(){
+        f = 'evolucion-sector';
+    });
 
 
-	// ARRANCO CON EL GRAFICO DE SECTORES
-	$(".select.porsectores").addClass("activo").children(".labels").show();
-	ver_resultado();
+
+    ////////////////////////////////////
+    // BOTONES DE ARRIBA DE LA SELECCION LATERAL
+    ////////////////////////////////////
+
+    $("#nav").on("click",".emisionesindicadores",function(){
+        
+        // COLORES BOTONES
+        $(".emisionesindicadores").removeClass("activo");
+        $(this).addClass("activo");
+
+
+
+        if( $(this).hasClass("indicadores") )
+        {
+
+            $("#nav .nav_emisiones").hide();
+            $("#nav .nav_indicadores").show();
+
+            // COLOR TITULO PRINCIPAL DEL GRAFICO
+            $("#body .info h1").addClass("indicadores");
+            $("#body .info h1").removeClass("emisiones");
+        }
+        else
+        {
+            $("#nav .nav_emisiones").show();
+            $("#nav .nav_indicadores").hide();
+
+            // COLOR TITULO PRINCIPAL DEL GRAFICO
+            $("#body .info h1").addClass("emisiones");
+            $("#body .info h1").removeClass("indicadores");
+        }
+
+    });
+
+    $("#nav .nav_indicadores").on("click","h3.slider",function(){
+
+        $("#nav .nav_indicadores .select").removeClass("activo");
+        $(this).parent(".select").addClass("activo");
+        
+        // f = $(this).attr('data-f');
+        f = 'indicador';
+        indicador_id = $(this).attr('data-indicador');
+
+        ver_resultado();
+
+    });
+
+
+    // ARRANCO CON EL GRAFICO DE SECTORES
+    $(".select.porsectores").addClass("activo").children(".labels").show();
+    ver_resultado();
 
 
 });
 
 function volver()
 {
-	// ME FIJO LOS VALORES DE F Y VOY AL ANTERIOR
-	
-	if(f=='evolucion-sector-subactividad')
-	{
-		f = 'evolucion-sector';
-	}
+    // ME FIJO LOS VALORES DE F Y VOY AL ANTERIOR
+    
+    if(f=='evolucion-sector-subactividad')
+    {
+        f = 'evolucion-sector';
+    }
 
-	if(f=='evolucion-sector-subactividad-categoria')
-	{
-		f = 'evolucion-sector-subactividad';
-	}
+    if(f=='evolucion-sector-subactividad-categoria')
+    {
+        f = 'evolucion-sector-subactividad';
+    }
 
 
-	graficar();
+    graficar();
 }
 
 
@@ -183,46 +183,46 @@ function volver()
 function ver_resultado()
 {
 
-	// DATOS DEL FILTRO
-	ano = $("#select_ano").val();
-	dis_sector_id = $("input[type=radio][name=dis_sector_id]").filter(':checked').val();
-	evo_sector_id = $("input[type=radio][name=evo_sector_id]").filter(':checked').val();
+    // DATOS DEL FILTRO
+    ano = $("#select_ano").val();
+    dis_sector_id = $("input[type=radio][name=dis_sector_id]").filter(':checked').val();
+    evo_sector_id = $("input[type=radio][name=evo_sector_id]").filter(':checked').val();
 
 
-	if(f == "distribucion-sector" || f == "distribucion-gases" || f == "distribucion-gases-sector" || f == "distribucion-sankey")
-	{
-		// CAMBIO DATOS DUROS DE PANTALLA
-	    $("#chart_ano").html(ano);	
-	}
+    if(f == "distribucion-sector" || f == "distribucion-gases" || f == "distribucion-gases-sector" || f == "distribucion-sankey")
+    {
+        // CAMBIO DATOS DUROS DE PANTALLA
+        $("#chart_ano").html(ano);  
+    }
 
-	
-	// GRAFICO 1
-	// DISTRIBUCION DE GEI ENTRE TODOS LOS SECTORES. TORTA
-	if(f == "distribucion-sector" && dis_sector_id == 'all')
-	{	
-		$("#chart_title").html('Distribución de GEI');
-	}
+    
+    // GRAFICO 1
+    // DISTRIBUCION DE GEI ENTRE TODOS LOS SECTORES. TORTA
+    if(f == "distribucion-sector" && dis_sector_id == 'all')
+    {   
+        $("#chart_title").html('Distribución de GEI');
+    }
 
-	    
-	// CUANDO MUESTRO EL SANKEY ESCONDO LOS GRAFICOS
-	if(f == "distribucion-sankey")
-	{
-		$("#chart").hide();
-		$("#chart_sankey").show();
-		$("#chart_back").hide();
+        
+    // CUANDO MUESTRO EL SANKEY ESCONDO LOS GRAFICOS
+    if(f == "distribucion-sankey")
+    {
+        $("#chart").hide();
+        $("#chart_sankey").show();
+        $("#chart_back").hide();
 
-		$("#box_chart_sector").show();
+        $("#box_chart_sector").show();
 
-		$("#chart_title").html('Distribución de GEI por uso final');
-		$("#chart_sector").html('Todos');
+        $("#chart_title").html('Distribución de GEI por uso final');
+        $("#chart_sector").html('Todos');
 
-	}
-	else
-	{
-		$("#chart").show();
-		$("#chart_sankey").hide();
-		graficar();
-	}
+    }
+    else
+    {
+        $("#chart").show();
+        $("#chart_sankey").hide();
+        graficar();
+    }
 
     
 
@@ -230,1039 +230,1042 @@ function ver_resultado()
 
 function get_chart_width()
 {
-	// ESTE ES EL ESPACIO QUE TENGO DISPONIBLE
-	var width = $("#body .content").width();
+    // ESTE ES EL ESPACIO QUE TENGO DISPONIBLE
+    var width = $("#body .content").width();
 
-	console.log(width);
+    console.log(width);
 
-	return(width);
+    return(width);
 
 }
 
 
 function get_chart_height()
 {
-	// ESTE ES EL ESPACIO QUE TENGO DISPONIBLE
-	var height = $(document).height() - $("footer").height() - $("footer").height() - ($("#body .info").height() * 2) - 17 - 17 - 50;
+    // ESTE ES EL ESPACIO QUE TENGO DISPONIBLE
+    var height = $(document).height() - $("footer").height() - $("footer").height() - ($("#body .info").height() * 2) - 17 - 17 - 50;
 
-	var exceso = 0;
+    var exceso = 0;
 
-	if(height > 600)
-	{
-		exceso = height - 600;
-		height = 600;
-	}
+    if(height > 600)
+    {
+        exceso = height - 600;
+        height = 600;
+    }
 
-	if(exceso > 0)
-	{
-		$("#chart").css({ marginTop: (exceso/2)+'px' });
-	}
+    if(exceso > 0)
+    {
+        $("#chart").css({ marginTop: (exceso/2)+'px' });
+    }
 
-	height = (height<400) ? 400 : height;
+    height = (height<400) ? 400 : height;
 
-	return(height);
+    return(height);
 
 }
 
 
 function graficar(){
 
-	$("#chart_psd3").hide();
-
-	$("#box_chart_subactividad").hide();
-	$("#box_chart_sector").hide();
-	$("#chart_unidad").html("MtCO₂eq");
-
-	$("#chart_back").hide();
-
-	if(f != 'indicador')
-	$("#chart_descripcion").hide();
-
-	// DISTRIBUCION DE GEI ENTRE TODOS LOS SECTORES. CORONA
-	if(f == "distribucion-sector" && dis_sector_id != 'all')
-	{	
-		// GRAFICO CORONA
-		$("#box_chart_sector").show();
-		$("#chart_title").html('Distribución de GEI por sector');
-		$("#chart_sector").html(arrSectores[dis_sector_id]);
-		
-	}
+    $("#chart_psd3").hide();
+
+    $("#box_chart_subactividad").hide();
+    $("#box_chart_sector").hide();
+    $("#chart_unidad").html("MtCO₂eq");
+
+    $("#chart_back").hide();
+
+    if(f != 'indicador')
+    $("#chart_descripcion").hide();
+
+    // DISTRIBUCION DE GEI ENTRE TODOS LOS SECTORES. CORONA
+    if(f == "distribucion-sector" && dis_sector_id != 'all')
+    {   
+        // GRAFICO CORONA
+        $("#box_chart_sector").show();
+        $("#chart_title").html('Distribución de GEI por sector');
+        $("#chart_sector").html(arrSectores[dis_sector_id]);
+        
+    }
+
+    if(f == "distribucion-gases")
+    {
+        $("#box_chart_sector").show();
+        $("#chart_title").html('Distribución de GEI por tipo de gases');
+        $("#chart_sector").html('Todos');
+    }
+
+
+    if(f == "distribucion-gases-sector")
+    {
+        $("#box_chart_sector").show();
+        $("#chart_title").html('Distribución de GEI por tipo de gases por sector');
+        $("#chart_sector").html('Todos');
+    }
+
+    if(f == "evolucion-sector" && evo_sector_id == 'all')
+    {
+        $("#box_chart_sector").show();
+        $("#chart_sector").html('Todos');
+
+        $("#chart_title").html('Evolución de GEI');
+        $("#chart_ano").html("1990 - 2014");
+        sector_id = evo_sector_id;
+    }
+
 
-	if(f == "distribucion-gases")
-	{
-		$("#box_chart_sector").show();
-		$("#chart_title").html('Distribución de GEI por tipo de gases');
-		$("#chart_sector").html('Todos');
-	}
-
-
-	if(f == "distribucion-gases-sector")
-	{
-		$("#box_chart_sector").show();
-		$("#chart_title").html('Distribución de GEI por tipo de gases por sector');
-		$("#chart_sector").html('Todos');
-	}
+    if(f == "evolucion-sector" && evo_sector_id != 'all')
+    {
+        sector_id = evo_sector_id;
+        
+        $("#box_chart_sector").show();
+        $("#chart_sector").html(arrSectores[sector_id]);
+
+        $("#chart_title").html('Evolución de GEI por sector');
+        $("#chart_ano").html("1990 - 2014");
+    }
+
+    if(f == "evolucion-sector-subactividad" && evo_sector_id != 'all')
+    {
+        sector_id = evo_sector_id;
+        $("#chart_title").html('Evolución de GEI por sector - subactividad');
+        $("#chart_ano").html("1990 - 2014");
 
-	if(f == "evolucion-sector" && evo_sector_id == 'all')
-	{
-		$("#box_chart_sector").show();
-		$("#chart_sector").html('Todos');
+        $("#box_chart_sector").show();
+        $("#chart_sector").html(arrSectores[sector_id]);
 
-		$("#chart_title").html('Evolución de GEI');
-		$("#chart_ano").html("1990 - 2014");
-		sector_id = evo_sector_id;
-	}
+        $("#chart_back").show();
+    }
 
+    if(f == "evolucion-sector-subactividad-categoria" && evo_sector_id != 'all')
+    {
+        sector_id = evo_sector_id;
+        $("#chart_title").html('Evolución de GEI por subactividad - categoría');
+        $("#chart_ano").html("1990 - 2014");
+
+        $("#box_chart_sector").show();
+        $("#chart_sector").html(arrSectores[sector_id]);
+
+        $("#box_chart_subactividad").show();
+        // LA SUBACTIVIDAD ESTA ADENTRO DEL AJAX
+
+        $("#chart_back").show();
+    }
+
+    //////////////////////////////////////////
+    // INDICADORES
+    //////////////////////////////////////////
+
+    if(f == "indicador")
+    {
+        
+        $("#box_chart_sector").hide();
+        $("#chart_ano").html("1990 - 2014");
+    }
+
+    var char_height = get_chart_height();
+    var char_width  = get_chart_width();
+
+    // if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() == 'all')
+    if(f ==  "distribucion-sector" && dis_sector_id == 'all')
+    {
+        /**
+         * DEPRECATED
+        var params = {
 
-	if(f == "evolucion-sector" && evo_sector_id != 'all')
-	{
-		sector_id = evo_sector_id;
-		
-		$("#box_chart_sector").show();
-		$("#chart_sector").html(arrSectores[sector_id]);
+                    sector_id:  'all',
+                    ano:        $("#select_ano").val(),
+                    f:          f
 
-		$("#chart_title").html('Evolución de GEI por sector');
-		$("#chart_ano").html("1990 - 2014");
-	}
+                    }
+        */          
+        var ano = $("#select_ano").val();
 
-	if(f == "evolucion-sector-subactividad" && evo_sector_id != 'all')
-	{
-		sector_id = evo_sector_id;
-		$("#chart_title").html('Evolución de GEI por sector - subactividad');
-		$("#chart_ano").html("1990 - 2014");
+        $.get("/informe/"  + f + "/" + ano,{},function(data){
 
-		$("#box_chart_sector").show();
-		$("#chart_sector").html(arrSectores[sector_id]);
+            console.log(data);
 
-		$("#chart_back").show();
-	}
+            chart = c3.generate({
 
-	if(f == "evolucion-sector-subactividad-categoria" && evo_sector_id != 'all')
-	{
-		sector_id = evo_sector_id;
-		$("#chart_title").html('Evolución de GEI por subactividad - categoría');
-		$("#chart_ano").html("1990 - 2014");
+                size: {
+                    height: char_height
+                },
 
-		$("#box_chart_sector").show();
-		$("#chart_sector").html(arrSectores[sector_id]);
+                data: {
+                    // iris data from R
+                    columns: [
+                        data.sector_1,
+                        data.sector_2,
+                        data.sector_3,
+                        data.sector_4,
+                    ],
 
-		$("#box_chart_subactividad").show();
-		// LA SUBACTIVIDAD ESTA ADENTRO DEL AJAX
+                    type : 'pie',
 
-		$("#chart_back").show();
-	}
+                    onmouseover: function (d) { 
 
-	//////////////////////////////////////////
-	// INDICADORES
-	//////////////////////////////////////////
+                        html = "<h2 style='color:"+data.colores[d.index]+"''>"+eval("data.sector_"+(d.index+1)+"[0]")+"</h2>"+data.descripciones[d.index];
 
-	if(f == "indicador")
-	{
-		
-		$("#box_chart_sector").hide();
-		$("#chart_ano").html("1990 - 2014");
-	}
-
-	var char_height = get_chart_height();
-	var char_width 	= get_chart_width();
-
-	// if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() == 'all')
-	if(f ==  "distribucion-sector" && dis_sector_id == 'all')
-	{
+                        $("#chart_descripcion").show().html(html); 
+                    },
 
-		var params = {
+                    onmouseleave: function (d) { $("#chart_descripcion").html('').hide(); },
 
-					sector_id: 	'all',
-					ano: 		$("#select_ano").val(),
-					f: 			f
+                },
 
-					}
+                color: {
+                        pattern: data.colores,
+                },
 
-		$.get("/informe",params,function(data){
+                legend:
+                {
+                    item:
+                    {
+                        onclick: function(){},
+                    },
+                },
 
-			console.log(data);
 
-			chart = c3.generate({
 
-				size: {
-					height: char_height
-				},
 
-			    data: {
-			        // iris data from R
-			        columns: [
-			            data.sector_1,
-			            data.sector_2,
-			            data.sector_3,
-			            data.sector_4,
-			        ],
+                tooltip: {
 
-			        type : 'pie',
+                    
+                    
+                    contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                        
+                        var $$ = this, config = $$.config,
+                          
+                        titleFormat = config.tooltip_format_title || defaultTitleFormat,
+                        nameFormat = config.tooltip_format_name || function (name) { return name; },
+                        valueFormat = config.tooltip_format_value || defaultValueFormat, 
+                        text, i, title, value, name, bgcolor;
+                        
+                        for (i = 0; i < d.length; i++) {
+                            
+                            if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
+
+                            if (! text) {
+                                title = titleFormat ? titleFormat(d[i].x) : d[i].x;
+                                text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
+                                text = "<table class='" + $$.CLASS.tooltip + "'>";
+                            }
+
+                            name = nameFormat(d[i].name);
+                            value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
+                            bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
+
+                            text += "<tr>";
+                            text += "<td colspan='2' align='center'><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
+                            text += "</tr><tr>"
+                            text += "<td align='center'>" + value + "</td>";
+                            text += "<td align='center'>" + d[i].value + " MtCO₂eq</td>";
+                            text += "</tr>";
+                        }
+                        return text + "</table>";
+                    }
+
+                }
+
+            });
+
+        });
+
+    }
+
+    // if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() != 'all')
+    if(f ==  "distribucion-sector" && dis_sector_id != 'all')
+    {
+        var graph_data;
+
+        var params = {
+
+                    sector_id:  dis_sector_id,
+                    ano:        $("#select_ano").val(),
+                    f:          f
 
-			        onmouseover: function (d) { 
+                    }
 
-			        	html = "<h2 style='color:"+data.colores[d.index]+"''>"+eval("data.sector_"+(d.index+1)+"[0]")+"</h2>"+data.descripciones[d.index];
 
-			        	$("#chart_descripcion").show().html(html); 
-			        },
+        char_height -= 40;
+        char_side = (char_height <= char_width) ? char_height : char_width;
 
-			        onmouseleave: function (d) { $("#chart_descripcion").html('').hide(); },
+        
+        $("#chart").hide();
+        $("#chart_psd3").html('').show();
 
-			    },
 
-			    color: {
-						pattern: data.colores,
-				},
+        $.get("_post/ajax.php",params,function(resp){
 
-				legend:
-				{
-					item:
-					{
-						onclick: function(){},
-					},
-				},
+            graph_data = resp;
 
+            console.log(graph_data);
 
+        
+        
+        // Create config 
+        var config = {
 
+            containerId: "chart_psd3",
+            
+            width: char_side,
 
-				tooltip: {
+            height: char_side,
 
-			        
-			        
-			        contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-			          	
-			        	var $$ = this, config = $$.config,
-			              
-						titleFormat = config.tooltip_format_title || defaultTitleFormat,
-						nameFormat = config.tooltip_format_name || function (name) { return name; },
-						valueFormat = config.tooltip_format_value || defaultValueFormat, 
-						text, i, title, value, name, bgcolor;
-						
-						for (i = 0; i < d.length; i++) {
-							
-							if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
+            data: graph_data,
+            
+            // data: [
 
-							if (! text) {
-								title = titleFormat ? titleFormat(d[i].x) : d[i].x;
-								text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
-								text = "<table class='" + $$.CLASS.tooltip + "'>";
-							}
+            //  {
+            //      value: 20,
+            //      label: "Maharashtra",
+            //      inner: [
 
-							name = nameFormat(d[i].name);
-							value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
-							bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
-
-							text += "<tr>";
-							text += "<td colspan='2' align='center'><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
-							text += "</tr><tr>"
-							text += "<td align='center'>" + value + "</td>";
-							text += "<td align='center'>" + d[i].value + " MtCO₂eq</td>";
-							text += "</tr>";
-						}
-						return text + "</table>";
-			      	}
+            //          {
+              //                value: 10,
+              //                label: "Pune",
+              //                inner: [{
+                 //                 value: 5,
+                 //                 label: "Surat"
+                 //             }, {
+                 //                 value: 5,
+                 //                 label: "Rajkot"
+                 //             }]
+              //            }, 
+              //            {
+              //                value: 10,
+              //                label: "Mumbai",
+              //                inner: [{
+                 //                 value: 2,
+                 //                 label: "Surat"
+                 //             }, {
+                 //                 value: 8,
+                 //                 label: "Rajkot"
+                 //             }]
+              //            }
+            //      ]
+            //  }, 
+            //  {
+            //      value: 50,
+            //      label: "Gujarat",
+            //      inner: [{
+            //          value: 20,
+            //          label: "Surat"
+            //      }, {
+            //          value: 30,
+            //          label: "Rajkot"
+            //      }]
+            //  }
 
-			    }
+            // ],
 
-			});
 
-		});
+            label: function(d) {
+                return d.data.label + ":" + d.data.value;
+            },
 
-	}
+            tooltip: function(d) {
+                return "<p>There are " + d.value + " medical colleges in " + d.label + ".</p>";
+            },
 
-	// if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() != 'all')
-	if(f ==  "distribucion-sector" && dis_sector_id != 'all')
-	{
-		var graph_data;
+            donutRadius: 50,
 
-		var params = {
+            transition: "linear",
+    
+            transitionDuration: 500,
 
-					sector_id: 	dis_sector_id,
-					ano: 		$("#select_ano").val(),
-					f: 			f
+            labelColor: "white"
 
-					}
+        };
+      
+        // Draw chart
+        var samplePie = new psd3.Pie(config);
 
+        });
 
-		char_height -= 40;
-		char_side = (char_height <= char_width) ? char_height : char_width;
 
-		
-		$("#chart").hide();
-		$("#chart_psd3").html('').show();
+    }
 
 
-		$.get("_post/ajax.php",params,function(resp){
+    if(f ==  "distribucion-gases")
+    {
+        var params = {
 
-			graph_data = resp;
+                    ano:    $("#select_ano").val(),
+                    f:      f
 
-			console.log(graph_data);
+                    }
 
-		
-		
-		// Create config 
-	  	var config = {
+        $.getJSON("_post/ajax.php",params,function(data){
 
-	  		containerId: "chart_psd3",
-	  		
-	  		width: char_side,
 
-	  		height: char_side,
 
-	  		data: graph_data,
-	  		
-	  		// data: [
+            chart = c3.generate({
 
-		  	// 	{
-		  	// 	    value: 20,
-		  	// 	    label: "Maharashtra",
-		  	// 	    inner: [
+                size: {
+                    height: char_height
+                },
 
-		  	// 	    	{
-			  // 		        value: 10,
-			  // 		        label: "Pune",
-			  // 		        inner: [{
-				 //  		        value: 5,
-				 //  		        label: "Surat"
-				 //  		    }, {
-				 //  		        value: 5,
-				 //  		        label: "Rajkot"
-				 //  		    }]
-			  // 		    }, 
-			  // 		    {
-			  // 		        value: 10,
-			  // 		        label: "Mumbai",
-			  // 		        inner: [{
-				 //  		        value: 2,
-				 //  		        label: "Surat"
-				 //  		    }, {
-				 //  		        value: 8,
-				 //  		        label: "Rajkot"
-				 //  		    }]
-			  // 		    }
-		  	// 	    ]
-		  	// 	}, 
-		  	// 	{
-		  	// 	    value: 50,
-		  	// 	    label: "Gujarat",
-		  	// 	    inner: [{
-		  	// 	        value: 20,
-		  	// 	        label: "Surat"
-		  	// 	    }, {
-		  	// 	        value: 30,
-		  	// 	        label: "Rajkot"
-		  	// 	    }]
-		  	// 	}
+                data: {
+                    x : 'x',
 
-	  		// ],
+                    // url: data_url,
 
+                    columns: [
+                        data.gases,
+                        data.valores,
+                    ],
 
-	  		label: function(d) {
-			    return d.data.label + ":" + d.data.value;
-			},
+                    groups: [
+                        ['Gases']
+                    ],
 
-			tooltip: function(d) {
-			    return "<p>There are " + d.value + " medical colleges in " + d.label + ".</p>";
-			},
+                    type: 'bar',
 
-			donutRadius: 50,
+                    color: function (color, d) {
 
-			transition: "linear",
-	
-			transitionDuration: 500,
+                        return data.colores[d.x];
 
-			labelColor: "white"
+                    },
 
-	  	};
-	  
-		// Draw chart
-		var samplePie = new psd3.Pie(config);
+                },
 
-		});
+                legend: {
+                    show: false
+                },
 
+                bar: {
+                    width: {
+                        ratio: 0.5 // this makes bar width 50% of length between ticks
+                    },
+                },
 
-	}
+                axis: {
+                    x: {
+                        type: 'category' // this needed to load string x value
+                    }
+                },
 
+                tooltip: {
 
-	if(f ==  "distribucion-gases")
-	{
-		var params = {
 
-					ano: 	$("#select_ano").val(),
-					f: 		f
 
-					}
+                    contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
 
-		$.getJSON("_post/ajax.php",params,function(data){
+                        
+                        
+                        var $$ = this, config = $$.config,
+                          
+                        titleFormat = config.tooltip_format_title || defaultTitleFormat,
+                        nameFormat = config.tooltip_format_name || function (name) { return name; },
+                        valueFormat = config.tooltip_format_value || defaultValueFormat, 
+                        text, i, title, value, name, bgcolor;
 
 
+                        
+                        for (i = 0; i < d.length; i++) {
+                            
+                            if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
 
-			chart = c3.generate({
+                            if (! text) {
+                                title = titleFormat ? titleFormat(d[i].x) : d[i].x;
+                                text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
+                                text = "<table class='" + $$.CLASS.tooltip + "'>";
+                            }
 
-				size: {
-					height: char_height
-				},
+                            console.log(d);
 
-				data: {
-			        x : 'x',
+                            name = nameFormat(d[i].name);
+                            value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
+                            bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
 
-			        // url: data_url,
+                            text += "<tr>";
+                            text += "<td align='center'>" + value + " MtCO₂eq</td>";
+                            text += "</tr>";
+                        }
+                        return text + "</table>";
+                    }
 
-			        columns: [
-			            data.gases,
-			            data.valores,
-			        ],
+                }
 
-			        groups: [
-			            ['Gases']
-			        ],
 
-			        type: 'bar',
 
-			        color: function (color, d) {
 
-			        	return data.colores[d.x];
+            });
 
-			        },
+        });
 
-			    },
+    }
 
-			    legend: {
-			        show: false
-			    },
 
-			    bar: {
-			        width: {
-			            ratio: 0.5 // this makes bar width 50% of length between ticks
-			        },
-			    },
+    if(f ==  "distribucion-gases-sector")
+    {
 
-			    axis: {
-			        x: {
-			            type: 'category' // this needed to load string x value
-			        }
-			    },
+        var params = {
 
-			    tooltip: {
+                    ano:    $("#select_ano").val(),
+                    f:      f
 
+                    }
 
+        $.getJSON("_post/ajax.php",params,function(data){
 
-			        contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+            
+            chart = c3.generate({
 
-			        	
-			          	
-			        	var $$ = this, config = $$.config,
-			              
-						titleFormat = config.tooltip_format_title || defaultTitleFormat,
-						nameFormat = config.tooltip_format_name || function (name) { return name; },
-						valueFormat = config.tooltip_format_value || defaultValueFormat, 
-						text, i, title, value, name, bgcolor;
+                size: {
+                    height: char_height
+                },
 
+                data: {
+                    x : 'x',
+                    columns: [
+                        data.column_1,
+                        data.column_2,
+                        data.column_3,
+                        data.column_4,
+                        data.column_5,
 
-						
-						for (i = 0; i < d.length; i++) {
-							
-							if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
+                    ],
+                    groups: [
+                        ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos', 'Residuos']
+                    ],
+                    type: 'bar',
 
-							if (! text) {
-								title = titleFormat ? titleFormat(d[i].x) : d[i].x;
-								text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
-								text = "<table class='" + $$.CLASS.tooltip + "'>";
-							}
+                },
 
-							console.log(d);
+                axis: {
+                    x: {
+                        type: 'category' // this needed to load string x value
+                    }
+                },
 
-							name = nameFormat(d[i].name);
-							value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
-							bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
 
-							text += "<tr>";
-							text += "<td align='center'>" + value + " MtCO₂eq</td>";
-							text += "</tr>";
-						}
-						return text + "</table>";
-			      	}
 
-			    }
+                color: {
+                    pattern: ['#54bdb4', '#f44652', '#f87652', '#9189b8' ]
+                },
 
+                tooltip: {
 
+                    // format: {
+                    //     // title: function (d) { return 'Data ' + d; },
+                    //     value: function (value, ratio, id) {
+                            
+                    //      txt = value+'MtCO<sub>2</sub>eq '
 
+                    //      return txt;
 
-			});
+                    //     }
+                    // }
 
-		});
+                    contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                        
+                        var $$ = this, config = $$.config,
+                          
+                        titleFormat = config.tooltip_format_title || defaultTitleFormat,
+                        nameFormat = config.tooltip_format_name || function (name) { return name; },
+                        valueFormat = config.tooltip_format_value || defaultValueFormat, 
+                        text, i, title, value, name, bgcolor;
+                        
+                        for (i = 0; i < d.length; i++) {
+                            
+                            if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
 
-	}
+                            if (! text) {
+                                title = titleFormat ? titleFormat(d[i].x) : d[i].x;
+                                text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
+                                text = "<table class='" + $$.CLASS.tooltip + "'>";
+                            }
 
+                            name = nameFormat(d[i].name);
+                            value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
+                            bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
 
-	if(f ==  "distribucion-gases-sector")
-	{
+                            text += "<tr>";
+                            text += "<td><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
+                            text += "<td>" + d[i].value + " MtCO₂eq</td>";
+                            text += "</tr>";
+                        }
+                        return text + "</table>";
+                    }
+                }
 
-		var params = {
+            });
 
-					ano: 	$("#select_ano").val(),
-					f: 		f
+        });
+    }
 
-					}
 
-		$.getJSON("_post/ajax.php",params,function(data){
+    if(f ==  "evolucion-sector" && sector_id == 'all')
+    {
+        var params = {
 
-			
-			chart = c3.generate({
+                    f:      f
 
-				size: {
-					height: char_height
-				},
+                    }
 
-				data: {
-			        x : 'x',
-			        columns: [
-			            data.column_1,
-			            data.column_2,
-			            data.column_3,
-			            data.column_4,
-			            data.column_5,
+        $.getJSON("_post/ajax.php",params,function(data){
 
-			        ],
-			        groups: [
-			            ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos', 'Residuos']
-			        ],
-			        type: 'bar',
+            chart = c3.generate({
 
-			    },
+                size: {
+                    height: char_height
+                },
 
-			    axis: {
-			        x: {
-			            type: 'category' // this needed to load string x value
-			        }
-			    },
+                data: {
+                    
+                    x : 'x',
 
+                    columns: [
 
+                        data.column_1,
+                        data.column_2,
+                        data.column_3,
+                        data.column_4,
+                        data.column_5,
 
-				color: {
-	     			pattern: ['#54bdb4', '#f44652', '#f87652', '#9189b8' ]
-	    		},
+                    ],
 
-	    		tooltip: {
+                    // types: {
 
-			        // format: {
-			        //     // title: function (d) { return 'Data ' + d; },
-			        //     value: function (value, ratio, id) {
-			            	
-			        //     	txt = value+'MtCO<sub>2</sub>eq '
+                    //     'Agricultura, ganadería, silvicultura y otros usos de la tierra': 'line',
+                    //     'Energía': 'line',
+                    //     'Procesos industriales y uso de productos': 'line',
+                    //     'Residuos': 'line',
+                    // },
 
-			        //     	return txt;
+                    // groups: [
+                    //     ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos','Residuos']
+                    // ],
 
-			        //     }
-			        // }
 
-			        contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-			          	
-			        	var $$ = this, config = $$.config,
-			              
-						titleFormat = config.tooltip_format_title || defaultTitleFormat,
-						nameFormat = config.tooltip_format_name || function (name) { return name; },
-						valueFormat = config.tooltip_format_value || defaultValueFormat, 
-						text, i, title, value, name, bgcolor;
-						
-						for (i = 0; i < d.length; i++) {
-							
-							if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
+                },
 
-							if (! text) {
-								title = titleFormat ? titleFormat(d[i].x) : d[i].x;
-								text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
-								text = "<table class='" + $$.CLASS.tooltip + "'>";
-							}
+                color: {
+                    pattern: data.colores,
+                },
 
-							name = nameFormat(d[i].name);
-							value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
-							bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
+                point: {
+                    
+                    r: 3,
+                },
 
-							text += "<tr>";
-							text += "<td><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
-							text += "<td>" + d[i].value + " MtCO₂eq</td>";
-							text += "</tr>";
-						}
-						return text + "</table>";
-			      	}
-			    }
+                tooltip: {
 
-			});
+                    format: {
+                        // title: function (d) { return 'Data ' + d; },
+                        value: function (value, ratio, id) {
+                            
+                            txt = value+' MtCO₂eq'
 
-		});
-	}
+                            return txt;
 
+                        }
+                    }
 
-	if(f ==  "evolucion-sector" && sector_id == 'all')
-	{
-		var params = {
+                },
 
-					f: 		f
+               //      contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                        
+               //       var $$ = this, config = $$.config,
+                          
+                        // titleFormat = config.tooltip_format_title || defaultTitleFormat,
+                        // nameFormat = config.tooltip_format_name || function (name) { return name; },
+                        // valueFormat = config.tooltip_format_value || defaultValueFormat, 
+                        // text, i, title, value, name, bgcolor;
+                        
+                        // for (i = 0; i < d.length; i++) {
+                            
+                        //  if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
 
-					}
+                        //  if (! text) {
+                        //      title = titleFormat ? titleFormat(d[i].x) : d[i].x;
+                        //      text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
+                        //      text = "<table class='" + $$.CLASS.tooltip + "'>";
+                        //  }
 
-		$.getJSON("_post/ajax.php",params,function(data){
+                        //  name = nameFormat(d[i].name);
+                        //  value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
+                        //  bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
 
-			chart = c3.generate({
+                        //  text += "<tr>";
+                        //  text += "<td><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
+                        //  text += "<td align='right'>" + d[i].value + " MtCO₂eq</td>";
+                        //  text += "</tr>";
+                        // }
 
-				size: {
-					height: char_height
-				},
+                        // return text + "</table>";
 
-				data: {
-					
-					x : 'x',
+               //       }
+               //  }
 
-			        columns: [
+            });
 
-			            data.column_1,
-			            data.column_2,
-			            data.column_3,
-			            data.column_4,
-			            data.column_5,
+            
 
-			        ],
+        });
+    }
 
-			        // types: {
+    if(f ==  "evolucion-sector" && sector_id != 'all')
+    {
+        var params = {
 
-			        //     'Agricultura, ganadería, silvicultura y otros usos de la tierra': 'line',
-			        //     'Energía': 'line',
-			        //     'Procesos industriales y uso de productos': 'line',
-			        //     'Residuos': 'line',
-			        // },
+                    f:          f,
+                    sector_id:  sector_id
 
-			        // groups: [
-			        //     ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos','Residuos']
-			        // ],
+                    }
 
+        $.getJSON("_post/ajax.php",params,function(data){
 
-			    },
+            chart = c3.generate({
 
-				color: {
-	     			pattern: data.colores,
-	    		},
+                size: {
+                    height: char_height
+                },
 
-	    		point: {
-					
-					r: 3,
-				},
+                data: {
+                    
+                    x : 'x',
 
-	    		tooltip: {
+                    columns: [
 
-			        format: {
-			            // title: function (d) { return 'Data ' + d; },
-			            value: function (value, ratio, id) {
-			            	
-			            	txt = value+' MtCO₂eq'
+                        data.column_1,
+                        data.column_2,
 
-			            	return txt;
+                    ],
 
-			            }
-			        }
+                    type: 'line',
+                    
+                    onclick: function (d, element) { 
 
-			    },
+                        $("#chart_back").show();
+                        
+                        // CLICKEA EN UN SECTOR
+                        f = 'evolucion-sector-subactividad';
+                        sector_nombre = d.id;
 
-			   //      contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-			          	
-			   //      	var $$ = this, config = $$.config,
-			              
-						// titleFormat = config.tooltip_format_title || defaultTitleFormat,
-						// nameFormat = config.tooltip_format_name || function (name) { return name; },
-						// valueFormat = config.tooltip_format_value || defaultValueFormat, 
-						// text, i, title, value, name, bgcolor;
-						
-						// for (i = 0; i < d.length; i++) {
-							
-						// 	if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
+                        graficar();
 
-						// 	if (! text) {
-						// 		title = titleFormat ? titleFormat(d[i].x) : d[i].x;
-						// 		text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
-						// 		text = "<table class='" + $$.CLASS.tooltip + "'>";
-						// 	}
+                    },
 
-						// 	name = nameFormat(d[i].name);
-						// 	value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
-						// 	bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
+                },
 
-						// 	text += "<tr>";
-						// 	text += "<td><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
-						// 	text += "<td align='right'>" + d[i].value + " MtCO₂eq</td>";
-						// 	text += "</tr>";
-						// }
+                axis: {
+                    x: {
+                        
 
-						// return text + "</table>";
+                    },
+                },
 
-			   //    	}
-			   //  }
+                // point: {show: false},
 
-			});
+                color: {
+                    pattern: data.colores,
+                },
 
-			
+                point: {
+                    
+                    r: 3,
+                },
 
-		});
-	}
+                tooltip: {
 
-	if(f ==  "evolucion-sector" && sector_id != 'all')
-	{
-		var params = {
+                    format: {
+                        // title: function (d) { return 'Data ' + d; },
+                        value: function (value, ratio, id) {
 
-					f: 			f,
-					sector_id: 	sector_id
+                            value = Math.round(value*100)/100;
+                            
+                            txt = value+' MtCO₂eq'
 
-					}
+                            return txt;
 
-		$.getJSON("_post/ajax.php",params,function(data){
+                        }
+                    }
 
-			chart = c3.generate({
+                },
+                
 
-				size: {
-					height: char_height
-				},
+            });
 
-				data: {
-					
-					x : 'x',
+            
 
-			        columns: [
+        });
+    }
 
-			            data.column_1,
-			            data.column_2,
 
-			        ],
+    if(f == "evolucion-sector-subactividad" && sector_nombre != 'all')
+    {
+        var params = {
 
-			        type: 'line',
-			        
-			        onclick: function (d, element) { 
+                    f:      f,
+                    sector_nombre: sector_nombre
 
-			        	$("#chart_back").show();
-						
-						// CLICKEA EN UN SECTOR
-			        	f = 'evolucion-sector-subactividad';
-			        	sector_nombre = d.id;
+                    }
 
-			        	graficar();
+        $.getJSON("_post/ajax.php",params,function(data){
 
-			        },
+            var columns = [];
 
-			    },
+            for(i=1;i<20;i++)
+            {
+                if(typeof (eval('data.column_'+i)) != 'undefined')
+                {
+                    columns.push( eval('data.column_'+i) );
+                }
+            }
 
-			    axis: {
-			        x: {
-			            
 
-			        },
-			    },
 
-			    // point: {show: false},
+            chart = c3.generate({
 
-				color: {
-	     			pattern: data.colores,
-	    		},
+                size: {
+                    height: char_height
+                },
 
-	    		point: {
-					
-					r: 3,
-				},
+                data: {
+                    
+                    x : 'x',
 
-	    		tooltip: {
+                    columns: columns,
 
-			        format: {
-			            // title: function (d) { return 'Data ' + d; },
-			            value: function (value, ratio, id) {
+                    type:'line',
 
-			            	value = Math.round(value*100)/100;
-			            	
-			            	txt = value+' MtCO₂eq'
+                    // groups: [
+                    //     data.groups
+                    // ],
 
-			            	return txt;
+                    onclick: function (d, element) { 
 
-			            }
-			        }
 
-			    },
-			    
+                        // CLICKEA EN UN SECTOR
+                        f = 'evolucion-sector-subactividad-categoria';
+                        subactividad_nombre = d.id;
 
-			});
+                        graficar();
 
-			
+                    },
+                    
 
-		});
-	}
+                },
 
+                grid: {
+                     y: {
+                        lines: [{ value: 0 }] // add the value you want
+                    }
+                },
 
-	if(f == "evolucion-sector-subactividad" && sector_nombre != 'all')
-	{
-		var params = {
+                color: {
+                    pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333' ]
+                },
 
-					f: 		f,
-					sector_nombre: sector_nombre
+                point: {
+                    
+                    r: 3,
+                },
 
-					}
+                tooltip: {
 
-		$.getJSON("_post/ajax.php",params,function(data){
+                    format: {
+                        // title: function (d) { return 'Data ' + d; },
+                        value: function (value, ratio, id) {
 
-			var columns = [];
+                            value = Math.round(value*100)/100;
+                            
+                            txt = value+' MtCO₂eq'
 
-			for(i=1;i<20;i++)
-			{
-				if(typeof (eval('data.column_'+i)) != 'undefined')
-				{
-					columns.push( eval('data.column_'+i) );
-				}
-			}
+                            return txt;
 
+                        }
+                    }
 
+                },
 
-			chart = c3.generate({
+            });
 
-				size: {
-					height: char_height
-				},
+            
 
-				data: {
-					
-					x : 'x',
+        });
+    }
 
-			        columns: columns,
+    if(f == "evolucion-sector-subactividad-categoria" && sector_nombre != 'all')
+    {
+        var format = '';
 
-			        type:'line',
+        if(subactividad_nombre == 'Producción de cal') format = '.2f';
 
-			        // groups: [
-			        //     data.groups
-			        // ],
+        var params = {
 
-			        onclick: function (d, element) { 
+                    f: f,
+                    sector_nombre: sector_nombre,
+                    subactividad_nombre: subactividad_nombre
 
+                    }
 
-			        	// CLICKEA EN UN SECTOR
-			        	f = 'evolucion-sector-subactividad-categoria';
-			        	subactividad_nombre = d.id;
+        $("#chart_subactividad").html( subactividad_nombre );
+        
+        $.getJSON("_post/ajax.php",params,function(data){
 
-			        	graficar();
+            var columns = [];
 
-			        },
-			        
+            for(i=1;i<20;i++)
+            {
+                if(typeof (eval('data.column_'+i)) != 'undefined')
+                {
+                    columns.push( eval('data.column_'+i) );
+                }
+            }
 
-			    },
 
-			    grid: {
-			         y: {
-			            lines: [{ value: 0 }] // add the value you want
-			        }
-			    },
+            chart = c3.generate({
 
-				color: {
-	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333' ]
-	    		},
+                size: {
+                    height: char_height
+                },
 
-	    		point: {
-					
-					r: 3,
-				},
+                data: {
+                    
+                    x : 'x',
 
-	    		tooltip: {
+                    columns: columns,
 
-			        format: {
-			            // title: function (d) { return 'Data ' + d; },
-			            value: function (value, ratio, id) {
+                    type:'line',
 
-			            	value = Math.round(value*100)/100;
-			            	
-			            	txt = value+' MtCO₂eq'
+                    // groups: [
+                    //     data.groups
+                    // ],
 
-			            	return txt;
+                    //onclick: function (d, element) { console.log("onclick", d, element); },
 
-			            }
-			        }
+                },
 
-			    },
+                grid: {
+                     y: {
+                        lines: [{ value: 0 }] // add the value you want
+                    }
+                },
 
-			});
 
-			
 
-		});
-	}
+                color: {
+                    pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333' ]
+                },
 
-	if(f == "evolucion-sector-subactividad-categoria" && sector_nombre != 'all')
-	{
-		var format = '';
+                point: {
+                    
+                    r: 3,
+                },
 
-		if(subactividad_nombre == 'Producción de cal') format = '.2f';
+                axis: {
 
-		var params = {
+                    y: {
+                        tick: {
+                            format: d3.format(format)
+                        }
+                    },
+                },
 
-					f: f,
-					sector_nombre: sector_nombre,
-					subactividad_nombre: subactividad_nombre
+                tooltip: {
 
-					}
+                    format: {
+                        // title: function (d) { return 'Data ' + d; },
+                        value: function (value, ratio, id) {
 
-		$("#chart_subactividad").html( subactividad_nombre );
-		
-		$.getJSON("_post/ajax.php",params,function(data){
+                            value = Math.round(value*1000)/1000;
+                            
+                            txt = value+' MtCO₂eq'
 
-			var columns = [];
+                            return txt;
 
-			for(i=1;i<20;i++)
-			{
-				if(typeof (eval('data.column_'+i)) != 'undefined')
-				{
-					columns.push( eval('data.column_'+i) );
-				}
-			}
+                        }
+                    }
 
+                },
 
-			chart = c3.generate({
+            });
 
-				size: {
-					height: char_height
-				},
+            
 
-				data: {
-					
-					x : 'x',
+        });
+    }
 
-			        columns: columns,
 
-			        type:'line',
 
-			        // groups: [
-			        //     data.groups
-			        // ],
+    if(f ==  "indicador")
+    {
+        //'.2f';
 
-			        //onclick: function (d, element) { console.log("onclick", d, element); },
+        var format = '';
 
-			    },
+        if(indicador_id == 3 || indicador_id == 4 || indicador_id == 6 || indicador_id == 8) format = '.2f';
 
-			    grid: {
-			         y: {
-			            lines: [{ value: 0 }] // add the value you want
-			        }
-			    },
+        var params = {
 
+                    f:      f,
+                    indicador_id: indicador_id
 
+                    }
 
-				color: {
-	     			pattern: ['#a8cd53', '#ed4d90', '#41b87b', '#0087a1', '#27b8a7', '#f47060', '#f9ad4e', '#f15651', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333' ]
-	    		},
 
-	    		point: {
-					
-					r: 3,
-				},
 
-				axis: {
+        $.getJSON("_post/ajax.php",params,function(data){
 
-				    y: {
-				        tick: {
-				            format: d3.format(format)
-				        }
-				    },
-				},
+            $("#box_chart_title").show();
+            $("#chart_title").html(data.indicador.nombre);
+            $("#chart_unidad").html(data.unidad);
+            $("#chart_descripcion").show().html(data.descripcion);
 
-	    		tooltip: {
+            char_height = char_height - $("#chart_descripcion").outerHeight() - 34;
 
-			        format: {
-			            // title: function (d) { return 'Data ' + d; },
-			            value: function (value, ratio, id) {
+            chart = c3.generate({
 
-			            	value = Math.round(value*1000)/1000;
-							
-							txt = value+' MtCO₂eq'
+                size: {
+                    height: char_height
+                },
 
-			            	return txt;
+                data: {
+                    
+                    x : 'x',
 
-			            }
-			        }
+                    columns: [
 
-			    },
+                        data.column_1,
+                        data.column_2,
+                    ],
 
-			});
+                    type: 'line',
 
-			
+                },
 
-		});
-	}
+                color: {
+                    pattern: [ data.colores ],
+                },
 
+                point: {
+                    
+                    r: 3,
+                },
 
+                axis: {
 
-	if(f ==  "indicador")
-	{
-		//'.2f';
+                    y: {
+                        tick: {
+                            format: d3.format(format)
+                        }
+                    },
+                },
 
-		var format = '';
 
-		if(indicador_id == 3 || indicador_id == 4 || indicador_id == 6 || indicador_id == 8) format = '.2f';
 
-		var params = {
+            });
 
-					f: 		f,
-					indicador_id: indicador_id
+            
 
-					}
+        });
+    }
 
 
-
-		$.getJSON("_post/ajax.php",params,function(data){
-
-			$("#box_chart_title").show();
-			$("#chart_title").html(data.indicador.nombre);
-			$("#chart_unidad").html(data.unidad);
-			$("#chart_descripcion").show().html(data.descripcion);
-
-			char_height = char_height - $("#chart_descripcion").outerHeight() - 34;
-
-			chart = c3.generate({
-
-				size: {
-					height: char_height
-				},
-
-				data: {
-					
-					x : 'x',
-
-			        columns: [
-
-			            data.column_1,
-			            data.column_2,
-			        ],
-
-			        type: 'line',
-
-			    },
-
-				color: {
-	     			pattern: [ data.colores ],
-	    		},
-
-	    		point: {
-					
-					r: 3,
-				},
-
-	    		axis: {
-
-				    y: {
-				        tick: {
-				            format: d3.format(format)
-				        }
-				    },
-				},
-
-
-
-			});
-
-			
-
-		});
-	}
-
-
-	// chart_resize(chart);
+    // chart_resize(chart);
 
 }

@@ -22,36 +22,43 @@ class ReportController extends AbstractRestfulController
 
     public function indexAction()
     {
-        return new JsonModel([
-            "sector_1" => array(
-                "Agricultura, ganadería, silvicultura y otros usos de la tierra",
-                "144.340460"
-            ),
-            "colores" => array(
-                "#54bdb4",
-                "#f44652",
-                "#f87652",
-                "#9189b8"
-            ),
-            "descripciones" => array(
-                "En el sector se incluyen las emisiones y absorciones de tierras forestales, tierras de cultivo, pastizales, humedales, asentamientos y otras tierras. También incluye las emisiones por la gestión de ganado vivo y de estiércol, las emisiones de los suelos gestionados y las emisiones de las aplicaciones de fertilizantes.",
-                "Este sector incluye todas las emisiones de GEI que emanan de la combustión y las fugas de combustibles. Las emisiones de usos no energéticos de combustibles no suelen incluirse en este sector, sino que se declaran dentro de Procesos industriales y uso de productos.",
-                "Este sector incluye todas las emisiones de GEI generadas como resultado de la reacción entre materias primas empleadas en diferentes procesos químicos.",
-                "En el sector se incluyen las emisiones de GEI que se generan debido a la disposición, tratamiento y gestión de residuos sólidos y aguas residuales."
-            ),
-            "sector_2" => array(
-                "Energía",
-                "193.477196"
-            ),
-            "sector_3" => array(
-                "Procesos industriales y uso de productos",
-                "16.578409"
-            ),
-            "sector_4" => array(
-                "Residuos",
-                "13.899313"
-            )
-        ]);
+        $params = $this->params()->fromRoute();
+
+        $ano = (int)$params['ano'];
+
+        $response = [];
+
+        $sql = 'SELECT SUM(e.valor) as total, e.sector_id, s.nombre, s.color, s.descripcion
+                FROM emision e 
+                INNER JOIN sector s ON e.sector_id = s.id
+                WHERE e.ano = ?
+                GROUP BY e.sector_id';
+        
+        $parameters = [
+            $ano,
+        ];
+
+        $statement = $this->db->createStatement($sql, $parameters);
+
+        $results = $statement->execute();
+
+        if (!$results->isQueryResult()) {
+            $this->response->setStatusCode(404);
+        }
+
+        $i = 1;
+
+        while($a = $results->next())
+        {
+            $response['sector_'.$i][]      = $a['nombre'];
+            $response['sector_'.$i][]      = $a['total'];
+            $response['colores'][]         = $a['color'];
+            $response['descripciones'][]   = $a['descripcion'];
+
+            $i++;
+        }
+
+        return new JsonModel($response);
     }
 
     public function getReportBySectoralDistributionAction() 
