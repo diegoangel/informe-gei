@@ -14,13 +14,14 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
+        // Distribution Report Routes
             'informe-todos-sectores' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/informe/distribucion-sectores[/:ano]',
                     'defaults' => [
                         'controller' => Controller\DistributionReportController::class,
-                        'action'     => 'index',
+                        'action'     => 'getWholeSectoralDistribution',
                     ],
                 ],
             ],
@@ -53,7 +54,49 @@ return [
                         'action'     => 'getSectoralGasesDistribution',
                     ],
                 ],
-            ],          
+            ],        
+            // Evolution Report Routes
+            'informe-evolucion-sector' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/evolucion-sector[/:ano]',
+                    'defaults' => [
+                        'controller' => Controller\EvolutionReportController::class,
+                        'action'     => 'getSectoralEvolution',
+                    ],
+                ],
+            ], 
+            'informe-evolucion-sector-subactividad' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/evolucion-sector-subactividad[/:ano]',
+                    'defaults' => [
+                        'controller' => Controller\EvolutionReportController::class,
+                        'action'     => 'getSectoralEvolutionSubactivity',
+                    ],
+                ],
+            ], 
+            'informe-evolucion-sector-subactividad-categoria' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/evolucion-sector-subactividad-categoria[/:ano]',
+                    'defaults' => [
+                        'controller' => Controller\EvolutionReportController::class,
+                        'action'     => 'getSectoralEvolutionSubactivityCategory',
+                    ],
+                ],
+            ],                         
+            // Indicators Report Routes
+            'informe-indicador' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/indicador[/:indicador_id]',
+                    'defaults' => [
+                        'controller' => Controller\IndicatorsReportController::class,
+                        'action'     => 'getIndicator',
+                    ],
+                ],
+            ],             
         ],
     ],
     'controllers' => [

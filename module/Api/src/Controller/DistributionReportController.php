@@ -25,7 +25,7 @@ class DistributionReportController extends AbstractRestfulController
     /**
      *
      */
-    public function indexAction()
+    public function getWholeSectoralDistributionAction()
     {
         $params = $this->params()->fromRoute();
 

@@ -22,4 +22,18 @@ class EvolutionReportController extends AbstractRestfulController
         $this->db = $db;
     }
 
+    public function getSectoralEvolutionAction()
+    {
+
+    }
+
+    public function getSectoralEvolutionSubactivityAction()
+    {
+
+    }
+
+    public function getSectoralEvolutionSubactivityCategoryAction()
+    {
+
+    }
 }
