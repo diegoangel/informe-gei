@@ -27,5 +27,9 @@ class IndicatorsReportController extends AbstractRestfulController
         $params = $this->params()->fromRoute();
 
         $indicador_id = (int)$params['indicador_id'];
+
+        // TODO: insert remaining logic from ajax.php file  
+            
+        return new JsonModel($response);        
     }
 }

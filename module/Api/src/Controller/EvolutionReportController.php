@@ -24,16 +24,34 @@ class EvolutionReportController extends AbstractRestfulController
 
     public function getSectoralEvolutionAction()
     {
+        $params = $this->params()->fromRoute();
 
+        $ano = (int)$params['ano'];
+
+        // TODO: insert remaining logic from ajax.php file      
+
+        return new JsonModel($response);      
     }
 
     public function getSectoralEvolutionSubactivityAction()
     {
+        $params = $this->params()->fromRoute();
 
+        $ano = (int)$params['ano'];
+
+        // TODO: insert remaining logic from ajax.php file        
+
+        return new JsonModel($response);      
     }
 
     public function getSectoralEvolutionSubactivityCategoryAction()
     {
+        $params = $this->params()->fromRoute();
 
+        $ano = (int)$params['ano'];
+
+        // TODO: insert remaining logic from ajax.php file        
+
+        return new JsonModel($response);      
     }
 }
