@@ -14,10 +14,10 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
-            'informe' => [
-                'type' => Literal::class,
+            'informe-todos-sectores' => [
+                'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe',
+                    'route'    => '/informe/distribucion-sectores[/:ano]',
                     'defaults' => [
                         'controller' => Controller\ReportController::class,
                         'action'     => 'index',
@@ -30,10 +30,30 @@ return [
                     'route'    => '/informe/distribucion-sector[/:ano[/:sector_id]]',
                     'defaults' => [
                         'controller' => Controller\ReportController::class,
-                        'action'     => 'index',
+                        'action'     => 'getSectoralDistribution',
                     ],
                 ],
             ],
+            'informe-gas' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/distribucion-gases[/:ano]',
+                    'defaults' => [
+                        'controller' => Controller\ReportController::class,
+                        'action'     => 'getGasesDistribution',
+                    ],
+                ],
+            ],
+            'informe-gas-por-sector' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/distribucion-gases-sector[/:sector_id]',
+                    'defaults' => [
+                        'controller' => Controller\ReportController::class,
+                        'action'     => 'getSectoralGasesDistribution',
+                    ],
+                ],
+            ],          
         ],
     ],
     'controllers' => [

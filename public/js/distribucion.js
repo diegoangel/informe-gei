@@ -369,19 +369,14 @@ function graficar(){
     // if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() == 'all')
     if(f ==  "distribucion-sector" && dis_sector_id == 'all')
     {
-        /**
-         * DEPRECATED
+
         var params = {
+            sector_id: 'all',
+            ano: $("#select_ano").val(),
+            f: f
+        }
 
-                    sector_id:  'all',
-                    ano:        $("#select_ano").val(),
-                    f:          f
-
-                    }
-        */          
-        var ano = $("#select_ano").val();
-
-        $.get("/informe/"  + f + "/" + ano,{},function(data){
+        $.get("/informe/distribucion-sectores/" + params.ano, {}, function(data) {
 
             console.log(data);
 
@@ -479,13 +474,10 @@ function graficar(){
         var graph_data;
 
         var params = {
-
-                    sector_id:  dis_sector_id,
-                    ano:        $("#select_ano").val(),
-                    f:          f
-
-                    }
-
+            sector_id: dis_sector_id,
+            ano: $("#select_ano").val(),
+            f: f
+        }
 
         char_height -= 40;
         char_side = (char_height <= char_width) ? char_height : char_width;
@@ -494,8 +486,7 @@ function graficar(){
         $("#chart").hide();
         $("#chart_psd3").html('').show();
 
-
-        $.get("_post/ajax.php",params,function(resp){
+        $.get("informe/" + params.f + "/" + params.ano + "/" + params.sector_id, {}, function(resp) {
 
             graph_data = resp;
 
@@ -590,13 +581,11 @@ function graficar(){
     if(f ==  "distribucion-gases")
     {
         var params = {
+            ano: $("#select_ano").val(),
+            f: f
+        }
 
-                    ano:    $("#select_ano").val(),
-                    f:      f
-
-                    }
-
-        $.getJSON("_post/ajax.php",params,function(data){
+        $.get("informe/" + params.f + "/" + params.ano, {}, function(data) {
 
 
 
