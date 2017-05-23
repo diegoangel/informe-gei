@@ -691,13 +691,11 @@ function graficar(){
     {
 
         var params = {
+             ano: $("#select_ano").val(),
+            f: f
+        }
 
-                    ano:    $("#select_ano").val(),
-                    f:      f
-
-                    }
-
-        $.getJSON("_post/ajax.php",params,function(data){
+        $.getJSON("informe/" + f +"/" + ano, {}, function(data) {
 
             
             chart = c3.generate({

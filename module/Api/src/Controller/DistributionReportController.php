@@ -10,7 +10,7 @@ use Api\Helper\Utils;
 /**
  *
  */
-class ReportController extends AbstractRestfulController
+class DistributionReportController extends AbstractRestfulController
 {
     /**
      *
@@ -260,10 +260,10 @@ class ReportController extends AbstractRestfulController
         $column = 2;
 
         while ($sector = $arrSectores->next()) {
-            $arrReturn['column_'.$column][] = $sector;
+            $response['column_'.$column][] = $sector;
 
             while ($gas = $arrGases->next()) {
-                $arrReturn['column_'.$column][] = Utils::returnSectorGas($arr, $sector, $gas['nombre']);
+              $response['column_'.$column][] = Utils::returnSectorGas($arr, $sector, $gas['nombre']);
             }
             $column++;
         }

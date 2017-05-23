@@ -7,11 +7,11 @@
 
 namespace ApiTest\Controller;
 
-use Api\Controller\ReportController;
+use Api\Controller\DistributionReportController;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
-class ReportControllerTest extends AbstractHttpControllerTestCase
+class DistributionReportControllerTest extends AbstractHttpControllerTestCase
 {
     public function setUp()
     {

@@ -19,7 +19,7 @@ return [
                 'options' => [
                     'route'    => '/informe/distribucion-sectores[/:ano]',
                     'defaults' => [
-                        'controller' => Controller\ReportController::class,
+                        'controller' => Controller\DistributionReportController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -29,7 +29,7 @@ return [
                 'options' => [
                     'route'    => '/informe/distribucion-sector[/:ano[/:sector_id]]',
                     'defaults' => [
-                        'controller' => Controller\ReportController::class,
+                        'controller' => Controller\DistributionReportController::class,
                         'action'     => 'getSectoralDistribution',
                     ],
                 ],
@@ -39,7 +39,7 @@ return [
                 'options' => [
                     'route'    => '/informe/distribucion-gases[/:ano]',
                     'defaults' => [
-                        'controller' => Controller\ReportController::class,
+                        'controller' => Controller\DistributionReportController::class,
                         'action'     => 'getGasesDistribution',
                     ],
                 ],
@@ -47,9 +47,9 @@ return [
             'informe-gas-por-sector' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe/distribucion-gases-sector[/:sector_id]',
+                    'route'    => '/informe/distribucion-gases-sector[/:ano]',
                     'defaults' => [
-                        'controller' => Controller\ReportController::class,
+                        'controller' => Controller\DistributionReportController::class,
                         'action'     => 'getSectoralGasesDistribution',
                     ],
                 ],
@@ -58,8 +58,9 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\ReportController::class => InvokableFactory::class,
-            Controller\ReportController::class => Factory\ReportControllerFactory::class,
+            Controller\DistributionReportController::class => Factory\DistributionReportControllerFactory::class,
+            Controller\EvolutionReportController::class => Factory\EvolutionReportControllerFactory::class,
+             Controller\IndicatorsReportController::class => Factory\IndicatorsReportControllerFactory::class,     
         ],
     ],
     'view_manager' => [
