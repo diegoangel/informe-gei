@@ -41,7 +41,7 @@ final class Utils
 
     public static function returnCategoriaAno($arr, $categoria, $ano)
     {
-        foreach ($arr as $val) {
+        while($val = $arr->next()) {
             if (trim($val['nombre']) == trim($categoria) && $val['ano'] == $ano) {
                 return $val['valor'];
             }

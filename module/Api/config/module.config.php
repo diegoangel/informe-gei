@@ -79,7 +79,7 @@ return [
             'informe-evolucion-sector-subactividad' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe/evolucion-sector-subactividad[/:ano]',
+                    'route'    => '/informe/evolucion-sector-subactividad[/:sector_id]',
                     'defaults' => [
                         'controller' => Controller\EvolutionReportController::class,
                         'action'     => 'getSectoralEvolutionSubactivity',
@@ -89,7 +89,7 @@ return [
             'informe-evolucion-sector-subactividad-categoria' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe/evolucion-sector-subactividad-categoria[/:ano]',
+                    'route'    => '/informe/evolucion-sector-subactividad-categoria[/:sector_id[/:subactividad_id]]',
                     'defaults' => [
                         'controller' => Controller\EvolutionReportController::class,
                         'action'     => 'getSectoralEvolutionSubactivityCategory',

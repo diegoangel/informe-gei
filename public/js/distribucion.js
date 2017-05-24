@@ -11,6 +11,38 @@ arrSectores[2] = 'Energía';
 arrSectores[3] = 'Procesos industriales y uso de productos';
 arrSectores[4] = 'Residuos';
 
+var arrSubActividad = {};
+arrSubActividad['Aguas residuales domésticas'] = 26;
+arrSubActividad['Aguas residuales industriales'] = 27;
+arrSubActividad['Cambio de carbono en suelos'] = 5;
+arrSubActividad['Eliminación de residuos sólidos '] = 28;
+arrSubActividad['Emisiones fugitivas'] = 13;
+arrSubActividad['Excretas en pasturas'] = 4;
+arrSubActividad['Fermentación entérica'] = 2;
+arrSubActividad['Gestión de estiércol'] = 3;
+arrSubActividad['Incineración de residuos'] = 29;
+arrSubActividad['Industrias de la energía'] = 12;
+arrSubActividad['Industrias manufactureras y de la construcción'] = 11;
+arrSubActividad['Otros industria de los minerales'] = 14;
+arrSubActividad['Otros industrias de los metales'] = 15;
+arrSubActividad['Otros sectores'] = 9;
+arrSubActividad['Pastizales'] = 8;
+arrSubActividad['Producción de ácido nítrico'] = 16;
+arrSubActividad['Producción de aluminio'] = 17;
+arrSubActividad['Producción de amoníaco'] = 18;
+arrSubActividad['Producción de cal'] = 19;
+arrSubActividad['Producción de carburo'] = 20;
+arrSubActividad['Producción de cemento'] = 21;
+arrSubActividad['Producción de ceniza de sosa'] = 22;
+arrSubActividad['Producción de hierro y acero'] = 23;
+arrSubActividad['Producción fluoroquímica'] = 25;
+arrSubActividad['Producción petroquímica y de negro de humo'] = 24;
+arrSubActividad['Tierras de cultivo'] = 6;
+arrSubActividad['Tierras forestales'] = 7;
+arrSubActividad['Transporte'] = 10;
+arrSubActividad['Uso de suelos'] = 1;
+
+
 
 $(document).ready(function(){
 
@@ -834,7 +866,7 @@ function graficar(){
 
                     }
 
-        $.getJSON("_post/ajax.php",params,function(data){
+        $.getJSON("informe/evolucion-sector/"+params.sector_id, {}, function(data) {
 
             chart = c3.generate({
 
@@ -861,7 +893,7 @@ function graficar(){
                         
                         // CLICKEA EN UN SECTOR
                         f = 'evolucion-sector-subactividad';
-                        sector_nombre = d.id;
+                        sector_id:  sector_id
 
                         graficar();
 
@@ -893,6 +925,8 @@ function graficar(){
                         // title: function (d) { return 'Data ' + d; },
                         value: function (value, ratio, id) {
 
+
+
                             value = Math.round(value*100)/100;
                             
                             txt = value+' MtCO₂eq'
@@ -913,16 +947,17 @@ function graficar(){
     }
 
 
-    if(f == "evolucion-sector-subactividad" && sector_nombre != 'all')
+    if(f == "evolucion-sector-subactividad" && sector_id != 'all')
     {
         var params = {
 
                     f:      f,
-                    sector_nombre: sector_nombre
+                    sector_id: sector_id
 
                     }
 
-        $.getJSON("_post/ajax.php",params,function(data){
+        // $.getJSON("_post/ajax.php",params,function(data){
+        $.getJSON("informe/evolucion-sector-subactividad/"+params.sector_id, {}, function(data) {
 
             var columns = [];
 
@@ -960,8 +995,10 @@ function graficar(){
                         // CLICKEA EN UN SECTOR
                         f = 'evolucion-sector-subactividad-categoria';
                         subactividad_nombre = d.id;
+                        sector_id = sector_id;
 
                         graficar();
+
 
                     },
                     
@@ -1007,23 +1044,27 @@ function graficar(){
         });
     }
 
-    if(f == "evolucion-sector-subactividad-categoria" && sector_nombre != 'all')
+
+    if(f == "evolucion-sector-subactividad-categoria")
     {
+
         var format = '';
 
         if(subactividad_nombre == 'Producción de cal') format = '.2f';
+        if(subactividad_nombre == 'Aguas residuales domésticas') format = '.1f';
 
         var params = {
 
                     f: f,
-                    sector_nombre: sector_nombre,
-                    subactividad_nombre: subactividad_nombre
+                    sector_id: sector_id,
+                    subactividad_id: arrSubActividad[subactividad_nombre]
 
                     }
 
         $("#chart_subactividad").html( subactividad_nombre );
         
-        $.getJSON("_post/ajax.php",params,function(data){
+        // $.getJSON("_post/ajax.php",params,function(data){
+        $.getJSON("informe/evolucion-sector-subactividad-categoria/"+params.sector_id+'/'+params.subactividad_id, {}, function(data) {
 
             var columns = [];
 
@@ -1127,7 +1168,9 @@ function graficar(){
 
 
 
-        $.getJSON("_post/ajax.php",params,function(data){
+        //$.getJSON("informe/",params,function(data){
+        $.getJSON("informe/indicador/"+params.indicador_id, {}, function(data) {
+
 
             $("#box_chart_title").show();
             $("#chart_title").html(data.indicador.nombre);
