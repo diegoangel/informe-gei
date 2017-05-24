@@ -1,26 +1,60 @@
+#chart_psd3_svg
+{
+    /* ESTO ES PARA QUE CUANDO CRECEN LAS AREAS NO SE CHOCQUE EL BORDE */
+    padding: 3px;
+
+}
+
 text {
     font-family: sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     pointer-events: none;
+    z-index: 99;
+    position: relative;
+}
+
+g.arc path
+{
+    transition: .1s ease-in-out;
 }
 
 g.arc path:hover {
-    fill: orange;
+    /* fill: orange; */
+
+    -ms-transform: scale(1.01, 1.01); /* IE 9 */
+    -webkit-transform: scale(1.01, 1.01); /* Safari */
+    transform: scale(1.01, 1.01);
 }
 
-.psd3Tooltip {
+.psd3Tooltip
+{
     position: absolute;
-    max-width: 150px;
-    height: auto;
-    padding: 10px;
-    background-color: white;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    pointer-events: none;
+}
+
+.psd3Tooltip table
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #fff;
+    empty-cells: show;
+    -webkit-box-shadow: 7px 7px 12px -9px #777777;
+    -moz-box-shadow: 7px 7px 12px -9px #777777;
+    box-shadow: 7px 7px 12px -9px #777777;
+    opacity: 0.9;
+}
+
+.psd3Tooltip table tr
+{
+    border: 1px solid #CCC;
+}
+
+.psd3Tooltip table tr td,
+.psd3Tooltip table tr th
+{
+    font-size: 13px;
+    padding: 3px 6px;
+    background-color: #fff;
+    border-left: 1px dotted #999;
 }
 
 .psd3Hidden {
@@ -28,8 +62,5 @@ g.arc path:hover {
 }
 
 .psd3Tooltip p {
-    margin: 0;
-    font-family: sans-serif;
-    font-size: 16px;
-    line-height: 20px;
+    
 }

@@ -14,7 +14,7 @@
 return [
     'db' => [
         'driver' => 'Pdo',
-        'dsn'    => 'mysql:dbname=informe_gei;host=localhost;charset=utf8',
+        'dsn'    => 'mysql:dbname=min_ambiente;host=127.0.0.1;charset=utf8',
         'driver_options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ],

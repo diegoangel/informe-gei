@@ -376,7 +376,7 @@ function graficar(){
             f: f
         }
 
-        $.get("/informe/distribucion-sectores/" + params.ano, {}, function(data) {
+        $.getJSON("informe/distribucion-sectores/" + params.ano, {}, function(data) {
 
             console.log(data);
 
@@ -471,7 +471,7 @@ function graficar(){
     // if(f ==  "distribucion-sector" && $("input[type=radio][name=dis_sector_id]").filter(':checked').val() != 'all')
     if(f ==  "distribucion-sector" && dis_sector_id != 'all')
     {
-        var graph_data;
+        var graph_data, totalActividades;;
 
         var params = {
             sector_id: dis_sector_id,
@@ -486,11 +486,16 @@ function graficar(){
         $("#chart").hide();
         $("#chart_psd3").html('').show();
 
-        $.get("informe/" + params.f + "/" + params.ano + "/" + params.sector_id, {}, function(resp) {
-
-            graph_data = resp;
+        $.getJSON("informe/" + params.f + "/" + params.ano + "/" + params.sector_id, {}, function(resp) {
 
             console.log(graph_data);
+
+            graph_data = resp.graph_data;
+
+            totalActividades = resp.totalActividades;
+
+            html = "<h2 style='color:"+resp.sector.color+"'>"+resp.sector.nombre+"</h2>"+resp.sector.descripcion;
+            $("#chart_descripcion").show().html(html); 
 
         
         
@@ -504,68 +509,54 @@ function graficar(){
             height: char_side,
 
             data: graph_data,
-            
-            // data: [
-
-            //  {
-            //      value: 20,
-            //      label: "Maharashtra",
-            //      inner: [
-
-            //          {
-              //                value: 10,
-              //                label: "Pune",
-              //                inner: [{
-                 //                 value: 5,
-                 //                 label: "Surat"
-                 //             }, {
-                 //                 value: 5,
-                 //                 label: "Rajkot"
-                 //             }]
-              //            }, 
-              //            {
-              //                value: 10,
-              //                label: "Mumbai",
-              //                inner: [{
-                 //                 value: 2,
-                 //                 label: "Surat"
-                 //             }, {
-                 //                 value: 8,
-                 //                 label: "Rajkot"
-                 //             }]
-              //            }
-            //      ]
-            //  }, 
-            //  {
-            //      value: 50,
-            //      label: "Gujarat",
-            //      inner: [{
-            //          value: 20,
-            //          label: "Surat"
-            //      }, {
-            //          value: 30,
-            //          label: "Rajkot"
-            //      }]
-            //  }
-
-            // ],
-
 
             label: function(d) {
-                return d.data.label + ":" + d.data.value;
+
+                perc = d.data.value*100/totalActividades;
+                perc = Math.round(perc*10) / 10;
+                
+                if(perc < 2) {
+
+                    return '';
+                
+                }
+                else{
+                    return d.data.value
+                    return perc+'%';
+                }
             },
 
             tooltip: function(d) {
-                return "<p>There are " + d.value + " medical colleges in " + d.label + ".</p>";
+                // return "<p>There are " + d.value + " medical colleges in " + d.label + ".</p>";
+
+                
+
+                perc = d.value*100/totalActividades;
+                perc = Math.round(perc*100) / 100;
+
+                text = "<table class=''><tr><th colspan='2'>" + d.label + "</th></tr>";
+                text += "<tr>";
+                text += "<td align='center'>" + perc + "%</td>";
+                text += "<td align='center'>" + d.value + " MtCO₂eq</td>";
+                text += "</tr>";
+                text + "</table>";
+
+                return text;
             },
 
-            donutRadius: 50,
+            donutRadius: 0,
+
+            strokeWidth: 1,
 
             transition: "linear",
     
-            transitionDuration: 500,
+            transitionDuration: 100,
 
-            labelColor: "white"
+            labelColor: "white",
+
+            colors: d3.scale.ordinal().range([resp.sector.color, '#93b8a5', '#41b87b', '#9ba06a', '#27b8a7', '#f47060', '#c7df86', '#f19f9c', '#f8bb99', '#9da0a0', '#91709e', '#6d5575', '#0000ff', '#00ffff', '#ff00ff', '#333333'])
+
+
 
         };
       
@@ -585,7 +576,8 @@ function graficar(){
             f: f
         }
 
-        $.get("informe/" + params.f + "/" + params.ano, {}, function(data) {
+        
+        $.getJSON("informe/" + params.f + "/" + params.ano, {}, function(data) {
 
 
 
@@ -662,7 +654,7 @@ function graficar(){
                                 text = "<table class='" + $$.CLASS.tooltip + "'>";
                             }
 
-                            console.log(d);
+                            // console.log(d);
 
                             name = nameFormat(d[i].name);
                             value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
@@ -735,17 +727,6 @@ function graficar(){
 
                 tooltip: {
 
-                    // format: {
-                    //     // title: function (d) { return 'Data ' + d; },
-                    //     value: function (value, ratio, id) {
-                            
-                    //      txt = value+'MtCO<sub>2</sub>eq '
-
-                    //      return txt;
-
-                    //     }
-                    // }
-
                     contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
                         
                         var $$ = this, config = $$.config,
@@ -786,13 +767,10 @@ function graficar(){
 
     if(f ==  "evolucion-sector" && sector_id == 'all')
     {
-        var params = {
 
-                    f:      f
-
-                    }
-
-        $.getJSON("_post/ajax.php",params,function(data){
+        //$.getJSON("_post/ajax.php",params,function(data){
+        // $.getJSON("informe/distribucion-sectores/" + params.ano, {}, function(data) {
+        $.getJSON("informe/evolucion-sectores", {}, function(data) {
 
             chart = c3.generate({
 
@@ -813,19 +791,6 @@ function graficar(){
                         data.column_5,
 
                     ],
-
-                    // types: {
-
-                    //     'Agricultura, ganadería, silvicultura y otros usos de la tierra': 'line',
-                    //     'Energía': 'line',
-                    //     'Procesos industriales y uso de productos': 'line',
-                    //     'Residuos': 'line',
-                    // },
-
-                    // groups: [
-                    //     ['Agricultura, ganadería, silvicultura y otros usos de la tierra','Energía','Procesos industriales y uso de productos','Residuos']
-                    // ],
-
 
                 },
 
@@ -852,40 +817,6 @@ function graficar(){
                     }
 
                 },
-
-               //      contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-                        
-               //       var $$ = this, config = $$.config,
-                          
-                        // titleFormat = config.tooltip_format_title || defaultTitleFormat,
-                        // nameFormat = config.tooltip_format_name || function (name) { return name; },
-                        // valueFormat = config.tooltip_format_value || defaultValueFormat, 
-                        // text, i, title, value, name, bgcolor;
-                        
-                        // for (i = 0; i < d.length; i++) {
-                            
-                        //  if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
-
-                        //  if (! text) {
-                        //      title = titleFormat ? titleFormat(d[i].x) : d[i].x;
-                        //      text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : "");
-                        //      text = "<table class='" + $$.CLASS.tooltip + "'>";
-                        //  }
-
-                        //  name = nameFormat(d[i].name);
-                        //  value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
-                        //  bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
-
-                        //  text += "<tr>";
-                        //  text += "<td><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
-                        //  text += "<td align='right'>" + d[i].value + " MtCO₂eq</td>";
-                        //  text += "</tr>";
-                        // }
-
-                        // return text + "</table>";
-
-               //       }
-               //  }
 
             });
 

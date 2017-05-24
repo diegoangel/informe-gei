@@ -16,8 +16,10 @@ final class Utils
 
     public static function returnSectorAno($arr, $sector, $ano)
     {
-        foreach ($arr as $val) {
+        while($val = $arr->next()) {
+
             if ($val['sector'] == $sector && $val['ano'] == $ano) {
+
                 return $val['total'];
             }
         }
@@ -28,7 +30,8 @@ final class Utils
     public static function returnSubactividadAno($arr, $subactividad, $ano)
     {
         foreach ($arr as $val) {
-            if (trim($val['nombre']) == trim($subactividad) && $val['ano'] == $ano) {
+            if (trim($val['nombre']) == trim($subactividad) && $val['ano'] == $ano)
+            {
                 return $val['valor'];
             }
         }

@@ -56,10 +56,20 @@ return [
                 ],
             ],        
             // Evolution Report Routes
+            'informe-evolucion-sectores' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/informe/evolucion-sectores',
+                    'defaults' => [
+                        'controller' => Controller\EvolutionReportController::class,
+                        'action'     => 'getWholeSectoralEvolution',
+                    ],
+                ],
+            ], 
             'informe-evolucion-sector' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe/evolucion-sector[/:ano]',
+                    'route'    => '/informe/evolucion-sector[/:sector_id]',
                     'defaults' => [
                         'controller' => Controller\EvolutionReportController::class,
                         'action'     => 'getSectoralEvolution',

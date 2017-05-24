@@ -23,7 +23,7 @@ class DistributionReportController extends AbstractRestfulController
     }
 
     /**
-     *
+     * DISTRIBUCION DE TODOS LOS SECTORES
      */
     public function getWholeSectoralDistributionAction()
     {
@@ -66,13 +66,14 @@ class DistributionReportController extends AbstractRestfulController
     }
 
     /**
-     *
+     *  DISTRIBUCION POR SECTOR
      */
     public function getSectoralDistributionAction()
     {
         $params = $this->params()->fromRoute();
 
         $response = [];
+        $arrGraphData = [];
 
         $ano = (int)$params['ano'];
         $sector_id  = (int)$params['sector_id'];
@@ -82,6 +83,7 @@ class DistributionReportController extends AbstractRestfulController
             INNER JOIN sector s ON e.sector_id = s.id
             INNER JOIN actividad a ON a.id = e.actividad_id
             WHERE 1 
+            AND e.valor > 0
             AND e.sector_id = ?
             AND e.ano = ?
             GROUP BY a.id
@@ -96,17 +98,23 @@ class DistributionReportController extends AbstractRestfulController
 
         $results = $statement->execute();
 
+        $totalActividades = 0;
+
         while ($a = $results->next()) {
+
             $arrActividades = [
                 'label' => $a['nombre'],
-                'value' => round($a['total'])
+                'value' => round($a['total'],2)
             ];
 
-            // TODO: ACA EN CADA ACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA SUBACTIVIDAD
+            $totalActividades += $a['total'];
+
+            // EN CADA ACTIVIDAD HAGO QUE HACER EL SEARCH DE LA SUBACTIVIDAD
             $sql = 'SELECT SUM(e.valor) as total, a.id, a.nombre
                 FROM emision e 
                 INNER JOIN subactividad a ON a.id = e.subactividad_id
                 WHERE 1 
+                AND e.valor > 0
                 AND e.sector_id = ?
                 AND e.actividad_id = ?
                 AND e.ano = ?
@@ -121,24 +129,29 @@ class DistributionReportController extends AbstractRestfulController
 
             $statement = $this->db->createStatement($sql, $parameters);
 
-            $results = $statement->execute();
+            $results2 = $statement->execute();
 
-            if ($results->isQueryResult()) {
+            if ($results2->isQueryResult()) {
                 $arrSubactividades = [];
 
                 $i = 0;
 
-                while ($a2 = $results->next()) {
+                while ($a2 = $results2->next()) {
+
                     $arrSubactividades[$i] = [
                         'label' => $a2['nombre'],
-                        'value' => round($a2['total'])
+                        'value' => round($a2['total'],2)
                     ];
+
+
+                    if($sector_id == 3 || $sector_id == 4){ continue; }
 
                     // TODO: ACA EN CADA SUBACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA CATEGORIA
                     $sql = 'SELECT SUM(e.valor) as total, a.id, a.nombre
                         FROM emision e 
                         INNER JOIN categoria a ON a.id = e.categoria_id
                         WHERE 1 
+                        AND e.valor > 0
                         AND e.sector_id = ?
                         AND e.actividad_id = ?
                         AND e.subactividad_id = ?
@@ -155,25 +168,60 @@ class DistributionReportController extends AbstractRestfulController
 
                     $statement = $this->db->createStatement($sql, $parameters);
 
-                    $results = $statement->execute();
+                    $results3 = $statement->execute();
 
-                    if ($results->isQueryResult()) {
+                    if ($results3->isQueryResult()) {
                         $arrCategorias = [];
 
-                        while ($a3 = $results->next()) {
+                        while ($a3 = $results3->next()) {
                             $arrCategorias[] = [
                                 'label'=>$a3['nombre'],
-                                'value'=>round($a3['total'])
+                                'value'=>round($a3['total'],2)
                             ];
                         }
                         $arrSubactividades[$i]['inner'] = $arrCategorias;
                     }
                     $i++;
+
+
                 }
+
                 $arrActividades['inner'] = $arrSubactividades;
             }
-            $response[] = $arrActividades;
+            
+            $arrGraphData[] = $arrActividades;
         }
+
+
+        $response['graph_data'] = $arrGraphData;
+        $response['totalActividades'] = $totalActividades;
+
+
+
+        /**
+         *  BUSCO LA INFO DEL SECTOR
+         */
+
+        $sql = 'SELECT * FROM sector WHERE id = ?';
+        
+        $parameters = [
+            $sector_id
+        ];
+
+        $statement = $this->db->createStatement($sql, $parameters);
+
+        $results = $statement->execute();
+
+        if (!$results->isQueryResult()) {
+            $this->response->setStatusCode(404);
+        }
+
+        while ($arrSector = $results->next()) {
+
+            $response['sector'] = $arrSector;
+
+        }
+
         return new JsonModel($response);
     }
 
