@@ -22,7 +22,7 @@ class IndicatorsReportController extends AbstractRestfulController
         $this->db = $db;
     }
 
-    public function getInndicatorAction()
+    public function getIndicatorAction()
     {
         $params = $this->params()->fromRoute();
 
