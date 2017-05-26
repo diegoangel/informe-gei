@@ -17,6 +17,7 @@ Clonar el proyecto y cambiar a la rama de desarrollo zf3-version.
 $ git clone git@github.com:diegoangel/informe-gei.git
 $ cd informe-gei
 $ git checkout zf3-version
+$ composer install
 ```
 
 Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
