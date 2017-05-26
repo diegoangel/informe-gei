@@ -101,10 +101,9 @@ class DistributionReportController extends AbstractRestfulController
         $totalActividades = 0;
 
         while ($a = $results->next()) {
-
             $arrActividades = [
                 'label' => $a['nombre'],
-                'value' => round($a['total'],2)
+                'value' => round($a['total'], 2)
             ];
 
             $totalActividades += $a['total'];
@@ -137,14 +136,15 @@ class DistributionReportController extends AbstractRestfulController
                 $i = 0;
 
                 while ($a2 = $results2->next()) {
-
                     $arrSubactividades[$i] = [
                         'label' => $a2['nombre'],
-                        'value' => round($a2['total'],2)
+                        'value' => round($a2['total'], 2)
                     ];
 
 
-                    if($sector_id == 3 || $sector_id == 4){ continue; }
+                    if ($sector_id == 3 || $sector_id == 4) {
+                        continue;
+                    }
 
                     // TODO: ACA EN CADA SUBACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA CATEGORIA
                     $sql = 'SELECT SUM(e.valor) as total, a.id, a.nombre
@@ -176,14 +176,12 @@ class DistributionReportController extends AbstractRestfulController
                         while ($a3 = $results3->next()) {
                             $arrCategorias[] = [
                                 'label'=>$a3['nombre'],
-                                'value'=>round($a3['total'],2)
+                                'value'=>round($a3['total'], 2)
                             ];
                         }
                         $arrSubactividades[$i]['inner'] = $arrCategorias;
                     }
                     $i++;
-
-
                 }
 
                 $arrActividades['inner'] = $arrSubactividades;
@@ -217,9 +215,7 @@ class DistributionReportController extends AbstractRestfulController
         }
 
         while ($arrSector = $results->next()) {
-
             $response['sector'] = $arrSector;
-
         }
 
         return new JsonModel($response);
@@ -311,7 +307,7 @@ class DistributionReportController extends AbstractRestfulController
             $response['column_'.$column][] = $sector;
 
             while ($gas = $arrGases->next()) {
-              $response['column_'.$column][] = Utils::returnSectorGas($arr, $sector, $gas['nombre']);
+                $response['column_'.$column][] = Utils::returnSectorGas($arr, $sector, $gas['nombre']);
             }
             $column++;
         }

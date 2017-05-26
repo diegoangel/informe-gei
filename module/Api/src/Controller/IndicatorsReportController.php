@@ -32,18 +32,17 @@ class IndicatorsReportController extends AbstractRestfulController
 
         // DATOS GENERALES DEL INDICADOR
 
-        $sql = "SELECT * FROM indicador WHERE id = ?";  
+        $sql = "SELECT * FROM indicador WHERE id = ?";
 
         $params = [
            
             $indicador_id
         ];
 
-        $statement = $this->db->createStatement($sql,$params);
+        $statement = $this->db->createStatement($sql, $params);
         $arrIndicador = $statement->execute();
 
-        while($indicador = $arrIndicador->next())
-        {
+        while ($indicador = $arrIndicador->next()) {
             $response['indicador'] = $indicador;
             break;
         }
@@ -58,23 +57,22 @@ class IndicatorsReportController extends AbstractRestfulController
             $indicador_id
         ];
 
-        $statement = $this->db->createStatement($sql,$params);
+        $statement = $this->db->createStatement($sql, $params);
         $arrValores = $statement->execute();
 
         $arrAnos = [];
         $arrValor = [];
 
-        while($a = $arrValores->next())
-        {
+        while ($a = $arrValores->next()) {
             // SI EL NOMBRE TIENE UNA COMA LO TENGO QUE PONER ENTRE COMILLAS
             $arrAnos[]  = $a['ano'];
             $arrValor[] = $a['valor'];
         }
 
-        $arrAnos = array_merge( array('x'), $arrAnos );
+        $arrAnos = array_merge(array('x'), $arrAnos);
         $response['column_1'] = $arrAnos;
 
-        $arrValor = array_merge( array($indicador['nombre']), $arrValor );
+        $arrValor = array_merge(array($indicador['nombre']), $arrValor);
         $response['column_2'] = $arrValor;
 
         $response['unidad'] = $indicador['unidad'];
@@ -82,6 +80,6 @@ class IndicatorsReportController extends AbstractRestfulController
 
         $response['colores'] = "#8064a2";
 
-        return new JsonModel($response);        
+        return new JsonModel($response);
     }
 }
