@@ -26,5 +26,9 @@
   "dependencies": {
     "c3": "^0.4.11",
     "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "qunit": "^2.3.2",
+    "jquery-mockjax": "^2.2.1"
   }
 }

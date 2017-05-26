@@ -7,18 +7,28 @@
 
 namespace ApiTest\Controller;
 
+use PDO;
 use Api\Controller\DistributionReportController;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use PHPUnit\DbUnit\TestCaseTrait;
+use GuzzleHttp\Client as HttpClient;
 
 class DistributionReportControllerTest extends AbstractHttpControllerTestCase
 {
+
+    use TestCaseTrait;
+
+    static private $pdo = null;
+
+    private $conn = null;
+
+    private $httpClient = null;
+
+    private $baseUri = '0.0.0.0';
+
     public function setUp()
     {
-        // The module configuration should still be applicable for tests.
-        // You can override configuration here with test case specific values,
-        // such as sample view templates, path stacks, module_listener_options,
-        // etc.
         $configOverrides = [];
 
         $this->setApplicationConfig(ArrayUtils::merge(
@@ -26,23 +36,45 @@ class DistributionReportControllerTest extends AbstractHttpControllerTestCase
             $configOverrides
         ));
 
-        parent::setUp();
+        $services = $this->getApplicationServiceLocator();
+        $config = $services->get('config');
+        unset($config['db']);
+        $services->setAllowOverride(true);
+        $services->setService('config', $config);
+        $services->setAllowOverride(false);
+
+        $this->httpClient = new HttpClient([
+            'base_uri' => $this->baseUri
+        ]);
+
+        parent::setUp();        
     }
 
-    public function testIndexActionCanBeAccessed()
+    final public function getConnection()
     {
-        $this->dispatch('/', 'GET');
+        if ($this->conn === null) {
+            if (self::$pdo == null) {
+                self::$pdo = new PDO('sqlite::memory:');
+            }
+            $this->conn = $this->createDefaultDBConnection(self::$pdo, ':memory:');
+        }
+
+        return $this->conn;
+    }
+
+    protected function getDataSet()
+    {
+        return $this->createXMLDataSet(__DIR__ . '/../fixtures/database.xml');
+    }
+
+    public function testGetWholeSectoralDistributionActionActionCanBeAccessed()
+    {
+        $this->dispatch('/informe/distribucion-sectores/2014', 'GET');
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('api');
-        $this->assertControllerName(ReportController::class); // as specified in router's controller name alias
-        $this->assertControllerClass('ReportController');
-        $this->assertMatchedRouteName('informe');
-    }
-
-    public function testIndexActionViewModelTemplateRenderedWithinLayout()
-    {
-        $this->dispatch('/', 'GET');
-        $this->assertQuery('#content-wrapper');
+        $this->assertControllerName(DistributionReportController::class);
+        $this->assertControllerClass('DistributionReportController');
+        $this->assertMatchedRouteName('informe-todos-sectores');
     }
 
     public function testInvalidRouteDoesNotCrash()
