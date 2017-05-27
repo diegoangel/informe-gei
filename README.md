@@ -6,8 +6,13 @@ Aplicación desarrollada con Zend Framework 3 y PHP 7.1.5.
 
 El proyecto consta con 2 modulos:
 
-- Application: 2 paginas HTML, home del proyecto y pagina de resultados de los informe de gases de efecto invernadero.
-- Api: endpoints consultados por la pagina de resultados que proveen de data para los graficos de la pagina de resultados.
+#### Modulo Application
+
+Dos paginas HTML, home del proyecto y pagina de resultados de los informe de gases de efecto invernadero.
+
+#### Modulo Api
+
+Endpoints consultados por la pagina de resultados que proveen de datos para los graficos de la pagina de resultados.
 
 ## Instalación
 
@@ -19,6 +24,12 @@ $ cd informe-gei
 $ git checkout zf3-version
 $ composer install
 ```
+
+## Configuración
+
+#### Conexion a base de datos
+
+Agregar los parametros de conexion a base de datos en
 
 Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
 
@@ -65,7 +76,7 @@ $ ./vendor/bin/phpunit --testsuite Application
 Para generar el reporte de *test coverage* del modulo Api, el cual contiene la logica de negocio.
 
 ```bash
-$ ./vendor/bin/phpunit --coverage-html module/Api/test/coverage --testsuite Api
+$ ./vendor/bin/phpunit --coverage-html module/Api/test/coverage 
 ```
 
 If you need to make local modifications for the PHPUnit test setup, copy

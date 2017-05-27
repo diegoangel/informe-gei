@@ -8,13 +8,13 @@
 namespace ApiTest\Controller;
 
 use PDO;
-use Api\Controller\DistributionReportController;
+use Api\Controller\EvolutionReportController;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
 use Zend\Json\Json;
 
-class DistributionReportControllerTest extends AbstractHttpControllerTestCase
+class EvolutionReportControllerTest extends AbstractHttpControllerTestCase
 {
     use TestCaseTrait;
 
@@ -58,15 +58,15 @@ class DistributionReportControllerTest extends AbstractHttpControllerTestCase
         return $this->createXMLDataSet(__DIR__ . '/../fixtures/database.xml');
     }
 
-    public function testGetWholeSectoralDistributionActionActionCanBeAccessed()
+    public function testGetWholeSectoralEvolutionActionCanBeAccessed()
     {
-        $this->dispatch('/informe/distribucion-sectores/2014', 'GET');
+        $this->dispatch('/informe/evolucion-sectores', 'GET');
         $this->assertResponseStatusCode(200);
         $this->assertResponseHeaderContains('Content-Type', 'application/json; charset=utf-8');
         $this->assertModuleName('api');
-        $this->assertControllerName(DistributionReportController::class);
-        $this->assertControllerClass('DistributionReportController');
-        $this->assertMatchedRouteName('informe-todos-sectores');
+        $this->assertControllerName(EvolutionReportController::class);
+        $this->assertControllerClass('EvolutionReportController');
+        $this->assertMatchedRouteName('informe-evolucion-sectores');
 
         $data = $this->getResponse()->getContent();
 
@@ -74,20 +74,20 @@ class DistributionReportControllerTest extends AbstractHttpControllerTestCase
 
         $data = Json::decode($data, Json::TYPE_ARRAY);
 
-        $this->assertArrayHasKey('sector_1', $data);
+        $this->assertArrayHasKey('column_1', $data);
         $this->assertArrayHasKey('colores', $data);
-        $this->assertArrayHasKey('descripciones', $data);
+        $this->assertArrayHasKey('column_2', $data);
     }
 
-    public function testGetSectoralDistributionActionCanBeAccessed()
+    public function testGetSectoralEvolutionActionCanBeAccessed()
     {
-        $this->dispatch('/informe/distribucion-sector/2014/1', 'GET');
+        $this->dispatch('/informe/evolucion-sector/1', 'GET');
         $this->assertResponseStatusCode(200);
         $this->assertResponseHeaderContains('Content-Type', 'application/json; charset=utf-8');
         $this->assertModuleName('api');
-        $this->assertControllerName(DistributionReportController::class);
-        $this->assertControllerClass('DistributionReportController');
-        $this->assertMatchedRouteName('informe-por-sector');
+        $this->assertControllerName(EvolutionReportController::class);
+        $this->assertControllerClass('EvolutionReportController');
+        $this->assertMatchedRouteName('informe-evolucion-sector');
 
         $data = $this->getResponse()->getContent();
 
@@ -95,41 +95,41 @@ class DistributionReportControllerTest extends AbstractHttpControllerTestCase
 
         $data = Json::decode($data, Json::TYPE_ARRAY);
 
-        $this->assertArrayHasKey('graph_data', $data);
-        $this->assertArrayHasKey('sector', $data);
-        $this->assertArrayHasKey('totalActividades', $data);
-    }
-
-    public function testGetGasesDistributionActionCanBeAccessed()
-    {
-        $this->dispatch('/informe/distribucion-gases/2014', 'GET');
-        $this->assertResponseStatusCode(200);
-        $this->assertResponseHeaderContains('Content-Type', 'application/json; charset=utf-8');
-        $this->assertModuleName('api');
-        $this->assertControllerName(DistributionReportController::class);
-        $this->assertControllerClass('DistributionReportController');
-        $this->assertMatchedRouteName('informe-gas');
-
-        $data = $this->getResponse()->getContent();
-
-        $this->assertJson($data);
-
-        $data = Json::decode($data, Json::TYPE_ARRAY);
-
+        $this->assertArrayHasKey('column_1', $data);
         $this->assertArrayHasKey('colores', $data);
-        $this->assertArrayHasKey('gases', $data);
-        $this->assertArrayHasKey('valores', $data);
+        $this->assertArrayHasKey('column_2', $data);
     }
 
-    public function testGetSectoralGasesDistributionActionCanBeAccessed()
+    public function testGetSectoralEvolutionSubactivityActionCanBeAccessed()
     {
-        $this->dispatch('/informe/distribucion-gases-sector/2014', 'GET');
+        $this->dispatch('/informe/evolucion-sector-subactividad/2', 'GET');
         $this->assertResponseStatusCode(200);
         $this->assertResponseHeaderContains('Content-Type', 'application/json; charset=utf-8');
         $this->assertModuleName('api');
-        $this->assertControllerName(DistributionReportController::class);
-        $this->assertControllerClass('DistributionReportController');
-        $this->assertMatchedRouteName('informe-gas-por-sector');
+        $this->assertControllerName(EvolutionReportController::class);
+        $this->assertControllerClass('EvolutionReportController');
+        $this->assertMatchedRouteName('informe-evolucion-sector-subactividad');
+
+        $data = $this->getResponse()->getContent();
+
+        $this->assertJson($data);
+
+        $data = Json::decode($data, Json::TYPE_ARRAY);
+
+        $this->assertArrayHasKey('column_1', $data);
+        $this->assertArrayHasKey('groups', $data);
+        $this->assertArrayHasKey('column_3', $data);
+    }
+
+    public function testGetSectoralEvolutionSubactivityCategoryActionCanBeAccessed()
+    {
+        $this->dispatch('/informe/evolucion-sector-subactividad-categoria/1/2', 'GET');
+        $this->assertResponseStatusCode(200);
+        $this->assertResponseHeaderContains('Content-Type', 'application/json; charset=utf-8');
+        $this->assertModuleName('api');
+        $this->assertControllerName(EvolutionReportController::class);
+        $this->assertControllerClass('EvolutionReportController');
+        $this->assertMatchedRouteName('informe-evolucion-sector-subactividad-categoria');
 
         $data = $this->getResponse()->getContent();
 
