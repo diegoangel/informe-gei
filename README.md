@@ -81,7 +81,7 @@ $ ./vendor/bin/phpunit --testsuite Application
 Para generar el reporte de *test coverage* del modulo Api, el cual contiene la logica de negocio.
 
 ```bash
-$ ./vendor/bin/phpunit --coverage-html module/Api/test/coverage 
+$ ./vendor/bin/phpunit --coverage-html data/coverage 
 ```
 
 If you need to make local modifications for the PHPUnit test setup, copy
