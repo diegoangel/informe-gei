@@ -58,6 +58,7 @@ return [
 
 Este archivo no existira, por lo cual deben crearlo, copiando, pegando y renombrando el archivo config/autoload/local.php.dist
 
+Además, este archivo es ignorado en el repositorio de control de versión y por lo tanto las credenciales de conexión nuncan seran compartidas por accidente y permanecen seguras.
 
 Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
 
