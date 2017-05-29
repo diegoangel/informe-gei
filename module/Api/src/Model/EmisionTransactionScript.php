@@ -8,7 +8,7 @@ use Api\Helper\Utils;
 /**
 *
 */
-class DistributionReportTransactionScript
+class EmisionTransactionScript
 {
     public function __construct()
     {

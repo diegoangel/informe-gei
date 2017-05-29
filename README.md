@@ -29,7 +29,12 @@ $ composer install
 
 #### Conexion a base de datos
 
-Agregar los parametros de conexion a base de datos en
+Cambiar los parametros de conexion a base de datos en  el archivo config/autoload/global.php
+
+El usuario y contraseña de la conexion deben colocarlo en el archivo config/autoload/local.php
+
+Este archivo no existira, por lo cual deben crearlo, copiando, pegando y renombrando el archivo config/autoload/local.php.dist
+
 
 Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
 

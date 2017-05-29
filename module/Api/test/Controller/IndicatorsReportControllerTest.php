@@ -7,21 +7,13 @@
 
 namespace ApiTest\Controller;
 
-use PDO;
 use Api\Controller\IndicatorsReportController;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use PHPUnit\DbUnit\TestCaseTrait;
 use Zend\Json\Json;
 
 class IndicatorsReportControllerTest extends AbstractHttpControllerTestCase
 {
-    use TestCaseTrait;
-
-    private static $pdo = null;
-
-    private $conn = null;
-
     public function setUp()
     {
         $configOverrides = [];
@@ -40,24 +32,7 @@ class IndicatorsReportControllerTest extends AbstractHttpControllerTestCase
 
         parent::setUp();
     }
-
-    final public function getConnection()
-    {
-        if ($this->conn === null) {
-            if (self::$pdo == null) {
-                self::$pdo = new PDO('sqlite::memory:');
-            }
-            $this->conn = $this->createDefaultDBConnection(self::$pdo, ':memory:');
-        }
-
-        return $this->conn;
-    }
-
-    protected function getDataSet()
-    {
-        return $this->createXMLDataSet(__DIR__ . '/../fixtures/database.xml');
-    }
-
+    
     public function testGetIndicatorActionCanBeAccessed()
     {
         $this->dispatch('/informe/indicador/2', 'GET');
