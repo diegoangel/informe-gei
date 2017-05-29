@@ -57,20 +57,17 @@ class EvolutionReportController extends AbstractRestfulController
         $arrValores = [];
         $arrColores = [];
 
-        for($i=1990;$i<=2014;$i++)
-        {
+        for ($i=1990;$i<=2014;$i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
-        while ($sector = $arrSectores->next())
-        {
+        while ($sector = $arrSectores->next()) {
             $response['column_'.$column][] = $sector['nombre'];
             $response['colores'][] =  $sector['color'];
 
-            foreach($arrAnos as $ano)
-            {
+            foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
@@ -82,8 +79,7 @@ class EvolutionReportController extends AbstractRestfulController
                 }
                 // HASTA ACA
 
-                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo,$sector['nombre'],$ano);
-                
+                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $sector['nombre'], $ano);
             }
 
             $column++;
@@ -95,7 +91,6 @@ class EvolutionReportController extends AbstractRestfulController
 
 
         return new JsonModel($response);
-
     }
 
     public function getSectoralEvolutionAction()
@@ -118,7 +113,7 @@ class EvolutionReportController extends AbstractRestfulController
             $sector_id,
         ];
 
-        $statement = $this->db->createStatement($sql,$params);
+        $statement = $this->db->createStatement($sql, $params);
 
         $arrSectores = $statement->execute();
 
@@ -140,20 +135,17 @@ class EvolutionReportController extends AbstractRestfulController
         $arrValores = [];
         $arrColores = [];
 
-        for($i=1990;$i<=2014;$i++)
-        {
+        for ($i=1990;$i<=2014;$i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
-        while ($sector = $arrSectores->next())
-        {
+        while ($sector = $arrSectores->next()) {
             $response['column_'.$column][] = $sector['nombre'];
             $response['colores'][] =  $sector['color'];
 
-            foreach($arrAnos as $ano)
-            {
+            foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
@@ -165,8 +157,7 @@ class EvolutionReportController extends AbstractRestfulController
                 }
                 // HASTA ACA
 
-                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo,$sector['nombre'],$ano);
-                
+                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $sector['nombre'], $ano);
             }
 
             $column++;
@@ -178,13 +169,11 @@ class EvolutionReportController extends AbstractRestfulController
 
 
         return new JsonModel($response);
-
     }
 
 
     public function getSectoralEvolutionSubactivityAction()
     {
-
         $params = $this->params()->fromRoute();
 
         $sector_id = (int)$params['sector_id'];
@@ -204,7 +193,7 @@ class EvolutionReportController extends AbstractRestfulController
         ];
 
 
-        $statement = $this->db->createStatement($sql,$params);
+        $statement = $this->db->createStatement($sql, $params);
         
         $arrSubactividades = $statement->execute();
 
@@ -231,27 +220,23 @@ class EvolutionReportController extends AbstractRestfulController
         $arrValores = [];
         $arrColores = [];
 
-        for($i=1990;$i<=2014;$i++)
-        {
+        for ($i=1990;$i<=2014;$i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
 
-        while ($subactividad = $arrSubactividades->next())
-        {
-
+        while ($subactividad = $arrSubactividades->next()) {
             $response['column_'.$column][] = $subactividad['nombre'];
             $response['groups'][] = $subactividad['nombre'];
 
-            foreach($arrAnos as $ano)
-            {
+            foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
                 
-                $statement = $this->db->createStatement($sql,$params);
+                $statement = $this->db->createStatement($sql, $params);
         
                 $arrValoresCrudo = $statement->execute();
 
@@ -260,8 +245,7 @@ class EvolutionReportController extends AbstractRestfulController
                 }
                 // HASTA ACA
 
-                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo,$subactividad['nombre'],$ano);
-                
+                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $subactividad['nombre'], $ano);
             }
 
             $column++;
@@ -273,7 +257,6 @@ class EvolutionReportController extends AbstractRestfulController
 
 
         return new JsonModel($response);
-  
     }
 
     public function getSectoralEvolutionSubactivityCategoryAction()
@@ -293,7 +276,7 @@ class EvolutionReportController extends AbstractRestfulController
                 WHERE 1 
                 AND s.id = ?
                 AND sub.id = ? 
-                ORDER BY c.nombre"; 
+                ORDER BY c.nombre";
 
 
         $params = [
@@ -302,7 +285,7 @@ class EvolutionReportController extends AbstractRestfulController
             $subactividad_id
         ];
 
-        $statement = $this->db->createStatement($sql,$params);
+        $statement = $this->db->createStatement($sql, $params);
         $arrCategorias = $statement->execute();
 
 
@@ -331,8 +314,7 @@ class EvolutionReportController extends AbstractRestfulController
         $arrColores = array();
 
 
-        for($i=1990;$i<=2014;$i++)
-        {
+        for ($i=1990;$i<=2014;$i++) {
             $arrAnos[] = $i;
         }
 
@@ -341,19 +323,16 @@ class EvolutionReportController extends AbstractRestfulController
         // // // pr($arrCategorias);
         // // // pr($arr);
 
-        while($categoria = $arrCategorias->next())
-        {
-
+        while ($categoria = $arrCategorias->next()) {
             $response['column_'.$column][] = $categoria['nombre'];
             $response['groups'][] = $categoria['nombre'];
 
-            foreach($arrAnos as $ano)
-            {
+            foreach ($arrAnos as $ano) {
 
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
-                $statement = $this->db->createStatement($sql,$params);
+                $statement = $this->db->createStatement($sql, $params);
                 $arrValoresCrudo = $statement->execute();
                 
                 if (!$arrValoresCrudo->isQueryResult()) {
@@ -362,7 +341,7 @@ class EvolutionReportController extends AbstractRestfulController
                 // HASTA ACA
 
 
-                $response['column_'.$column][] = Utils::returnCategoriaAno($arrValoresCrudo,$categoria['nombre'],$ano);
+                $response['column_'.$column][] = Utils::returnCategoriaAno($arrValoresCrudo, $categoria['nombre'], $ano);
             }
 
             $column++;
@@ -373,6 +352,5 @@ class EvolutionReportController extends AbstractRestfulController
         $response['column_1'] = $arrAnos;
         
         return new JsonModel($response);
-
     }
 }

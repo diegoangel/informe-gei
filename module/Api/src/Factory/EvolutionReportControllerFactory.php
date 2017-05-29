@@ -8,14 +8,14 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use Api\Controller\EvolutionReportController;
 
 /**
- * Factory class for creation of Evolution Report Controller instances 
+ * Factory class for creation of Evolution Report Controller instances
  */
 class EvolutionReportControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new EvolutionReportController(
-        	$container->get(AdapterInterface::class)
+            $container->get(AdapterInterface::class)
         );
     }
 }

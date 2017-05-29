@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true">
     <testsuites>
-        <testsuite name="Informe GEI Test Suite">
+        <testsuite name="Application">
             <directory>./module/Application/test</directory>
         </testsuite>
+        <testsuite name="Api">
+            <directory>./module/Api/test</directory>
+        </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./module</directory>
+        </whitelist>
+    </filter>    
 </phpunit>

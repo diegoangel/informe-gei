@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+  <table name="sector">
+    <column>id</column>
+    <column>nombre</column>
+    <column>color</column>
+    <column>descripcion</column>
+    <row>
+      <value>1</value>
+      <value>Agricultura, ganadería, silvicultura y otros usos de la tierra</value>
+      <value>#54bdb4</value>
+      <value>En el sector se incluyen las emisiones y absorciones de tierras forestales, tierras de cultivo, pastizales, humedales, asentamientos y otras tierras. También incluye las emisiones por la gestión de ganado vivo y de estiércol, las emisiones de los suelos gestionados y las emisiones de las aplicaciones de fertilizantes. </value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>Energía</value>
+      <value>#f44652</value>
+      <value>Este sector incluye todas las emisiones de GEI que emanan de la combustión y las fugas de combustibles. Las emisiones de usos no energéticos de combustibles no suelen incluirse en este sector, sino que se declaran dentro de Procesos industriales y uso de productos.</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>Procesos industriales y uso de productos</value>
+      <value>#f87652</value>
+      <value>Este sector incluye todas las emisiones de GEI generadas como resultado de la reacción entre materias primas empleadas en diferentes procesos químicos.</value>
+    </row>
+    <row>
+      <value>4</value>
+      <value>Residuos</value>
+      <value>#9189b8</value>
+      <value>En el sector se incluyen las emisiones de GEI que se generan debido a la disposición, tratamiento y gestión de residuos sólidos y aguas residuales. </value>
+    </row>
+  </table>
+</dataset>

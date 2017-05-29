@@ -1,47 +1,85 @@
-# ZendSkeletonApplication
+# Website Informe de Gases de Efecto Invernadero
 
-## Introduction
+## Introducción
 
-This is a skeleton application using the Zend Framework MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with Zend Framework.
+Aplicación desarrollada con Zend Framework 3 y PHP 7.1.5.
 
-## Installation using Composer
+El proyecto consta con 2 modulos:
 
-The easiest way to create a new Zend Framework project is to use
-[Composer](https://getcomposer.org/).  If you don't have it already installed,
-then please install as per the [documentation](https://getcomposer.org/doc/00-intro.md).
+#### Modulo Application
 
-To create your new Zend Framework project:
+Dos paginas HTML, home del proyecto y pagina de resultados de los informe de gases de efecto invernadero.
+
+#### Modulo Api
+
+Endpoints consultados por la pagina de resultados que proveen de datos para los graficos de la pagina de resultados.
+
+## Instalación
+
+Clonar el proyecto y cambiar a la rama de desarrollo zf3-version.
 
 ```bash
-$ composer create-project -sdev zendframework/skeleton-application path/to/install
+$ git clone git@github.com:diegoangel/informe-gei.git
+$ cd informe-gei
+$ git checkout zf3-version
+$ composer install
 ```
 
-Once installed, you can test it out immediately using PHP's built-in web server:
+## Configuración
+
+#### Conexion a base de datos
+
+Cambiar los parametros de conexion a base de datos en  el archivo config/autoload/global.php
+
+```php
+...
+return [
+    'db' => [
+        'driver' => 'Pdo',
+        'dsn'    => 'mysql:dbname=my_database;host=127.0.0.1;charset=utf8',
+        'driver_options' => [
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+        ],
+    ],
+];
+```
+
+El usuario y contraseña de la conexion deben colocarlo en el archivo config/autoload/local.php
+
+```php
+...
+return [
+    'db' => [
+        'username' => 'username',
+        'password' => 'pwd',
+    ],
+];
+```
+
+Este archivo no existira, por lo cual deben crearlo, copiando, pegando y renombrando el archivo config/autoload/local.php.dist
+
+Además, este archivo es ignorado en el repositorio de control de versión y por lo tanto las credenciales de conexión nuncan seran compartidas por accidente y permanecen seguras.
+
+Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
 
 ```bash
-$ cd path/to/install
 $ php -S 0.0.0.0:8080 -t public/ public/index.php
-# OR use the composer alias:
+# O utilizar el alias definido en la sección scripts de composer.json:
 $ composer serve
 ```
 
-This will start the cli-server on port 8080, and bind it to all network
-interfaces. You can then visit the site at http://localhost:8080/
-- which will bring up Zend Framework welcome page.
+Esto iniciará el servidor de consola en el puerto 8080 y podrá navegarlo en http://localhost:8080/
 
-**Note:** The built-in CLI server is *for development only*.
+**Nota:** El servidor embebido de PHP *es solo para desarrollo*.
 
-## Development mode
+## Modo desarrollo
 
-The skeleton ships with [zf-development-mode](https://github.com/zfcampus/zf-development-mode)
-by default, and provides three aliases for consuming the script it ships with:
+El proyecto viene con un modo de desarrollo por defecto, util para declara configuracion que solo se ejecutara en modo desarrollo, en entorno local por ejemplo, y provee tres alias para habilitar, deshabilitar y consultar el estado:
 
 ```bash
-$ composer development-enable  # enable development mode
-$ composer development-disable # disable development mode
-$ composer development-status  # whether or not development mode is enabled
+$ composer development-enable  # habilita el modo desarrollo
+$ composer development-disable # deshabilita el modo desarrollo
+$ composer development-status  # informa sobre si esta o no habilitado el modo desarrollo
 ```
 
 You may provide development-only modules and bootstrap-level configuration in
@@ -55,21 +93,19 @@ After making changes to one of the above-mentioned `.dist` configuration files y
 either need to disable then enable development mode for the changes to take effect,
 or manually make matching updates to the `.dist`-less copies of those files.
 
-## Running Unit Tests
+## Ejecutando Test Unitarios
 
-To run the supplied skeleton unit tests, you need to do one of the following:
-
-- During initial project creation, select to install the MVC testing support.
-- After initial project creation, install [zend-test](https://zendframework.github.io/zend-test/):
-
-  ```bash
-  $ composer require --dev zendframework/zend-test
-  ```
-
-Once testing support is present, you can run the tests using:
+Hay dos *test suite* para ejecutar, una para el Modulo Api, y otra para el modulo Application.
 
 ```bash
-$ ./vendor/bin/phpunit
+$ ./vendor/bin/phpunit --testsuite Api
+$ ./vendor/bin/phpunit --testsuite Application
+```
+
+Para generar el reporte de *test coverage* del modulo Api, el cual contiene la logica de negocio.
+
+```bash
+$ ./vendor/bin/phpunit --coverage-html data/coverage 
 ```
 
 If you need to make local modifications for the PHPUnit test setup, copy
@@ -77,60 +113,6 @@ If you need to make local modifications for the PHPUnit test setup, copy
 precedence over the former when running tests, and is ignored by version
 control. (If you want to make the modifications permanent, edit the
 `phpunit.xml.dist` file.)
-
-## Using Vagrant
-
-This skeleton includes a `Vagrantfile` based on ubuntu 16.04, and using the
-ondrej/php PPA to provide PHP 7.0. Start it up using:
-
-```bash
-$ vagrant up
-```
-
-Once built, you can also run composer within the box. For example, the following
-will install dependencies:
-
-```bash
-$ vagrant ssh -c 'composer install'
-```
-
-While this will update them:
-
-```bash
-$ vagrant ssh -c 'composer update'
-```
-
-While running, Vagrant maps your host port 8080 to port 80 on the virtual
-machine; you can visit the site at http://localhost:8080/
-
-> ### Vagrant and VirtualBox
->
-> The vagrant image is based on ubuntu/xenial64. If you are using VirtualBox as
-> a provider, you will need:
->
-> - Vagrant 1.8.5 or later
-> - VirtualBox 5.0.26 or later
-
-For vagrant documentation, please refer to [vagrantup.com](https://www.vagrantup.com/)
-
-## Using docker-compose
-
-This skeleton provides a `docker-compose.yml` for use with
-[docker-compose](https://docs.docker.com/compose/); it
-uses the `Dockerfile` provided as its base. Build and start the image using:
-
-```bash
-$ docker-compose up -d --build
-```
-
-At this point, you can visit http://localhost:8080 to see the site running.
-
-You can also run composer from the image. The container environment is named
-"zf", so you will pass that value to `docker-compose run`:
-
-```bash
-$ docker-compose run zf composer install
-```
 
 ## Web server setup
 
