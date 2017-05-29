@@ -31,7 +31,30 @@ $ composer install
 
 Cambiar los parametros de conexion a base de datos en  el archivo config/autoload/global.php
 
+```php
+...
+return [
+    'db' => [
+        'driver' => 'Pdo',
+        'dsn'    => 'mysql:dbname=my_database;host=127.0.0.1;charset=utf8',
+        'driver_options' => [
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+        ],
+    ],
+];
+```
+
 El usuario y contraseña de la conexion deben colocarlo en el archivo config/autoload/local.php
+
+```php
+...
+return [
+    'db' => [
+        'username' => 'username',
+        'password' => 'pwd',
+    ],
+];
+```
 
 Este archivo no existira, por lo cual deben crearlo, copiando, pegando y renombrando el archivo config/autoload/local.php.dist
 
