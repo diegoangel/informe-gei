@@ -1,12 +1,14 @@
 <?php
 
-/**
-* 
-*/
+namespace Api\Model;
+
+use Zend\Db\Adapter\AdapterInterface;
+use Api\Helper\Utils;
+
 class IndicatorTransactionScript
 {
 	
-	function __construct(argument)
+	function __construct()
 	{
 		# code...
 	}
