@@ -5,12 +5,15 @@ namespace Api\Controller;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
-use Api\Helper\Utils;
 use Zend\Validator\StaticValidator;
+use Api\Helper\Utils;
+use Api\Entity\Activity;
+use Api\Entity\Subactivity;
+use Api\Entity\Emission;
+use Api\Entity\Sector;
+use Api\Entity\Category;
+use Api\Entity\Gas;
 
-/**
- *
- */
 class DistributionReportController extends AbstractRestfulController
 {
     /**
@@ -29,6 +32,13 @@ class DistributionReportController extends AbstractRestfulController
      */
     public function getWholeSectoralDistributionAction()
     {
+
+
+        $activities = $this->entityManager->getRepository(Emission::class)
+               ->findAll();   
+        var_dump($activities);
+        return new JsonModel($activities);
+
         $params = $this->params()->fromRoute();
 
         $ano = (int)$params['ano'];

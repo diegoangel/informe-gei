@@ -12,7 +12,6 @@
  */
 return [
     'Zend\Cache',
-    'Zend\Form',
     'Zend\InputFilter',
     'Zend\Paginator',
     'Zend\Mvc\Console',
@@ -25,6 +24,7 @@ return [
     'Zend\Validator',
     'DoctrineModule',
     'DoctrineORMModule', 
+    'ZendDeveloperTools',
     'Application',
     'Api',
 ];

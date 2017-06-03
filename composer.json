@@ -65,6 +65,7 @@
     "require-dev": {
         "zendframework/zend-debug": "^2.5",
         "phpunit/phpunit": "^6.1",
-        "zendframework/zend-test": "^3.1"
+        "zendframework/zend-test": "^3.1",
+        "zendframework/zend-developer-tools": "^1.1"
     }    
 }
