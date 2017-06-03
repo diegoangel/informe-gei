@@ -33,7 +33,9 @@
         "zircote/swagger-php": "^2.0",
         "guzzlehttp/guzzle": "^6.2",
         "phpunit/dbunit": "^3.0",
-        "doctrine/doctrine-orm-module": "^1.1"      
+        "doctrine/doctrine-orm-module": "^1.1",
+        "doctrine/migrations": "^1.5",
+        "jdorn/sql-formatter": "^1.2"      
     },
     "autoload": {
         "psr-4": {

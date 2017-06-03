@@ -12,11 +12,16 @@
  */
 
 return [
-    'db' => [
-        'driver' => 'Pdo',
-        'dsn'    => 'mysql:dbname=min_ambiente;host=127.0.0.1;charset=utf8',
-        'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+    'doctrine' => [        
+        // migrations configuration
+        'migrations_configuration' => [
+            'orm_default' => [
+                'directory' => 'data/Migrations',
+                'name'      => 'Doctrine Database Migrations',
+                'namespace' => 'Migrations',
+                'table'     => 'migrations',
+            ],
         ],
     ],
 ];
+ 

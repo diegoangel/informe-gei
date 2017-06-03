@@ -6,6 +6,7 @@ use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Api\Helper\Utils;
+use Zend\Validator\StaticValidator;
 
 /**
  *
@@ -13,13 +14,14 @@ use Api\Helper\Utils;
 class DistributionReportController extends AbstractRestfulController
 {
     /**
-     *
+     * Entity manager.
+     * @var Doctrine\ORM\EntityManager
      */
-    private $db;
+    private $entityManager;
 
-    public function __construct(AdapterInterface $db)
+    public function __construct($entityManager)
     {
-        $this->db = $db;
+        $this->entityManager = $entityManager;
     }
 
     /**

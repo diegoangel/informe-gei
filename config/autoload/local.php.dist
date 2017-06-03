@@ -11,9 +11,21 @@
  * credentials from accidentally being committed into version control.
  */
 
+use Doctrine\DBAL\Driver\PDOMySql\Driver as PDOMySqlDriver;
+
 return [
-    'db' => [
-        'username' => '',
-        'password' => '',
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => PDOMySqlDriver::class,
+                'params' => [
+                    'host'     => 'your_dns_or_ip_here',                    
+                    'user'     => 'some_user',
+                    'password' => 'hard_password',
+                    'dbname'   => 'some_database',
+                ]
+            ],
+            // another_orm_connection => [],         
+        ],
     ],
 ];

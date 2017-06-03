@@ -13,13 +13,14 @@ use Api\Helper\Utils;
 class EvolutionReportController extends AbstractRestfulController
 {
     /**
-     *
+     * Entity manager.
+     * @var Doctrine\ORM\EntityManager
      */
-    private $db;
+    private $entityManager;
 
-    public function __construct(AdapterInterface $db)
+    public function __construct($entityManager)
     {
-        $this->db = $db;
+        $this->entityManager = $entityManager;
     }
 
     public function getWholeSectoralEvolutionAction()

@@ -15,7 +15,7 @@ class DistributionReportControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new DistributionReportController(
-            $container->get(AdapterInterface::class)
+            $container->get('doctrine.entitymanager.orm_default')
         );
     }
 }
