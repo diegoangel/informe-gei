@@ -1,5 +1,7 @@
 # Website Informe de Gases de Efecto Invernadero
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/quality-score.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/?branch=zf3-version)
+
 ## Introducción
 
 Aplicación desarrollada con Zend Framework 3 y PHP 7.1.5.
