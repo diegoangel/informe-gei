@@ -10,6 +10,7 @@ use Api\Entity\Sector;
  *
  * @ORM\Table(name="activity", indexes={@ORM\Index(name="fk_actividad_sector1_idx", columns={"sector_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Api\Entity\ActivityRepository") 
  */
 class Activity
 {

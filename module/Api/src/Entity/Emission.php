@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="emission", indexes={@ORM\Index(name="fk_emission_1_idx", columns={"activity_id"}), @ORM\Index(name="fk_emission_2_idx", columns={"category_id"}), @ORM\Index(name="fk_emission_3_idx", columns={"gas_id"}), @ORM\Index(name="fk_emission_4_idx", columns={"sector_id"}), @ORM\Index(name="fk_emission_5_idx", columns={"subactivity_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Api\Entity\EmissionRepository")
  */
 class Emission
 {

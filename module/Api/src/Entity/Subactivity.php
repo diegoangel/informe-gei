@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="subactivity", indexes={@ORM\Index(name="fk_subactividad_actividad1_idx", columns={"activity_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Api\Entity\SubactivityRepository")
  */
 class Subactivity
 {

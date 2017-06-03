@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="indicator")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Api\Entity\IndicatorRepository") 
  */
 class Indicator
 {
