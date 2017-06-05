@@ -90,7 +90,7 @@ return [
 ];
 ```
 
-^==TODO ingresar comando para ejecutar las migrations y subir codigo de migration para que tenga sentido esta parte de la codumentacion==^
+<sup>**TODO ingresar comando para ejecutar las migrations y subir codigo de migration para que tenga sentido esta parte de la codumentacion**</sup>
 
 ## Iniciar servidor de desarrollo
 
