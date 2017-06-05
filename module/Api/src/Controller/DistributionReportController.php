@@ -28,7 +28,7 @@ class DistributionReportController extends AbstractRestfulController
      */
     public function getWholeSectoralDistributionAction()
     {
-        $year = (int)$this->params()->fromRoute('year');
+        $year = (int) $this->params()->fromRoute('year');
 
         $response = [];
 
@@ -53,8 +53,8 @@ class DistributionReportController extends AbstractRestfulController
      */
     public function getSectoralDistributionAction()
     {
-        $year = (int)$this->params()->fromRoute('year');
-        $sector = (int)$this->params()->fromRoute('sector');
+        $year = (int) $this->params()->fromRoute('year');
+        $sector = (int) $this->params()->fromRoute('sector');
 
         $response = [];
         $arrGraphData = [];
@@ -133,29 +133,29 @@ class DistributionReportController extends AbstractRestfulController
     /**
      *
      */
-     public function getGasesDistributionAction()
-     {
-         $year = (int)$this->params()->fromRoute('year');
+        public function getGasesDistributionAction()
+        {
+            $year = (int) $this->params()->fromRoute('year');
 
-         $response = [];
+            $response = [];
 
-         $results = $this->entityManager->getRepository(Emission::class)->findGasesByYear($year);
+            $results = $this->entityManager->getRepository(Emission::class)->findGasesByYear($year);
 
-         $response['gases'][] = 'x';
-         $response['valores'][] = 'Gases';
+            $response['gases'][] = 'x';
+            $response['valores'][] = 'Gases';
 
-         foreach ($results as $result) {
-             $response['gases'][]   = (strpos($result['name'], ',')) ? '"'.$result['name'].'"' : $result['name'];
-             $response['valores'][] = round($result['total']);
-             $response['colores'][] = $result['color'];
-         }
+            foreach ($results as $result) {
+                $response['gases'][]   = (strpos($result['name'], ',')) ? '"'.$result['name'].'"' : $result['name'];
+                $response['valores'][] = round($result['total']);
+                $response['colores'][] = $result['color'];
+            }
 
-         return new JsonModel($response);
-     }
+            return new JsonModel($response);
+        }
 
     public function getSectoralGasesDistributionAction()
     {
-        $year = (int)$this->params()->fromRoute('year');
+        $year = (int) $this->params()->fromRoute('year');
 
         $response = [];
 

@@ -6,9 +6,9 @@ use Doctrine\ORM\EntityRepository;
 
 class SubactivityRepository extends EntityRepository
 {
-	public function findActivitySectorBySector($sector)
-	{
-		$dql = 'SELECT sub.name
+    public function findActivitySectorBySector($sector)
+    {
+        $dql = 'SELECT sub.name
             FROM Api\Entity\Subactivity sub
             INNER JOIN sub.activity a 
             INNER JOIN Api\Entity\Sector s WITH s.id = a.sector
@@ -18,5 +18,5 @@ class SubactivityRepository extends EntityRepository
         return $this->getEntityManager()->createQuery($dql)
             ->setParameter('sector', $sector)
             ->getResult();       	
-	}
+    }
 }

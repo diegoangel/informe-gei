@@ -90,7 +90,7 @@ class Activity
     /**
      * Sets the }).
      *
-     * @param \Sector $sector the sector
+     * @param Sector $sector the sector
      *
      * @return self
      */

@@ -19,7 +19,7 @@ class DistributionReportControllerTest extends AbstractHttpControllerTestCase
         $configOverrides = [];
 
         $this->setApplicationConfig(ArrayUtils::merge(
-            include __DIR__ . '/../../../../config/application.config.php',
+            include __DIR__.'/../../../../config/application.config.php',
             $configOverrides
         ));
 
