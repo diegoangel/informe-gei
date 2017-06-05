@@ -15,9 +15,9 @@ class SectorRepository extends EntityRepository
             ->getArrayResult();
     }
 
-    public function getSectorsNameOrderedyName()
+    public function getSectorsOrderedyName()
     {
-        $dql = 'SELECT s.name FROM Api\Entity\Sector s ORDER BY s.name';
+        $dql = 'SELECT s.name, s.color FROM Api\Entity\Sector s ORDER BY s.name';
 
         return $this->getEntityManager()->createQuery($dql)
             ->getArrayResult();

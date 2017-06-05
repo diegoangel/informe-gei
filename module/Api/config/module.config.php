@@ -70,7 +70,7 @@ return [
             'informe-evolucion-sector' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/informe/evolucion-sector/:sector_id',
+                    'route'    => '/informe/evolucion-sector/:sector',
                     'defaults' => [
                         'controller' => Controller\EvolutionReportController::class,
                         'action'     => 'getSectoralEvolution',

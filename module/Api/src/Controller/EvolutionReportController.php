@@ -6,6 +6,9 @@ use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Api\Helper\Utils;
+use Api\Entity\Emission;
+use Api\Entity\Sector;
+use Api\Entity\Subactivity;
 
 /**
  *
@@ -18,6 +21,10 @@ class EvolutionReportController extends AbstractRestfulController
      */
     private $entityManager;
 
+    const START_YEAR = 1990;
+
+    const END_YEAR = 2014;
+
     public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
@@ -25,62 +32,43 @@ class EvolutionReportController extends AbstractRestfulController
 
     public function getWholeSectoralEvolutionAction()
     {
-        $params = $this->params()->fromRoute();
-
         $response = [];
 
         // TRAIGO LOS SECTORES CON SUS COLORES
 
-        $sql = "SELECT s.nombre, s.color
-            FROM sector s 
-            WHERE 1 
-            ORDER BY s.nombre ";
-
-        $statement = $this->db->createStatement($sql);
-
-        $arrSectores = $statement->execute();
-
-        if (!$arrSectores->isQueryResult()) {
-            $this->response->setStatusCode(404);
-        }
+        $arrSectores = $this->entityManager->getRepository(Sector::class)
+            ->getSectorsOrderedyName();
 
         // TRAIGO LOS VALORES POR ANO
-
-        $sql = "SELECT s.nombre as sector, e.ano, sum(e.valor) as total
-            FROM emision e
-            LEFT JOIN sector s ON (e.sector_id = s.id)
-            where 1 
-            GROUP BY e.ano, s.nombre";
-
         // LO QUE ESTA ADENTRO DEL LOOP DEBERIA IR ACA
 
         $arrAnos = [];
         $arrValores = [];
         $arrColores = [];
 
-        for ($i=1990;$i<=2014;$i++) {
+        for ($i=  self::START_YEAR; $i <= self::END_YEAR; $i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
-        while ($sector = $arrSectores->next()) {
-            $response['column_'.$column][] = $sector['nombre'];
+        foreach($arrSectores as $sector) {
+            $response['column_'.$column][] = $sector['name'];
             $response['colores'][] =  $sector['color'];
 
             foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
-                $statement = $this->db->createStatement($sql);
-                $arrValoresCrudo = $statement->execute();
+                $arrValoresCrudo = $this->entityManager->getRepository(Emission::class)
+                    ->findSectorGroupedByYear();
 
-                if (!$arrValoresCrudo->isQueryResult()) {
+                if (empty($arrValoresCrudo)) {
                     $this->response->setStatusCode(404);
                 }
                 // HASTA ACA
 
-                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $sector['nombre'], $ano);
+                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $sector['name'], $ano);
             }
 
             $column++;
@@ -89,207 +77,128 @@ class EvolutionReportController extends AbstractRestfulController
 
         $arrAnos = array_merge(array('x'), $arrAnos);
         $response['column_1'] = $arrAnos;
-
 
         return new JsonModel($response);
     }
 
     public function getSectoralEvolutionAction()
     {
-        $params = $this->params()->fromRoute();
-
-        $sector_id  = (int)$params['sector_id'];
+        $sector = (int)$this->params()->fromRoute('sector');
 
         $response = [];
 
         // TRAIGO LOS SECTORES CON SUS COLORES
 
-        $sql = "SELECT s.nombre, s.color
-            FROM sector s 
-            WHERE 1 
-            AND s.id = ? 
-            ORDER BY s.nombre ";
+        $arrSectores = $this->entityManager->getRepository(Sector::class)->getSector($sector);
 
-        $params = [
-            $sector_id,
-        ];
-
-        $statement = $this->db->createStatement($sql, $params);
-
-        $arrSectores = $statement->execute();
-
-        if (!$arrSectores->isQueryResult()) {
+        if (empty($arrSectores)) {
             $this->response->setStatusCode(404);
         }
 
         // TRAIGO LOS VALORES POR ANO
-
-        $sql = "SELECT s.nombre as sector, e.ano, sum(e.valor) as total
-            FROM emision e
-            LEFT JOIN sector s ON (e.sector_id = s.id)
-            where 1 
-            GROUP BY e.ano, s.nombre";
-
         // LO QUE ESTA ADENTRO DEL LOOP DEBERIA IR ACA
 
         $arrAnos = [];
         $arrValores = [];
         $arrColores = [];
 
-        for ($i=1990;$i<=2014;$i++) {
+        for ($i = self::START_YEAR; $i <= self::END_YEAR ;$i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
-        while ($sector = $arrSectores->next()) {
-            $response['column_'.$column][] = $sector['nombre'];
+        foreach($arrSectores as $sector) {
+            $response['column_'.$column][] = $sector['name'];
             $response['colores'][] =  $sector['color'];
 
             foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
-                $statement = $this->db->createStatement($sql);
-                $arrValoresCrudo = $statement->execute();
+                $arrValoresCrudo = $this->entityManager->getRepository(Emission::class)
+                    ->findSectorGroupedByYear();
 
-                if (!$arrValoresCrudo->isQueryResult()) {
+                if (empty($arrValoresCrudo)) {
                     $this->response->setStatusCode(404);
                 }
                 // HASTA ACA
 
-                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $sector['nombre'], $ano);
+                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $sector['name'], $ano);
             }
 
             $column++;
         }
 
-
         $arrAnos = array_merge(array('x'), $arrAnos);
         $response['column_1'] = $arrAnos;
-
 
         return new JsonModel($response);
     }
 
-
     public function getSectoralEvolutionSubactivityAction()
     {
-        $params = $this->params()->fromRoute();
-
-        $sector_id = (int)$params['sector_id'];
+        $sector = (int)$this->params()->fromRoute('sector');
 
         $response = [];
 
-        $sql = "SELECT sub.nombre
-                FROM subactividad sub
-                INNER JOIN actividad a ON (a.id = sub.actividad_id)
-                INNER JOIN sector s ON (a.sector_id = s.id)
-                WHERE 1 
-                AND s.id = ?
-                ORDER BY sub.nombre";
+        $arrSubactividades = $this->entityManager->getRepository(Subactivity::class)
+            ->findActivitySectorBySector($sector);
 
-        $params = [
-            $sector_id,
-        ];
-
-
-        $statement = $this->db->createStatement($sql, $params);
-        
-        $arrSubactividades = $statement->execute();
-
-
-        if (!$arrSubactividades->isQueryResult()) {
+        if (empty($arrSubactividades)) {
             $this->response->setStatusCode(404);
         }
 
         // TRAIGO LOS VALORES POR ANO
-
-        $sql = "SELECT sub.nombre as sector, e.ano, SUM(e.valor) as total
-                FROM emision e
-                INNER JOIN subactividad sub ON (e.subactividad_id = sub.id)
-                INNER JOIN sector s ON (e.sector_id = s.id)
-                AND s.id = ? 
-                GROUP BY e.ano, sub.nombre";
-
-        
-
-
         // LO QUE ESTA ADENTRO DEL LOOP DEBERIA IR ACA
 
         $arrAnos = [];
         $arrValores = [];
         $arrColores = [];
 
-        for ($i=1990;$i<=2014;$i++) {
+        for ($i = self::START_YEAR; $i <= self::END_YEAR; $i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
+        foreach($arrSubactividades as $subactividad) {
+            $response['column_'.$column][] = $subactividad['name'];
+            $response['groups'][] = $subactividad['name'];
 
-        while ($subactividad = $arrSubactividades->next()) {
-            $response['column_'.$column][] = $subactividad['nombre'];
-            $response['groups'][] = $subactividad['nombre'];
-
-            foreach ($arrAnos as $ano) {
+            foreach($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
-                
-                $statement = $this->db->createStatement($sql, $params);
-        
-                $arrValoresCrudo = $statement->execute();
+                $arrValoresCrudo = $this->entityManager->getRepository(Emission::class)
+                    ->findSubactivitySectorBySector($sector);
 
-                if (!$arrValoresCrudo->isQueryResult()) {
+                if (empty($arrValoresCrudo)) {
                     $this->response->setStatusCode(404);
                 }
                 // HASTA ACA
 
-                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $subactividad['nombre'], $ano);
+                $response['column_'.$column][] = Utils::returnSectorAno($arrValoresCrudo, $subactividad['name'], $ano);
             }
 
             $column++;
         }
 
-
         $arrAnos = array_merge(array('x'), $arrAnos);
         $response['column_1'] = $arrAnos;
-
 
         return new JsonModel($response);
     }
 
     public function getSectoralEvolutionSubactivityCategoryAction()
     {
-        $params = $this->params()->fromRoute();
-
-        $sector_id = (int)$params['sector_id'];
-        $subactividad_id = (int)$params['subactividad_id'];
+        $sector = (int)$this->params()->fromRoute('sector');
+        $subactivity = (int)$this->params()->fromRoute('subactivity');
 
         $response = [];
 
-        $sql = "SELECT DISTINCT c.nombre
-                FROM emision e
-                INNER JOIN subactividad sub ON (e.subactividad_id = sub.id)
-                INNER JOIN sector s ON (e.sector_id = s.id) 
-                INNER JOIN categoria c ON (e.categoria_id = c.id)
-                WHERE 1 
-                AND s.id = ?
-                AND sub.id = ? 
-                ORDER BY c.nombre";
-
-
-        $params = [
-           
-            $sector_id,
-            $subactividad_id
-        ];
-
-        $statement = $this->db->createStatement($sql, $params);
-        $arrCategorias = $statement->execute();
-
-
+        $arrCategorias = $this->entityManager->getRepository(Emission::class)
+            ->findSubactivitySectorCategoryBySectorSubactivity($sector, $subactivity);
 
         $sql = "SELECT sub.nombre as subcategoria, e.ano, c.nombre, e.valor
                 FROM emision e
@@ -301,21 +210,12 @@ class EvolutionReportController extends AbstractRestfulController
                 AND sub.id = ? 
                 GROUP BY e.ano, c.nombre";
 
-        $params = [
-            $sector_id,
-            $subactividad_id,
-        ];
-
-        
-
-
         // LO QUE ESTA ADENTRO DEL LOOP DEBERIA IR ACA
-        $arrAnos = array();
-        $arrValores = array();
-        $arrColores = array();
+        $arrAnos = [];
+        $arrValores = [];
+        $arrColores = [];
 
-
-        for ($i=1990;$i<=2014;$i++) {
+        for ($i = self::START_YEAR; $i <= self::END_YEAR; $i++) {
             $arrAnos[] = $i;
         }
 
@@ -324,30 +224,28 @@ class EvolutionReportController extends AbstractRestfulController
         // // // pr($arrCategorias);
         // // // pr($arr);
 
-        while ($categoria = $arrCategorias->next()) {
-            $response['column_'.$column][] = $categoria['nombre'];
-            $response['groups'][] = $categoria['nombre'];
+        foreach($arrCategorias as $categoria) {
+            $response['column_'.$column][] = $categoria['name'];
+            $response['groups'][] = $categoria['name'];
 
             foreach ($arrAnos as $ano) {
 
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
-                $statement = $this->db->createStatement($sql, $params);
-                $arrValoresCrudo = $statement->execute();
+                $arrValoresCrudo = $this->entityManager->getRepository(Emission::class)
+                    ->findSubactivitySectorCategoryBySectorSubactivityGroupByYearName($sector, $subactivity);
                 
-                if (!$arrValoresCrudo->isQueryResult()) {
-                    $this->response->setStatusCode(404);
+                if (empty($arrValoresCrudo)) {
+                    //$this->response->setStatusCode(404);
                 }
                 // HASTA ACA
 
-
-                $response['column_'.$column][] = Utils::returnCategoriaAno($arrValoresCrudo, $categoria['nombre'], $ano);
+                $response['column_'.$column][] = Utils::returnCategoriaAno($arrValoresCrudo, $categoria['name'], $ano);
             }
 
             $column++;
         }
-
 
         $arrAnos = array_merge(array('x'), $arrAnos);
         $response['column_1'] = $arrAnos;

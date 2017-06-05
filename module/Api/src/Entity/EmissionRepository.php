@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class EmissionRepository extends EntityRepository
 {
-    public function findBySector($year)
+    public function findSectorByYear($year)
     {
         $dql = 'SELECT s.name, 
                 s.color, 
@@ -22,7 +22,7 @@ class EmissionRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findBySectorAndActivity($year, $sector)
+    public function findActivityByYearAndSector($year, $sector)
     {
         $dql = 'SELECT a.id as activity, 
                 a.name, 
@@ -42,7 +42,7 @@ class EmissionRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findBySubactivity($year, $sector, $activity)
+    public function findSubactivityByYearSectorAndActivity($year, $sector, $activity)
     {
         $dql = 'SELECT sa.id as subactivity, 
                 sa.name, 
@@ -63,7 +63,7 @@ class EmissionRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findByCategory($year, $sector, $activity, $subactivity)
+    public function findCategoryByYearSectorActivityAndSubactivity($year, $sector, $activity, $subactivity)
     {
         $dql = 'SELECT c.id as category, 
                 c.name,
@@ -86,7 +86,7 @@ class EmissionRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findByGases($year)
+    public function findGasesByYear($year)
     {
         $dql = 'SELECT g.id as gas, 
                 g.name, 
@@ -101,7 +101,7 @@ class EmissionRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findByGasesAndSector($year)
+    public function findGasesAndSectorByYear($year)
     {
         $dql = 'SELECT s.name as sector, 
                 g.name as gas, 
@@ -116,5 +116,71 @@ class EmissionRepository extends EntityRepository
         return $this->getEntityManager()->createQuery($dql)
             ->setParameter('year', $year)
             ->getResult();
+    }
+
+    public function findSectorGroupedByYear()
+    {
+        $dql = 'SELECT s.name as sector, 
+                e.year, 
+                SUM(e.value) as total
+            FROM Api\Entity\Emission e 
+            LEFT JOIN e.sector s
+            GROUP BY e.year, s.name';
+
+        return $this->getEntityManager()->createQuery($dql)
+            ->getResult();            
+    }
+
+    public function findSubactivitySectorBySector($sector)
+    {
+        $dql = 'SELECT sub.name as sector, 
+                e.year, 
+                SUM(e.value) as total
+            FROM Api\Entity\Emission e
+            INNER JOIN e.subactivity sub
+            INNER JOIN e.sector s 
+            WHERE s.id = :sector 
+            GROUP BY e.year, sub.name';
+
+        return $this->getEntityManager()->createQuery($dql)
+            ->setParameter('sector', $sector)
+            ->getResult();            
+    }
+
+    public function findSubactivitySectorCategoryBySectorSubactivity($sector, $subactivity)
+    {
+        $dql = 'SELECT DISTINCT c.name
+            FROM Api\Entity\Emission e
+            INNER JOIN e.subactivity sub
+            INNER JOIN e.sector s 
+            INNER JOIN e.category c 
+            WHERE s.id = :sector
+            AND sub.id = :subactivity
+            ORDER BY c.name';
+
+        return $this->getEntityManager()->createQuery($dql)
+            ->setParameter('sector', $sector)
+            ->setParameter('subactivity', $subactivity)
+            ->getResult();
+    }
+
+    public function findSubactivitySectorCategoryBySectorSubactivityGroupByYearName()
+    {
+        $dql = 'SELECT sub.name as subcategoria, 
+                e.year, 
+                c.name, 
+                SUM(e.value)
+            FROM Api\Entity\Emission e
+            INNER JOIN e.subactivity sub
+            INNER JOIN e.sector s 
+            INNER JOIN e.category c 
+            WHERE s.id = :sector
+            AND sub.id = :subactivity
+            GROUP BY e.year, c.name';
+
+        return $this->getEntityManager()->createQuery($dql)
+            ->setParameter('sector', $sector)
+            ->setParameter('subactivity', $subactivity)
+            ->getResult();            
     }
 }

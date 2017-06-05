@@ -8,7 +8,6 @@ use Zend\View\Model\JsonModel;
 use Zend\Validator\StaticValidator;
 use Api\Helper\Utils;
 use Api\Entity\Emission;
-use Api\Entity\EmissionRepository;
 use Api\Entity\Sector;
 
 class DistributionReportController extends AbstractRestfulController
@@ -34,7 +33,7 @@ class DistributionReportController extends AbstractRestfulController
         $response = [];
 
         $results = $this->entityManager->getRepository(Emission::class)
-            ->findBySector($year);
+            ->findSectorByYear($year);
 
         $i = 1;
 
@@ -61,7 +60,7 @@ class DistributionReportController extends AbstractRestfulController
         $arrGraphData = [];
 
         $results = $this->entityManager->getRepository(Emission::class)
-            ->findBySectorAndActivity($year, $sector);
+            ->findActivityByYearAndSector($year, $sector);
 
         $totalActivities = 0;
 
@@ -75,7 +74,7 @@ class DistributionReportController extends AbstractRestfulController
 
             // EN CADA ACTIVIDAD HAGO QUE HACER EL SEARCH DE LA SUBACTIVIDAD
             $results2 = $this->entityManager->getRepository(Emission::class)
-                ->findBySubactivity($year, $sector, $result['activity']);
+                ->findSubactivityByYearSectorAndActivity($year, $sector, $result['activity']);
 
             if (count($results2) > 0) {
                 $arrSubactividades = [];
@@ -95,7 +94,7 @@ class DistributionReportController extends AbstractRestfulController
 
                     // TODO: ACA EN CADA SUBACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA CATEGORIA
                     $results3 = $this->entityManager->getRepository(Emission::class)
-                        ->findByCategory($year, $sector, $result['activity'], $result2['subactivity']);
+                        ->findCategoryByYearSectorActivityAndSubactivity($year, $sector, $result['activity'], $result2['subactivity']);
 
                     if (count($results3) > 0) {
                         $arrCategorias = [];
@@ -140,7 +139,7 @@ class DistributionReportController extends AbstractRestfulController
 
          $response = [];
 
-         $results = $this->entityManager->getRepository(Emission::class)->findByGases($year);
+         $results = $this->entityManager->getRepository(Emission::class)->findGasesByYear($year);
 
          $response['gases'][] = 'x';
          $response['valores'][] = 'Gases';
@@ -160,13 +159,13 @@ class DistributionReportController extends AbstractRestfulController
 
         $response = [];
 
-        $arrGases = $this->entityManager->getRepository(Emission::class)->findByGases($year);
+        $arrGases = $this->entityManager->getRepository(Emission::class)->findGasesByYear($year);
 
         $arrSectores = $this->entityManager->getRepository(Sector::class)
-            ->getSectorsNameOrderedyName();
+            ->getSectorsOrderedyName();
 
         $arr = $this->entityManager->getRepository(Emission::class)
-            ->findByGasesAndSector($year);
+            ->findGasesAndSectorByYear($year);
 
         $column = 2;
 
