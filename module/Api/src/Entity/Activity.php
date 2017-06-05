@@ -3,14 +3,13 @@
 namespace Api\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Api\Entity\Sector;
 
 /**
  * Activity
  *
  * @ORM\Table(name="activity", indexes={@ORM\Index(name="fk_actividad_sector1_idx", columns={"sector_id"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="Api\Entity\ActivityRepository")
+ * @ORM\Entity(repositoryClass="Api\Entity\ActivityRepository")  
  */
 class Activity
 {
@@ -41,63 +40,5 @@ class Activity
     private $sector;
 
 
-
-
-    /**
-     * Gets the value of id.
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Gets the value of name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Sets the value of name.
-     *
-     * @param string $name the name
-     *
-     * @return self
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Gets the }).
-     *
-     * @return \Sector
-     */
-    public function getSector()
-    {
-        return $this->sector;
-    }
-
-    /**
-     * Sets the }).
-     *
-     * @param Sector $sector the sector
-     *
-     * @return self
-     */
-    public function setSector(Sector $sector)
-    {
-        $this->sector = $sector;
-
-        return $this;
-    }
 }
+

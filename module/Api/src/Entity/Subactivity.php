@@ -38,4 +38,7 @@ class Subactivity
      * })
      */
     private $activity;
+
+
 }
+

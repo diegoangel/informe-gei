@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="indicator_value", indexes={@ORM\Index(name="fk_indicador_valor_indicador1_idx", columns={"indicator_id"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="Api\Entity\IndicatorValueRepository")
+ * @ORM\Entity(repositoryClass="Api\Entity\IndicatorValueRepository")  
  */
 class IndicatorValue
 {
@@ -45,4 +45,7 @@ class IndicatorValue
      * })
      */
     private $indicator;
+
+
 }
+

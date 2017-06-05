@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="sector")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="Api\Entity\SectorRepository")
+ * @ORM\Entity(repositoryClass="Api\Entity\SectorRepository") 
  */
 class Sector
 {
@@ -44,88 +44,5 @@ class Sector
     private $description;
 
 
-
-    /**
-     * Gets the value of id.
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-
-
-    /**
-     * Gets the value of name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Sets the value of name.
-     *
-     * @param string $name the name
-     *
-     * @return self
-     */
-    private function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of color.
-     *
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
-     * Sets the value of color.
-     *
-     * @param string $color the color
-     *
-     * @return self
-     */
-    private function setColor($color)
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Sets the value of description.
-     *
-     * @param string $description the description
-     *
-     * @return self
-     */
-    private function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
 }
+
