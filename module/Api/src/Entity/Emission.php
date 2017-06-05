@@ -85,7 +85,4 @@ class Emission
      * })
      */
     private $subactivity;
-
-
 }
-

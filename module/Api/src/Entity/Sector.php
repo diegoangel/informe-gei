@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="sector")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="Api\Entity\SectorRepository") 
+ * @ORM\Entity(repositoryClass="Api\Entity\SectorRepository")
  */
 class Sector
 {
@@ -129,4 +129,3 @@ class Sector
         return $this;
     }
 }
-

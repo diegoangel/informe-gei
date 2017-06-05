@@ -19,7 +19,7 @@ return [
                 'directory' => 'data/Migrations',
                 'name'      => 'Doctrine Database Migrations',
                 'namespace' => 'Migrations',
-                'table'     => 'migrations',
+                'table'     => 'migrations',               
             ],
         ],
     ],

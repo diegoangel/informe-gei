@@ -7,12 +7,9 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Zend\Validator\StaticValidator;
 use Api\Helper\Utils;
-use Api\Entity\Activity;
-use Api\Entity\Subactivity;
 use Api\Entity\Emission;
+use Api\Entity\EmissionRepository;
 use Api\Entity\Sector;
-use Api\Entity\Category;
-use Api\Entity\Gas;
 
 class DistributionReportController extends AbstractRestfulController
 {
@@ -32,45 +29,20 @@ class DistributionReportController extends AbstractRestfulController
      */
     public function getWholeSectoralDistributionAction()
     {
-
-
-        $activities = $this->entityManager->getRepository(Emission::class)
-               ->findAll();   
-        var_dump($activities);
-        return new JsonModel($activities);
-
-        $params = $this->params()->fromRoute();
-
-        $ano = (int)$params['ano'];
+        $year = (int)$this->params()->fromRoute('year');
 
         $response = [];
 
-        $sql = 'SELECT SUM(e.valor) as total, e.sector_id, s.nombre, s.color, s.descripcion
-            FROM emision e 
-            INNER JOIN sector s ON e.sector_id = s.id
-            WHERE e.ano = ?
-            GROUP BY e.sector_id';
-        
-        $parameters = [
-            $ano,
-        ];
-
-        $statement = $this->db->createStatement($sql, $parameters);
-
-        $results = $statement->execute();
-
-        if (!$results->isQueryResult()) {
-            $this->response->setStatusCode(404);
-        }
+        $results = $this->entityManager->getRepository(Emission::class)
+            ->findBySector($year);
 
         $i = 1;
 
-        while ($a = $results->next()) {
-            $response['sector_'.$i][]      = $a['nombre'];
-            $response['sector_'.$i][]      = $a['total'];
-            $response['colores'][]         = $a['color'];
-            $response['descripciones'][]   = $a['descripcion'];
-
+        foreach ($results as $result) {
+            $response['sector_'.$i][]      = $result['name'];
+            $response['sector_'.$i][]      = $result['total'];
+            $response['colores'][]         = $result['color'];
+            $response['descripciones'][]   = $result['description'];
             $i++;
         }
 
@@ -82,113 +54,56 @@ class DistributionReportController extends AbstractRestfulController
      */
     public function getSectoralDistributionAction()
     {
-        $params = $this->params()->fromRoute();
+        $year = (int)$this->params()->fromRoute('year');
+        $sector = (int)$this->params()->fromRoute('sector');
 
         $response = [];
         $arrGraphData = [];
 
-        $ano = (int)$params['ano'];
-        $sector_id  = (int)$params['sector_id'];
+        $results = $this->entityManager->getRepository(Emission::class)
+            ->findBySectorAndActivity($year, $sector);
 
-        $sql = 'SELECT SUM(e.valor) as total, a.id, a.nombre
-            FROM emision e 
-            INNER JOIN sector s ON e.sector_id = s.id
-            INNER JOIN actividad a ON a.id = e.actividad_id
-            WHERE 1 
-            AND e.valor > 0
-            AND e.sector_id = ?
-            AND e.ano = ?
-            GROUP BY a.id
-            ORDER BY a.nombre';
+        $totalActivities = 0;
 
-        $parameters = [
-            $sector_id,
-            $ano,
-        ];
-
-        $statement = $this->db->createStatement($sql, $parameters);
-
-        $results = $statement->execute();
-
-        $totalActividades = 0;
-
-        while ($a = $results->next()) {
+        foreach ($results as $result) {
             $arrActividades = [
-                'label' => $a['nombre'],
-                'value' => round($a['total'], 2)
+                'label' => $result['name'],
+                'value' => round($result['total'], 2)
             ];
 
-            $totalActividades += $a['total'];
+            $totalActivities += $result['total'];
 
             // EN CADA ACTIVIDAD HAGO QUE HACER EL SEARCH DE LA SUBACTIVIDAD
-            $sql = 'SELECT SUM(e.valor) as total, a.id, a.nombre
-                FROM emision e 
-                INNER JOIN subactividad a ON a.id = e.subactividad_id
-                WHERE 1 
-                AND e.valor > 0
-                AND e.sector_id = ?
-                AND e.actividad_id = ?
-                AND e.ano = ?
-                GROUP BY a.id
-                ORDER BY a.nombre';
+            $results2 = $this->entityManager->getRepository(Emission::class)
+                ->findBySubactivity($year, $sector, $result['activity']);
 
-            $parameters = [
-                $sector_id,
-                $a['id'],
-                $ano,
-            ];
-
-            $statement = $this->db->createStatement($sql, $parameters);
-
-            $results2 = $statement->execute();
-
-            if ($results2->isQueryResult()) {
+            if (count($results2) > 0) {
                 $arrSubactividades = [];
 
                 $i = 0;
 
-                while ($a2 = $results2->next()) {
+                foreach ($results2 as $result2) {
                     $arrSubactividades[$i] = [
-                        'label' => $a2['nombre'],
-                        'value' => round($a2['total'], 2)
+                        'label' => $result2['nombre'],
+                        'value' => round($result2['total'], 2)
                     ];
 
 
-                    if ($sector_id == 3 || $sector_id == 4) {
+                    if ($sector == 3 || $sector == 4) {
                         continue;
                     }
 
                     // TODO: ACA EN CADA SUBACTIVIDAD TENDRIA QUE HACER EL SEARCH DE LA CATEGORIA
-                    $sql = 'SELECT SUM(e.valor) as total, a.id, a.nombre
-                        FROM emision e 
-                        INNER JOIN categoria a ON a.id = e.categoria_id
-                        WHERE 1 
-                        AND e.valor > 0
-                        AND e.sector_id = ?
-                        AND e.actividad_id = ?
-                        AND e.subactividad_id = ?
-                        AND e.ano = ?
-                        GROUP BY a.id
-                        ORDER BY a.nombre';
+                    $results3 = $this->entityManager->getRepository(Emission::class)
+                        ->findByCategory($year, $sector, $result['activity'], $result2['subactivity']);
 
-                    $parameters = [
-                        $sector_id,
-                        $a['id'],
-                        $a2['id'],
-                        $ano,
-                    ];
-
-                    $statement = $this->db->createStatement($sql, $parameters);
-
-                    $results3 = $statement->execute();
-
-                    if ($results3->isQueryResult()) {
+                    if (count($results3) > 0) {
                         $arrCategorias = [];
 
-                        while ($a3 = $results3->next()) {
+                        foreach ($results3 as $result3) {
                             $arrCategorias[] = [
-                                'label'=>$a3['nombre'],
-                                'value'=>round($a3['total'], 2)
+                                'label'=>$result3['nombre'],
+                                'value'=>round($result3['total'], 2)
                             ];
                         }
                         $arrSubactividades[$i]['inner'] = $arrCategorias;
@@ -204,31 +119,14 @@ class DistributionReportController extends AbstractRestfulController
 
 
         $response['graph_data'] = $arrGraphData;
-        $response['totalActividades'] = $totalActividades;
-
-
+        $response['totalActivities'] = $totalActivities;
 
         /**
          *  BUSCO LA INFO DEL SECTOR
          */
+        $results = $this->entityManager->getRepository(Sector::class)->getSector($sector);
 
-        $sql = 'SELECT * FROM sector WHERE id = ?';
-        
-        $parameters = [
-            $sector_id
-        ];
-
-        $statement = $this->db->createStatement($sql, $parameters);
-
-        $results = $statement->execute();
-
-        if (!$results->isQueryResult()) {
-            $this->response->setStatusCode(404);
-        }
-
-        while ($arrSector = $results->next()) {
-            $response['sector'] = $arrSector;
-        }
+        $response['sector'] = $results[0];
 
         return new JsonModel($response);
     }
@@ -238,96 +136,53 @@ class DistributionReportController extends AbstractRestfulController
      */
      public function getGasesDistributionAction()
      {
-         $params = $this->params()->fromRoute();
-
-         $ano = (int)$params['ano'];
+         $year = (int)$this->params()->fromRoute('year');
 
          $response = [];
 
-         $sql = 'SELECT e.gas_id, g.nombre, g.color, sum(e.valor) as total
-            FROM emision e
-            LEFT JOIN gas g ON (e.gas_id = g.id)
-            where e.ano = ? GROUP BY e.gas_id ORDER BY total DESC';
-
-         $parameters = [
-            $ano,
-        ];
-
-         $statement = $this->db->createStatement($sql, $parameters);
-
-         $results = $statement->execute();
+         $results = $this->entityManager->getRepository(Emission::class)->findByGases($year);
 
          $response['gases'][] = 'x';
          $response['valores'][] = 'Gases';
 
-         while ($a = $results->next()) {
-             $response['gases'][]   = (strpos($a['nombre'], ',')) ? '"'.$a['nombre'].'"' : $a['nombre'];
-             $response['valores'][] = round($a['total']);
-             $response['colores'][] = $a['color'];
+         foreach ($results as $result) {
+             $response['gases'][]   = (strpos($result['name'], ',')) ? '"'.$result['name'].'"' : $result['name'];
+             $response['valores'][] = round($result['total']);
+             $response['colores'][] = $result['color'];
          }
+
          return new JsonModel($response);
      }
 
     public function getSectoralGasesDistributionAction()
     {
-        $params = $this->params()->fromRoute();
-
-        $ano = (int)$params['ano'];
+        $year = (int)$this->params()->fromRoute('year');
 
         $response = [];
 
-        // PRIMERA FILA LA DE LOS GASES
+        $arrGases = $this->entityManager->getRepository(Emission::class)->findByGases($year);
 
-        $sql = 'SELECT g.nombre, sum(e.valor) as total
-            FROM emision e
-            LEFT JOIN gas g ON (e.gas_id = g.id)
-            where e.ano = ? GROUP BY e.gas_id ORDER BY total DESC';
+        $arrSectores = $this->entityManager->getRepository(Sector::class)
+            ->getSectorsNameOrderedyName();
 
-        $parameters = [
-            $ano,
-        ];
-
-        $statement = $this->db->createStatement($sql, $parameters);
-
-        $arrGases = $statement->execute();
-
-        $sql = 'SELECT s.nombre
-            FROM sector s 
-            ORDER BY s.nombre';
-
-        $statement = $this->db->createStatement($sql);
-
-        $arrSectores = $statement->execute();
-
-        $sql = 'SELECT s.nombre as sector, g.nombre as gas, sum(e.valor) as total
-            FROM emision e
-            LEFT JOIN gas g ON (e.gas_id = g.id)
-            LEFT JOIN sector s ON (e.sector_id = s.id)
-            where e.ano = ? GROUP BY e.gas_id, e.sector_id ORDER BY total DESC';
-
-        $parameters = [
-            $ano,
-        ];
-
-        $statement = $this->db->createStatement($sql, $parameters);
-
-        $arr = $statement->execute();
+        $arr = $this->entityManager->getRepository(Emission::class)
+            ->findByGasesAndSector($year);
 
         $column = 2;
 
-        while ($sector = $arrSectores->next()) {
-            $response['column_'.$column][] = $sector;
+        foreach ($arrSectores as $sector) {
+            $response['column_'.$column][] = $sector['name'];
 
-            while ($gas = $arrGases->next()) {
-                $response['column_'.$column][] = Utils::returnSectorGas($arr, $sector, $gas['nombre']);
+            foreach ($arrGases as $gas) {
+                $response['column_'.$column][] = Utils::returnSectorGas($arr, $sector['name'], $gas['name']);
             }
             $column++;
         }
 
         $arrReturnGases = ['x'];
         
-        while ($gas = $arrGases->next()) {
-            $arrReturnGases[] = $gas['nombre'];
+        foreach ($arrGases as $gas) {
+            $arrReturnGases[] = $gas['name'];
         }
 
         $response['column_1'] = $arrReturnGases;

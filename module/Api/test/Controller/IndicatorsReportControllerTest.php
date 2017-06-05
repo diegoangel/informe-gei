@@ -54,7 +54,7 @@ class IndicatorsReportControllerTest extends AbstractHttpControllerTestCase
         $this->assertArrayHasKey('column_2', $data);
         $this->assertArrayHasKey('descripcion', $data);
         $this->assertArrayHasKey('unidad', $data);
-        $this->assertArrayHasKey('indicador', $data);                        
+        $this->assertArrayHasKey('indicador', $data);
     }
 
     public function testInvalidRouteDoesNotCrash()

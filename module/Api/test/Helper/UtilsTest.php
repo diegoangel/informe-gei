@@ -29,21 +29,17 @@ class UtilsTest extends AbstractHttpControllerTestCase
 
     public function testReturnSectorGas()
     {
-
     }
 
     public function testReturnSectorAno()
     {
-
     }
 
     public function testReturnSubactividadAno()
     {
-
     }
 
     public function testReturnCategoriaAno()
     {
-
-    }    
+    }
 }

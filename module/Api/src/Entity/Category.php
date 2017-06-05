@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="category", indexes={@ORM\Index(name="fk_categoria_sector1_idx", columns={"sector_id"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="Api\Entity\CategoryRepository") 
+ * @ORM\Entity(repositoryClass="Api\Entity\CategoryRepository")
  */
 class Category
 {
@@ -38,7 +38,4 @@ class Category
      * })
      */
     private $sector;
-
-
 }
-
