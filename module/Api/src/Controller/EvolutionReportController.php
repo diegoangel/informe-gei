@@ -2,7 +2,6 @@
 
 namespace Api\Controller;
 
-use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Api\Helper\Utils;
@@ -46,15 +45,15 @@ class EvolutionReportController extends AbstractRestfulController
         $arrValores = [];
         $arrColores = [];
 
-        for ($i=  self::START_YEAR; $i <= self::END_YEAR; $i++) {
+        for ($i = self::START_YEAR; $i <= self::END_YEAR; $i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
-        foreach($arrSectores as $sector) {
+        foreach ($arrSectores as $sector) {
             $response['column_'.$column][] = $sector['name'];
-            $response['colores'][] =  $sector['color'];
+            $response['colores'][] = $sector['color'];
 
             foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
@@ -83,7 +82,7 @@ class EvolutionReportController extends AbstractRestfulController
 
     public function getSectoralEvolutionAction()
     {
-        $sector = (int)$this->params()->fromRoute('sector');
+        $sector = (int) $this->params()->fromRoute('sector');
 
         $response = [];
 
@@ -102,15 +101,15 @@ class EvolutionReportController extends AbstractRestfulController
         $arrValores = [];
         $arrColores = [];
 
-        for ($i = self::START_YEAR; $i <= self::END_YEAR ;$i++) {
+        for ($i = self::START_YEAR; $i <= self::END_YEAR; $i++) {
             $arrAnos[] = $i;
         }
 
         $column = 2;
 
-        foreach($arrSectores as $sector) {
+        foreach ($arrSectores as $sector) {
             $response['column_'.$column][] = $sector['name'];
-            $response['colores'][] =  $sector['color'];
+            $response['colores'][] = $sector['color'];
 
             foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
@@ -138,7 +137,7 @@ class EvolutionReportController extends AbstractRestfulController
 
     public function getSectoralEvolutionSubactivityAction()
     {
-        $sector = (int)$this->params()->fromRoute('sector');
+        $sector = (int) $this->params()->fromRoute('sector');
 
         $response = [];
 
@@ -162,11 +161,11 @@ class EvolutionReportController extends AbstractRestfulController
 
         $column = 2;
 
-        foreach($arrSubactividades as $subactividad) {
+        foreach ($arrSubactividades as $subactividad) {
             $response['column_'.$column][] = $subactividad['name'];
             $response['groups'][] = $subactividad['name'];
 
-            foreach($arrAnos as $ano) {
+            foreach ($arrAnos as $ano) {
                 // ATENCION, CABECEADA
                 // ESTOY EJECUTANDO EL QUERY CADA VEZ QUE NECESITO LA LISTA DE VALORES
                 // ESTA PARTE DEBERIA AFUERA DEL LOOP Y SE DEBERIA REUTILIZAR $arrValoresCrudo
@@ -192,8 +191,8 @@ class EvolutionReportController extends AbstractRestfulController
 
     public function getSectoralEvolutionSubactivityCategoryAction()
     {
-        $sector = (int)$this->params()->fromRoute('sector');
-        $subactivity = (int)$this->params()->fromRoute('subactivity');
+        $sector = (int) $this->params()->fromRoute('sector');
+        $subactivity = (int) $this->params()->fromRoute('subactivity');
 
         $response = [];
 
@@ -224,7 +223,7 @@ class EvolutionReportController extends AbstractRestfulController
         // // // pr($arrCategorias);
         // // // pr($arr);
 
-        foreach($arrCategorias as $categoria) {
+        foreach ($arrCategorias as $categoria) {
             $response['column_'.$column][] = $categoria['name'];
             $response['groups'][] = $categoria['name'];
 
