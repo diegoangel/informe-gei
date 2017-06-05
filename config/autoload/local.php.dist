@@ -19,7 +19,7 @@ return [
             'orm_default' => [
                 'driverClass' => PDOMySqlDriver::class,
                 'params' => [
-                    'host'     => '127.0.0.1',                    
+                    'host'     => 'localhost',                    
                     'user'     => 'root',
                     'password' => 'root',
                     'dbname'   => 'informe_gei',
