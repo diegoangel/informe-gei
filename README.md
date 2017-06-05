@@ -135,6 +135,18 @@ Si necesitan agregar modificaciones locales en la configuracion de PHPUnit, copi
  (Si se quiere editar permanentemente la configuracion esitar el archivo 
 `phpunit.xml.dist`.)
 
+## Integración Continua (CI)
+
+Se utilizó Scrutinizer CI para ejecutar:
+
+- Test de Integración.
+- Test Unitarios.
+- Test Coverage.
+- Static Code Analisis.
+- Chequeo de vulnerabilidades.
+- Detección automatica de Malas Prácticas y Bugs.
+- Complejidad Ciclomatica.
+
 ## Web server setup
 
 ### Configuracion Apache
