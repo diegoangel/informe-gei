@@ -135,7 +135,7 @@ class DistributionReportController extends AbstractRestfulController
      */
         public function getGasesDistributionAction()
         {
-            $year = (int)$this->params()->fromRoute('year');
+            $year = (int) $this->params()->fromRoute('year');
 
             $response = [];
 
