@@ -18,7 +18,7 @@ Endpoints consultados por la pagina de resultados que proveen de datos para los 
 
 ## Instalación
 
-###Clonar el proyecto
+### Clonar el proyecto
 
 ```bash
 $ git clone git@github.com:diegoangel/informe-gei.git
