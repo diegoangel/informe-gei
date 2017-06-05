@@ -90,6 +90,8 @@ return [
 ];
 ```
 
+**==TODO ingresar comando para ejecutar las migrations y subir codigo de migration para que tenga sentido esta parte de la codumentacion==**
+
 ## Iniciar servidor de desarrollo
 
 Esto iniciará el servidor de consola en el puerto 8080 y podrá navegarlo en http://localhost:8080/
