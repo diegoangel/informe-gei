@@ -1,10 +1,6 @@
 # Website Informe de Gases de Efecto Invernadero
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/quality-score.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/?branch=zf3-version)
-
-[![Code Coverage](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/coverage.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/?branch=zf3-version)
-
-[![Build Status](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/build.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/build-status/zf3-version)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/quality-score.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/?branch=zf3-version)  [![Code Coverage](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/coverage.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/?branch=zf3-version)  [![Build Status](https://scrutinizer-ci.com/g/diegoangel/informe-gei/badges/build.png?b=zf3-version)](https://scrutinizer-ci.com/g/diegoangel/informe-gei/build-status/zf3-version)
 
 ## Introducción
 
