@@ -83,7 +83,7 @@ class DistributionReportController extends AbstractRestfulController
 
                 foreach ($results2 as $result2) {
                     $arrSubactividades[$i] = [
-                        'label' => $result2['nombre'],
+                        'label' => $result2['name'],
                         'value' => round($result2['total'], 2)
                     ];
 
@@ -101,7 +101,7 @@ class DistributionReportController extends AbstractRestfulController
 
                         foreach ($results3 as $result3) {
                             $arrCategorias[] = [
-                                'label'=>$result3['nombre'],
+                                'label'=>$result3['name'],
                                 'value'=>round($result3['total'], 2)
                             ];
                         }
@@ -118,7 +118,7 @@ class DistributionReportController extends AbstractRestfulController
 
 
         $response['graph_data'] = $arrGraphData;
-        $response['totalActivities'] = $totalActivities;
+        $response['totalActividades'] = $totalActivities;
 
         /**
          *  BUSCO LA INFO DEL SECTOR

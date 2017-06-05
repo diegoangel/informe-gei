@@ -164,12 +164,12 @@ class EmissionRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findSubactivitySectorCategoryBySectorSubactivityGroupByYearName()
+    public function findSubactivitySectorCategoryBySectorSubactivityGroupByYearName($sector, $subactivity)
     {
         $dql = 'SELECT sub.name as subcategoria, 
                 e.year, 
                 c.name, 
-                SUM(e.value)
+                SUM(e.value) as value
             FROM Api\Entity\Emission e
             INNER JOIN e.subactivity sub
             INNER JOIN e.sector s 
