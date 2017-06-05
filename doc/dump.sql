@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `informe_gei` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `informe_gei`;
 -- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
 -- Host: localhost    Database: informe_gei
@@ -199,7 +201,7 @@ DROP TABLE IF EXISTS `sector`;
 CREATE TABLE `sector` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `color` varchar(10) DEFAULT NULL,
+  `color` varchar(10) CHARACTER SET utf8 DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -241,6 +243,14 @@ LOCK TABLES `subactivity` WRITE;
 INSERT INTO `subactivity` VALUES (1,'Uso de suelos',1),(2,'Fermentación entérica',2),(3,'Gestión de estiércol',2),(4,'Excretas en pasturas',1),(5,'Cambio de carbono en suelos',1),(6,'Tierras de cultivo',3),(7,'Tierras forestales',3),(8,'Pastizales',3),(9,'Otros sectores',4),(10,'Transporte',4),(11,'Industrias manufactureras y de la construcción',4),(12,'Industrias de la energía',4),(13,'Emisiones fugitivas',5),(14,'Otros industria de los minerales',6),(15,'Otros industrias de los metales',7),(16,'Producción de ácido nítrico',8),(17,'Producción de aluminio',7),(18,'Producción de amoníaco',8),(19,'Producción de cal',6),(20,'Producción de carburo',8),(21,'Producción de cemento',6),(22,'Producción de ceniza de sosa',8),(23,'Producción de hierro y acero',7),(24,'Producción petroquímica y de negro de humo',8),(25,'Producción fluoroquímica',8),(26,'Aguas residuales domésticas',9),(27,'Aguas residuales industriales',9),(28,'Eliminación de residuos sólidos',10),(29,'Incineración de residuos',11);
 /*!40000 ALTER TABLE `subactivity` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'informe_gei'
+--
+
+--
+-- Dumping routines for database 'informe_gei'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -251,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-03 13:03:06
+-- Dump completed on 2017-06-05 14:23:46
