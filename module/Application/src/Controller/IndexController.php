@@ -13,7 +13,7 @@ use Zend\View\Model\ViewModel;
 class IndexController extends AbstractActionController
 {
     /**
-     * @return mixed
+     * @return ViewModel
      */
     public function indexAction()
     {
