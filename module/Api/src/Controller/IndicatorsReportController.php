@@ -24,7 +24,7 @@ class IndicatorsReportController extends AbstractRestfulController
     }
     public function getIndicatorAction()
     {
-        $indicator = (int)$this->params()->fromRoute('indicator');
+        $indicator = (int) $this->params()->fromRoute('indicator');
 
         $response = [];
 
@@ -32,7 +32,7 @@ class IndicatorsReportController extends AbstractRestfulController
         $arrIndicador = $this->entityManager->getRepository(Indicator::class)
             ->getIndicator($indicator);
 
-        foreach($arrIndicador as $indicador) {
+        foreach ($arrIndicador as $indicador) {
             $response['indicador'] = $indicador;
             break;
         }
@@ -43,7 +43,7 @@ class IndicatorsReportController extends AbstractRestfulController
         $arrAnos = [];
         $arrValor = [];
 
-        foreach($arrValores as $a) {
+        foreach ($arrValores as $a) {
             // SI EL NOMBRE TIENE UNA COMA LO TENGO QUE PONER ENTRE COMILLAS
             $arrAnos[]  = $a['year'];
             $arrValor[] = $a['value'];
