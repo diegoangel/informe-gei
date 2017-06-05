@@ -4,7 +4,7 @@
 
 ## Introducción
 
-Aplicación desarrollada con Zend Framework 3 y PHP 7.1.5.
+Aplicación desarrollada con Zend Framework 3, Doctrine 2, MySQL 5.7 y PHP 7.1.5.
 
 El proyecto consta con 2 modulos:
 
@@ -31,29 +31,24 @@ $ composer install
 
 #### Conexion a base de datos
 
-Cambiar los parametros de conexion a base de datos en  el archivo config/autoload/global.php
+Los datos de configuracion de la conexion deben colocarlo en el archivo config/autoload/local.php
 
 ```php
 ...
 return [
-    'db' => [
-        'driver' => 'Pdo',
-        'dsn'    => 'mysql:dbname=my_database;host=127.0.0.1;charset=utf8',
-        'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => PDOMySqlDriver::class,
+                'params' => [
+                    'host'     => '127.0.0.1',
+                    'user'     => 'root',
+                    'password' => 'root',
+                    'dbname'   => 'min_interior',
+                    'charset'  => 'utf8',
+                ]
+            ],
         ],
-    ],
-];
-```
-
-El usuario y contraseña de la conexion deben colocarlo en el archivo config/autoload/local.php
-
-```php
-...
-return [
-    'db' => [
-        'username' => 'username',
-        'password' => 'pwd',
     ],
 ];
 ```
@@ -61,6 +56,27 @@ return [
 Este archivo no existira, por lo cual deben crearlo, copiando, pegando y renombrando el archivo config/autoload/local.php.dist
 
 Además, este archivo es ignorado en el repositorio de control de versión y por lo tanto las credenciales de conexión nuncan seran compartidas por accidente y permanecen seguras.
+
+### Doctrine Migrations (popular base de datos)
+
+Los parametros de configuración de las migration de Doctrine se encuentran en  el archivo config/autoload/global.php
+
+```php
+...
+return [
+    'doctrine' => [
+        // migrations configuration
+        'migrations_configuration' => [
+            'orm_default' => [
+                'directory' => 'data/Migrations',
+                'name'      => 'Doctrine Database Migrations',
+                'namespace' => 'Migrations',
+                'table'     => 'migrations',               
+            ],
+        ],
+    ],
+];
+```
 
 Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
 
@@ -104,21 +120,24 @@ $ ./vendor/bin/phpunit --testsuite Api
 $ ./vendor/bin/phpunit --testsuite Application
 ```
 
+Pueden ejecutar ambas suites con el comando:
+```bash
+$ ./vendor/bin/phpunit 
+```
+
 Para generar el reporte de *test coverage* del modulo Api, el cual contiene la logica de negocio.
 
 ```bash
 $ ./vendor/bin/phpunit --coverage-html data/coverage 
 ```
 
-If you need to make local modifications for the PHPUnit test setup, copy
-`phpunit.xml.dist` to `phpunit.xml` and edit the new file; the latter has
-precedence over the former when running tests, and is ignored by version
-control. (If you want to make the modifications permanent, edit the
-`phpunit.xml.dist` file.)
+Si necesitan agregar modificaciones locales en la configuracion de PHPUnit, copiar `phpunit.xml.dist` a `phpunit.xml` y editar el nuevo archivo; el ultimo tiene precedencia sobre el primero cuando se ejecutan los test y es ignorado por el sistema de control de versiones.
+ (Si se quiere editar permanentemente la configuracion esitar el archivo 
+`phpunit.xml.dist`.)
 
 ## Web server setup
 
-### Apache setup
+### Configuracion Apache
 
 To setup apache, setup a virtual host to point to the public/ directory of the
 project and you should be ready to go! It should look something like below:
@@ -139,69 +158,3 @@ project and you should be ready to go! It should look something like below:
 </VirtualHost>
 ```
 
-### Nginx setup
-
-To setup nginx, open your `/path/to/nginx/nginx.conf` and add an
-[include directive](http://nginx.org/en/docs/ngx_core_module.html#include) below
-into `http` block if it does not already exist:
-
-```nginx
-http {
-    # ...
-    include sites-enabled/*.conf;
-}
-```
-
-
-Create a virtual host configuration file for your project under `/path/to/nginx/sites-enabled/zfapp.localhost.conf`
-it should look something like below:
-
-```nginx
-server {
-    listen       80;
-    server_name  zfapp.localhost;
-    root         /path/to/zfapp/public;
-
-    location / {
-        index index.php;
-        try_files $uri $uri/ @php;
-    }
-
-    location @php {
-        # Pass the PHP requests to FastCGI server (php-fpm) on 127.0.0.1:9000
-        fastcgi_pass   127.0.0.1:9000;
-        fastcgi_param  SCRIPT_FILENAME /path/to/zfapp/public/index.php;
-        include fastcgi_params;
-    }
-}
-```
-
-Restart the nginx, now you should be ready to go!
-
-## QA Tools
-
-The skeleton does not come with any QA tooling by default, but does ship with
-configuration for each of:
-
-- [phpcs](https://github.com/squizlabs/php_codesniffer)
-- [phpunit](https://phpunit.de)
-
-Additionally, it comes with some basic tests for the shipped
-`Application\Controller\IndexController`.
-
-If you want to add these QA tools, execute the following:
-
-```bash
-$ composer require --dev phpunit/phpunit squizlabs/php_codesniffer zendframework/zend-test
-```
-
-We provide aliases for each of these tools in the Composer configuration:
-
-```bash
-# Run CS checks:
-$ composer cs-check
-# Fix CS errors:
-$ composer cs-fix
-# Run PHPUnit tests:
-$ composer test
-```

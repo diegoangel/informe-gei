@@ -19,13 +19,13 @@ return [
             'orm_default' => [
                 'driverClass' => PDOMySqlDriver::class,
                 'params' => [
-                    'host'     => 'your_dns_or_ip_here',                    
-                    'user'     => 'some_user',
-                    'password' => 'hard_password',
-                    'dbname'   => 'some_database',
+                    'host'     => '127.0.0.1',                    
+                    'user'     => 'root',
+                    'password' => 'root',
+                    'dbname'   => 'informe_gei',
+                    'charset'  => 'utf8',                    
                 ]
             ],
-            // another_orm_connection => [],         
         ],
     ],
 ];

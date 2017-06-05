@@ -23,13 +23,6 @@ class DistributionReportControllerTest extends AbstractHttpControllerTestCase
             $configOverrides
         ));
 
-        $services = $this->getApplicationServiceLocator();
-        $config = $services->get('config');
-        unset($config['db']);
-        $services->setAllowOverride(true);
-        $services->setService('config', $config);
-        $services->setAllowOverride(false);
-
         parent::setUp();
     }
 
