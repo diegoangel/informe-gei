@@ -2,10 +2,8 @@
 
 namespace Api\Controller;
 
-use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
-use Api\Helper\Utils;
 use Api\Entity\Indicator;
 use Api\Entity\IndicatorValue;
 
