@@ -29,17 +29,32 @@ class UtilsTest extends AbstractHttpControllerTestCase
 
     public function testReturnSectorGas()
     {
+        $sectore = 'Energía';
+        $gas = 'CO₂';
+        $total = 888;
+
+        $inputArray[] = [
+            'sector' => $sectore,
+            'gas' => $gas,
+            'total' => $total,
+        ];
+
+        $this->assertEquals(Utils::ReturnSectorGas($inputArray, $sectore, $gas), $total); 
+
     }
 
     public function testReturnSectorAno()
     {
-    }
+        $sectore = 'Energía';
+        $year = 2014;
+        $total = 888;
 
-    public function testReturnSubactividadAno()
-    {
-    }
+        $inputArray[] = [
+            'sector' => $sectore,
+            'year' => $year,
+            'total' => $total,
+        ];
 
-    public function testReturnCategoriaAno()
-    {
+        $this->assertEquals(Utils::ReturnSectorAno($inputArray, $sectore, $year), $total);     
     }
 }

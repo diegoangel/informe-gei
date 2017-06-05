@@ -6,6 +6,8 @@ use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Api\Helper\Utils;
+use Api\Entity\Indicator;
+use Api\Entity\IndicatorValue;
 
 /**
  *
@@ -24,59 +26,39 @@ class IndicatorsReportController extends AbstractRestfulController
     }
     public function getIndicatorAction()
     {
-        $params = $this->params()->fromRoute();
-
-        $indicador_id = (int)$params['indicador_id'];
+        $indicator = (int)$this->params()->fromRoute('indicator');
 
         $response = [];
 
         // DATOS GENERALES DEL INDICADOR
+        $arrIndicador = $this->entityManager->getRepository(Indicator::class)
+            ->getIndicator($indicator);
 
-        $sql = "SELECT * FROM indicador WHERE id = ?";
-
-        $params = [
-           
-            $indicador_id
-        ];
-
-        $statement = $this->db->createStatement($sql, $params);
-        $arrIndicador = $statement->execute();
-
-        while ($indicador = $arrIndicador->next()) {
+        foreach($arrIndicador as $indicador) {
             $response['indicador'] = $indicador;
             break;
         }
 
-
-        $sql = "SELECT * FROM indicador_valor 
-                WHERE indicador_id = ?
-                ORDER BY ano ASC";
-
-        $params = [
-           
-            $indicador_id
-        ];
-
-        $statement = $this->db->createStatement($sql, $params);
-        $arrValores = $statement->execute();
+        $arrValores = $this->entityManager->getRepository(IndicatorValue::class)
+            ->getIndicatorValue($indicator);
 
         $arrAnos = [];
         $arrValor = [];
 
-        while ($a = $arrValores->next()) {
+        foreach($arrValores as $a) {
             // SI EL NOMBRE TIENE UNA COMA LO TENGO QUE PONER ENTRE COMILLAS
-            $arrAnos[]  = $a['ano'];
-            $arrValor[] = $a['valor'];
+            $arrAnos[]  = $a['year'];
+            $arrValor[] = $a['value'];
         }
 
         $arrAnos = array_merge(array('x'), $arrAnos);
         $response['column_1'] = $arrAnos;
 
-        $arrValor = array_merge(array($indicador['nombre']), $arrValor);
+        $arrValor = array_merge(array($indicador['name']), $arrValor);
         $response['column_2'] = $arrValor;
 
-        $response['unidad'] = $indicador['unidad'];
-        $response['descripcion'] = nl2br($indicador['descripcion']);
+        $response['unidad'] = $indicador['unit'];
+        $response['descripcion'] = nl2br($indicador['description']);
 
         $response['colores'] = "#8064a2";
 
