@@ -90,7 +90,7 @@ return [
 ];
 ```
 
-**==TODO ingresar comando para ejecutar las migrations y subir codigo de migration para que tenga sentido esta parte de la codumentacion==**
+^==TODO ingresar comando para ejecutar las migrations y subir codigo de migration para que tenga sentido esta parte de la codumentacion==^
 
 ## Iniciar servidor de desarrollo
 
@@ -152,6 +152,8 @@ Se utilizó [Scrutinizer CI](https://scrutinizer-ci.com)  para ejecutar:
 - Complejidad Ciclomatica.
 
 La evaluación de la calidad del código, la cobertura de tests y el estado del ultimo build se pueden visualizar a traves de los badges que se encuentran debajo del título del documento.
+
+^Se puede acceder a imagenes, codumentos y capturas en la carpeta ./data^
 
 ## Configuración servidor web
 
