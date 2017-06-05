@@ -18,13 +18,21 @@ Endpoints consultados por la pagina de resultados que proveen de datos para los 
 
 ## Instalación
 
-Clonar el proyecto y cambiar a la rama de desarrollo zf3-version.
+###Clonar el proyecto
 
 ```bash
 $ git clone git@github.com:diegoangel/informe-gei.git
 $ cd informe-gei
 $ git checkout zf3-version
 $ composer install
+```
+
+### Crear base de datos
+
+Cambiar credenciales de conexión si corresponde y ejecutar:
+
+```bash
+mysql -u root -proot -e "CREATE SCHEMA informe_gei"
 ```
 
 ## Configuración
@@ -44,7 +52,7 @@ return [
                     'host'     => '127.0.0.1',
                     'user'     => 'root',
                     'password' => 'root',
-                    'dbname'   => 'min_interior',
+                    'dbname'   => 'informe_gei',
                     'charset'  => 'utf8',
                 ]
             ],
@@ -54,6 +62,10 @@ return [
 ```
 
 Este archivo no existira, por lo cual deben crearlo, copiando, pegando y renombrando el archivo config/autoload/local.php.dist
+
+```bash
+cp config/autoload/local.php.dist config/autoload/local.php
+```
 
 Además, este archivo es ignorado en el repositorio de control de versión y por lo tanto las credenciales de conexión nuncan seran compartidas por accidente y permanecen seguras.
 
@@ -78,7 +90,11 @@ return [
 ];
 ```
 
-Una vez clonado el proyecto se puede testear inmediatamente utilizando el servidor embebido de PHP:
+## Iniciar servidor de desarrollo
+
+Esto iniciará el servidor de consola en el puerto 8080 y podrá navegarlo en http://localhost:8080/
+
+**Nota:** El servidor embebido de PHP *es solo para desarrollo*.
 
 ```bash
 $ php -S 0.0.0.0:8080 -t public/ public/index.php
@@ -86,11 +102,7 @@ $ php -S 0.0.0.0:8080 -t public/ public/index.php
 $ composer serve
 ```
 
-Esto iniciará el servidor de consola en el puerto 8080 y podrá navegarlo en http://localhost:8080/
-
-**Nota:** El servidor embebido de PHP *es solo para desarrollo*.
-
-## Modo desarrollo
+## Modo desarrollo para entorno local
 
 El proyecto viene con un modo de desarrollo por defecto, util para declara configuracion que solo se ejecutara en modo desarrollo, en entorno local por ejemplo, y provee tres alias para habilitar, deshabilitar y consultar el estado:
 
@@ -100,35 +112,25 @@ $ composer development-disable # deshabilita el modo desarrollo
 $ composer development-status  # informa sobre si esta o no habilitado el modo desarrollo
 ```
 
-You may provide development-only modules and bootstrap-level configuration in
-`config/development.config.php.dist`, and development-only application
-configuration in `config/autoload/development.local.php.dist`. Enabling
-development mode will copy these files to versions removing the `.dist` suffix,
-while disabling development mode will remove those copies.
-
-Development mode is automatically enabled as part of the skeleton installation process. 
-After making changes to one of the above-mentioned `.dist` configuration files you will
-either need to disable then enable development mode for the changes to take effect,
-or manually make matching updates to the `.dist`-less copies of those files.
-
-## Ejecutando Test Unitarios
+## Ejecución de test unitarios
 
 Hay dos *test suite* para ejecutar, una para el Modulo Api, y otra para el modulo Application.
 
 ```bash
-$ ./vendor/bin/phpunit --testsuite Api
-$ ./vendor/bin/phpunit --testsuite Application
+$ ./vendor/bin/phpunit  -v --debug --testsuite Api
+$ ./vendor/bin/phpunit  -v --debug --testsuite Application
 ```
 
 Pueden ejecutar ambas suites con el comando:
 ```bash
-$ ./vendor/bin/phpunit 
+$ ./vendor/bin/phpunit  -v --debug
 ```
+### Test coverage
 
-Para generar el reporte de *test coverage* del modulo Api, el cual contiene la logica de negocio.
+Para generar el reporte de test coverage del modulo Api, el cual contiene la logica de negocio.
 
 ```bash
-$ ./vendor/bin/phpunit --coverage-html data/coverage 
+$ ./vendor/bin/phpunit -v --debug --coverage-html data/coverage 
 ```
 
 Si necesitan agregar modificaciones locales en la configuracion de PHPUnit, copiar `phpunit.xml.dist` a `phpunit.xml` y editar el nuevo archivo; el ultimo tiene precedencia sobre el primero cuando se ejecutan los test y es ignorado por el sistema de control de versiones.
@@ -137,7 +139,7 @@ Si necesitan agregar modificaciones locales en la configuracion de PHPUnit, copi
 
 ## Integración Continua (CI)
 
-Se utilizó Scrutinizer CI para ejecutar:
+Se utilizó [Scrutinizer CI](https://scrutinizer-ci.com)  para ejecutar:
 
 - Test de Integración.
 - Test Unitarios.
@@ -147,26 +149,29 @@ Se utilizó Scrutinizer CI para ejecutar:
 - Detección automatica de Malas Prácticas y Bugs.
 - Complejidad Ciclomatica.
 
-## Web server setup
+La evaluación de la calidad del código, la cobertura de tests y el estado del ultimo build se pueden visualizar a traves de los badges que se encuentran debajo del título del documento.
 
-### Configuracion Apache
+## Configuración servidor web
 
-To setup apache, setup a virtual host to point to the public/ directory of the
-project and you should be ready to go! It should look something like below:
+### Configuracion virtual host en Apache
+
+Ejemplo de configuracion en Apache
 
 ```apache
 <VirtualHost *:80>
-    ServerName zfapp.localhost
-    DocumentRoot /path/to/zfapp/public
-    <Directory /path/to/zfapp/public>
+    ServerName informe-gei.local
+    DocumentRoot /var/www/html/informe-gei/public
+    
+    <Directory /var/www/html/informe-gei/public>
         DirectoryIndex index.php
-        AllowOverride All
+        AllowOverride All 
         Order allow,deny
         Allow from all
         <IfModule mod_authz_core.c>
-        Require all granted
+            Require all granted
         </IfModule>
     </Directory>
 </VirtualHost>
+
 ```
 
