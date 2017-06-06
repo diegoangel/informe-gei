@@ -2,4 +2,7 @@
 .idea/
 .php_cs.cache
 data/coverage/
-/data/DoctrineORMModule/Proxy/*.php
+data/DoctrineORMModule/Proxy/*.php
+idata/cache/*.cache.php
+sublime*
+/node_modules/
