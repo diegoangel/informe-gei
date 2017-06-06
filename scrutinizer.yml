@@ -42,9 +42,9 @@ build:
             - composer install
     project_setup:
         before:
-            - mysql -e 'source /home/scrutinizer/build/doc/dump.sql'
             - mysql -u root -e 'SET PASSWORD = PASSWORD("root")'
             - cp config/autoload/local.php.dist config/autoload/local.php
+            - php ./vendor/bin/doctrine-module migrations:migrate -n
     tests:
         override:
             -
