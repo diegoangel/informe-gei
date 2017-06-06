@@ -16,7 +16,7 @@ class Subactivity
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -34,7 +34,7 @@ class Subactivity
      *
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $activity;

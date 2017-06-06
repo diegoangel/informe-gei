@@ -16,7 +16,7 @@ class Emission
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -41,7 +41,7 @@ class Emission
      *
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $activity;
@@ -51,7 +51,7 @@ class Emission
      *
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $category;
@@ -61,7 +61,7 @@ class Emission
      *
      * @ORM\ManyToOne(targetEntity="Gas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="gas_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="gas_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $gas;
@@ -71,7 +71,7 @@ class Emission
      *
      * @ORM\ManyToOne(targetEntity="Sector")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sector_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $sector;
@@ -81,7 +81,7 @@ class Emission
      *
      * @ORM\ManyToOne(targetEntity="Subactivity")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="subactivity_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="subactivity_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $subactivity;

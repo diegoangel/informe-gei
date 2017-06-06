@@ -16,7 +16,7 @@ class IndicatorValue
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -41,7 +41,7 @@ class IndicatorValue
      *
      * @ORM\ManyToOne(targetEntity="Indicator")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="indicator_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="indicator_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $indicator;

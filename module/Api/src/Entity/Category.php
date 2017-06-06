@@ -16,7 +16,7 @@ class Category
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -34,7 +34,7 @@ class Category
      *
      * @ORM\ManyToOne(targetEntity="Sector")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sector_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $sector;
