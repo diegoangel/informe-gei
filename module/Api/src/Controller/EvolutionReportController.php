@@ -10,7 +10,14 @@ use Api\Entity\Sector;
 use Api\Entity\Subactivity;
 
 /**
- *
+ * @SWG\Swagger(
+ *   schemes={"http"},
+ *   basePath="/informe", 
+ *   @SWG\Info(
+ *     title="API documentation",
+ *     version="1.0.1"
+ *   )
+ * )
  */
 class EvolutionReportController extends AbstractRestfulController
 {
@@ -198,16 +205,6 @@ class EvolutionReportController extends AbstractRestfulController
 
         $arrCategorias = $this->entityManager->getRepository(Emission::class)
             ->findSubactivitySectorCategoryBySectorSubactivity($sector, $subactivity);
-
-        $sql = "SELECT sub.nombre as subcategoria, e.ano, c.nombre, e.valor
-                FROM emision e
-                INNER JOIN subactividad sub ON (e.subactividad_id = sub.id)
-                INNER JOIN sector s ON (e.sector_id = s.id) 
-                INNER JOIN categoria c ON (e.categoria_id = c.id)
-                WHERE 1
-                AND s.id = ? 
-                AND sub.id = ? 
-                GROUP BY e.ano, c.nombre";
 
         // LO QUE ESTA ADENTRO DEL LOOP DEBERIA IR ACA
         $arrAnos = [];

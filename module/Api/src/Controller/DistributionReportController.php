@@ -24,7 +24,10 @@ class DistributionReportController extends AbstractRestfulController
     }
 
     /**
-     * DISTRIBUCION DE TODOS LOS SECTORES
+     * @SWG\Get(
+     *     path="/informe/distribucion-sectores/{year}",
+     *     @SWG\Response(response="200", description="Get distribution by Sectors")
+     * )
      */
     public function getWholeSectoralDistributionAction()
     {
